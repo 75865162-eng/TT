@@ -24,6 +24,19 @@ jobs:
           java-version: '11'
           cache: maven
 
+      - name: 安装私有 jar 到本地仓库
+        working-directory: wimoor/wimoor-erp/erp-boot
+        run: |
+          # 这两个 jar 不在 Maven 中央仓库，pom 的 install-plugin 绑在 clean 阶段，
+          # 这里显式安装，确保干净 runner 上也能解析依赖。
+          mvn -B -q install:install-file \
+            -Dfile=src/main/resources/lib/ocean.client.java.biz.jar \
+            -DgroupId=com.biz -DartifactId=biz -Dversion=1.0 -Dpackaging=jar
+          mvn -B -q install:install-file \
+            -Dfile=src/main/resources/lib/aop-sdk-message-0.9.0.jar \
+            -DgroupId=alibaba.message -DartifactId=alibaba.message -Dversion=0.9.0 -Dpackaging=jar
+          echo "私有 jar 安装完成"
+
       - name: 编译全部模块（含 4 个目标服务，跳过测试）
         working-directory: wimoor
         run: |
@@ -60,8 +73,6 @@ jobs:
         uses: actions/setup-node@v4
         with:
           node-version: '20'
-          cache: npm
-          cache-dependency-path: wimoor/wimoor-ui/package-lock.json
 
       - name: 安装依赖并构建
         working-directory: wimoor/wimoor-ui
