@@ -1,0 +1,63 @@
+version: "3.8"
+# Wimoor P0 地基（8GB 单机版）
+# 只编排基础设施：MySQL / Redis / Nacos。后端服务与前端在编译后按需加入（见 README）。
+# 端口与生产条条 ERP(3000) 隔离，避免冲突。
+services:
+  mysql:
+    image: mysql:8.0
+    container_name: wm-p0-mysql
+    environment:
+      MYSQL_ROOT_PASSWORD: "123456"
+    command: >-
+      --innodb-buffer-pool-size=512M
+      --character-set-server=utf8mb4
+      --collation-server=utf8mb4_general_ci
+      --max_connections=300
+      --innodb_strict_mode=0
+    ports:
+      - "13306:3306"
+    volumes:
+      - mysql-data:/var/lib/mysql
+      - ./mysql-init:/docker-entrypoint-initdb.d:ro
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping", "-h", "localhost", "-p123456"]
+      interval: 5s
+      timeout: 3s
+      retries: 30
+
+  redis:
+    image: redis:8-alpine
+    container_name: wm-p0-redis
+    command: redis-server --requirepass 123456 --maxmemory 128mb --maxmemory-policy allkeys-lru
+    ports:
+      - "16379:6379"
+
+  nacos:
+    image: nacos/nacos-server:v2.3.0
+    container_name: wm-p0-nacos
+    environment:
+      MODE: standalone
+      JVM_OPT: "-Xms256m -Xmx256m -XX:+UseSerialGC -XX:MaxMetaspaceSize=160m"
+      NACOS_AUTH_ENABLE: "false"
+    ports:
+      - "8848:8848"    # Nacos 2.x 客户端按 8848+1000 推导 gRPC 端口，宿主端口须保持 8848
+      - "9848:9848"
+      - "9849:9849"
+    depends_on:
+      mysql:
+        condition: service_healthy
+
+  # 前端静态托管 + 反代到宿主机网关(8099)。后端 gateway/admin/erp 由 README 的脚本在宿主机启动。
+  nginx:
+    image: nginx:alpine
+    container_name: wm-p0-nginx
+    ports:
+      - "8080:80"
+    extra_hosts:
+      - "host.docker.internal:host-gateway"
+    volumes:
+      - ./html:/usr/share/nginx/html:ro
+      - ./nginx.conf:/etc/nginx/conf.d/default.conf:ro
+
+volumes:
+  mysql-data:

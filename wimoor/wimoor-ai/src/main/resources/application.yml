@@ -1,0 +1,20 @@
+server:
+  port: 8102
+
+spring:
+  application:
+    name: wimoor-ai
+  main:
+    web-application-type: servlet
+  # 默认内存/只读分析模块：不连 MySQL。真实持久化由 ai.persistence=jdbc 显式启用，
+  # 届时通过 JdbcAutoConfiguration 手动装配 DataSource，故此处排除自动配置避免默认启动强依赖数据库。
+  autoconfigure:
+    exclude:
+      - org.springframework.boot.autoconfigure.jdbc.DataSourceAutoConfiguration
+      - org.springframework.boot.autoconfigure.jdbc.JdbcTemplateAutoConfiguration
+      - org.springframework.boot.autoconfigure.jdbc.DataSourceTransactionManagerAutoConfiguration
+
+# 真实持久化开关：默认 false（内存态，测试/冒烟全绿）。
+# 生产启用：--ai.persistence=jdbc --ai.datasource.url=jdbc:mysql://127.0.0.1:13306/db_ai ...
+ai:
+  persistence: memory

@@ -1,0 +1,434 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.wimoor.finance.ledger.mapper.FinDetailLedgerMapper">
+
+    <resultMap type="com.wimoor.finance.ledger.domain.FinDetailLedger" id="FinDetailLedgerResult">
+        <result property="detailId"    column="detail_id"    />
+        <result property="groupid"    column="groupid"    />
+        <result property="subjectId"    column="subject_id"    />
+        <result property="voucherId"    column="voucher_id"    />
+        <result property="entryId"    column="entry_id"    />
+        <result property="voucherDate"    column="voucher_date"    />
+        <result property="voucherNo"    column="voucher_no"    />
+        <result property="summary"    column="summary"    />
+        <result property="debitAmount"    column="debit_amount"    />
+        <result property="creditAmount"    column="credit_amount"    />
+        <result property="balance"    column="balance"    />
+        <result property="balanceDirection"    column="balance_direction"    />
+        <result property="createdTime"    column="created_time"    />
+    </resultMap>
+
+    <sql id="selectFinDetailLedgerVo">
+        select detail_id, groupid, subject_id, voucher_id, entry_id, voucher_date, voucher_no, summary, debit_amount, credit_amount, balance, balance_direction, created_time from fin_detail_ledger
+    </sql>
+
+    <select id="selectFinDetailLedgerList" parameterType="com.wimoor.finance.ledger.domain.FinDetailLedger" resultMap="FinDetailLedgerResult">
+        <include refid="selectFinDetailLedgerVo"/>
+        <where>  
+             groupid = #{groupid}
+             and voucher_date &gt;= #{startDate}
+             and voucher_date &lt;= #{endDate}
+            <if test="subjectId != null "> and subject_id = #{subjectId}</if>
+            <if test="voucherId != null "> and voucher_id = #{voucherId}</if>
+            <if test="entryId != null "> and entry_id = #{entryId}</if>
+            <if test="voucherDate != null "> and voucher_date = #{voucherDate}</if>
+            <if test="voucherNo != null  and voucherNo != ''"> and voucher_no = #{voucherNo}</if>
+            <if test="summary != null  and summary != ''"> and summary = #{summary}</if>
+            <if test="debitAmount != null "> and debit_amount = #{debitAmount}</if>
+            <if test="creditAmount != null "> and credit_amount = #{creditAmount}</if>
+            <if test="balance != null "> and balance = #{balance}</if>
+            <if test="balanceDirection != null "> and balance_direction = #{balanceDirection}</if>
+        </where>
+    </select>
+
+    <select id="selectList" parameterType="com.wimoor.finance.ledger.domain.dto.FinLedgerDTO" resultType="java.util.Map">
+        select v.voucher_type voucherType, fdl.detail_id detailId,
+        fdl.groupid, fdl.subject_id subjectId, fdl.voucher_id voucherId,
+        fdl.entry_id entryId, fdl.voucher_date voucherDate,
+        fdl.voucher_no voucherNo, fdl.summary, fdl.debit_amount debitAmount,
+        fdl.credit_amount creditAmount, fdl.balance, fdl.balance_direction balanceDirection, fdl.created_time
+        createdTime
+        from fin_detail_ledger fdl
+        left join fin_voucher_entries e on e.groupid=fdl.groupid and e.entry_id=fdl.entry_id
+        left join fin_vouchers v on v.voucher_id=e.voucher_id and v.groupid=e.groupid
+        <where>
+            and fdl.groupid = #{groupid}
+            and fdl.voucher_date &gt;= #{startDate}
+            and fdl.voucher_date &lt;= #{endDate}
+          <if test="subjectId != null  and subjectId != ''">and fdl.subject_id = #{subjectId}</if>
+            <if test="subjectCode != null and subjectCode != ''">
+                and fdl.subject_id IN (
+                    SELECT subject_id FROM fin_accounting_subjects
+                    WHERE groupid = #{groupid} AND subject_code LIKE CONCAT(#{subjectCode}, '%')
+                )
+            </if>
+            <if test="voucherId != null "> and fdl.voucher_id = #{voucherId}</if>
+            <if test="entryId != null "> and fdl.entry_id = #{entryId}</if>
+            <if test="startDate != null "> and fdl.voucher_date &gt;= #{startDate}</if>
+            <if test="endDate != null "> and fdl.voucher_date &lt;= #{endDate}</if>
+            <if test="voucherDate != null "> and fdl.voucher_date = #{voucherDate}</if>
+            <if test="voucherNo != null  and voucherNo != ''"> and fdl.voucher_no = #{voucherNo}</if>
+            <if test="summary != null  and summary != ''"> and fdl.summary = #{summary}</if>
+            <if test="debitAmount != null "> and fdl.debit_amount = #{debitAmount}</if>
+            <if test="creditAmount != null "> and fdl.credit_amount = #{creditAmount}</if>
+            <if test="balance != null "> and fdl.balance = #{balance}</if>
+            <if test="balanceDirection != null "> and fdl.balance_direction = #{balanceDirection}</if>
+            <if test="createdTime != null "> and fdl.created_time = #{createdTime}</if>
+        </where>
+    </select>
+
+    <select id="subjectTree" parameterType="com.wimoor.finance.ledger.domain.dto.FinLedgerDTO" resultType="java.util.Map">
+        SELECT DISTINCT s.subject_id AS subjectId, s.subject_code AS subjectCode,
+               s.subject_name AS subjectName, s.parent_code AS parentCode,
+               s.subject_level AS subjectLevel, s.is_leaf AS isLeaf
+        FROM fin_accounting_subjects s
+        WHERE s.groupid = #{groupid} AND s.status = 1
+          AND EXISTS (
+            SELECT 1 FROM fin_detail_ledger fdl
+            JOIN fin_accounting_subjects s2 ON s2.subject_id = fdl.subject_id
+            WHERE fdl.groupid = #{groupid}
+              AND fdl.voucher_date &gt;= #{startDate}
+              AND fdl.voucher_date &lt;= #{endDate}
+              AND s2.subject_code LIKE CONCAT(s.subject_code, '%')
+          )
+        ORDER BY s.subject_code
+    </select>
+
+    <select id="selectFinDetailLedgerByDetailId" parameterType="Long" resultMap="FinDetailLedgerResult">
+        <include refid="selectFinDetailLedgerVo"/>
+        where detail_id = #{detailId}
+    </select>
+        
+    <insert id="insertFinDetailLedger" parameterType="com.wimoor.finance.ledger.domain.FinDetailLedger" useGeneratedKeys="true" keyProperty="detailId">
+        insert into fin_detail_ledger
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="groupid != null">groupid,</if>
+            <if test="subjectId != null">subject_id,</if>
+            <if test="voucherId != null">voucher_id,</if>
+            <if test="entryId != null">entry_id,</if>
+            <if test="voucherDate != null">voucher_date,</if>
+            <if test="voucherNo != null">voucher_no,</if>
+            <if test="summary != null">summary,</if>
+            <if test="debitAmount != null">debit_amount,</if>
+            <if test="creditAmount != null">credit_amount,</if>
+            <if test="balance != null">balance,</if>
+            <if test="balanceDirection != null">balance_direction,</if>
+            <if test="createdTime != null">created_time,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="groupid != null">#{groupid},</if>
+            <if test="subjectId != null">#{subjectId},</if>
+            <if test="voucherId != null">#{voucherId},</if>
+            <if test="entryId != null">#{entryId},</if>
+            <if test="voucherDate != null">#{voucherDate},</if>
+            <if test="voucherNo != null">#{voucherNo},</if>
+            <if test="summary != null">#{summary},</if>
+            <if test="debitAmount != null">#{debitAmount},</if>
+            <if test="creditAmount != null">#{creditAmount},</if>
+            <if test="balance != null">#{balance},</if>
+            <if test="balanceDirection != null">#{balanceDirection},</if>
+            <if test="createdTime != null">#{createdTime},</if>
+         </trim>
+    </insert>
+
+    <update id="updateFinDetailLedger" parameterType="com.wimoor.finance.ledger.domain.FinDetailLedger">
+        update fin_detail_ledger
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="groupid != null">groupid = #{groupid},</if>
+            <if test="subjectId != null">subject_id = #{subjectId},</if>
+            <if test="voucherId != null">voucher_id = #{voucherId},</if>
+            <if test="entryId != null">entry_id = #{entryId},</if>
+            <if test="voucherDate != null">voucher_date = #{voucherDate},</if>
+            <if test="voucherNo != null">voucher_no = #{voucherNo},</if>
+            <if test="summary != null">summary = #{summary},</if>
+            <if test="debitAmount != null">debit_amount = #{debitAmount},</if>
+            <if test="creditAmount != null">credit_amount = #{creditAmount},</if>
+            <if test="balance != null">balance = #{balance},</if>
+            <if test="balanceDirection != null">balance_direction = #{balanceDirection},</if>
+            <if test="createdTime != null">created_time = #{createdTime},</if>
+        </trim>
+        where detail_id = #{detailId}
+    </update>
+
+    <delete id="deleteFinDetailLedgerByDetailId" parameterType="Long">
+        delete from fin_detail_ledger where detail_id = #{detailId}
+    </delete>
+
+    <delete id="deleteFinDetailLedgerByDetailIds" parameterType="String">
+        delete from fin_detail_ledger where detail_id in 
+        <foreach item="detailId" collection="array" open="(" separator="," close=")">
+            #{detailId}
+        </foreach>
+    </delete>
+
+    <delete id="deleteByVoucherId" parameterType="Long">
+        delete from fin_detail_ledger where voucher_id = #{voucherId}
+    </delete>
+
+    <select id="selectByVoucherId" parameterType="Long" resultMap="FinDetailLedgerResult">
+        <include refid="selectFinDetailLedgerVo"/>
+        where voucher_id = #{voucherId}
+    </select>
+
+    <select id="selectLastDetailLedger" resultMap="FinDetailLedgerResult">
+        <include refid="selectFinDetailLedgerVo"/>
+        where groupid = #{groupid}
+          and subject_id = #{subjectId}
+          and voucher_date &lt;= #{voucherDate}
+        order by voucher_date desc, created_time desc
+        limit 1
+    </select>
+
+    <!-- 获取指定期间内科目的明细记录 -->
+    <select id="selectBySubjectAndPeriod" resultMap="FinDetailLedgerResult">
+        SELECT fdl.detail_id, fdl.groupid, fdl.subject_id, s.subject_code, fdl.voucher_id, fdl.entry_id,
+               fdl.voucher_date, fdl.voucher_no, fdl.summary, fdl.debit_amount, fdl.credit_amount,
+               fdl.balance, fdl.balance_direction, fdl.created_time
+        FROM fin_detail_ledger fdl
+                 JOIN fin_accounting_subjects s ON fdl.subject_id = s.subject_id AND fdl.groupid = s.groupid
+        WHERE fdl.groupid = #{groupid}
+          AND s.subject_code = #{subjectCode}
+          AND fdl.voucher_date BETWEEN #{startDate} AND #{endDate}
+        ORDER BY fdl.voucher_date, fdl.detail_id
+    </select>
+
+    <!-- 获取指定期间内多个科目的明细记录 -->
+    <select id="selectBySubjectCodesAndPeriod" resultMap="FinDetailLedgerResult">
+        SELECT fdl.detail_id, fdl.groupid, fdl.subject_id, s.subject_code, fdl.voucher_id, fdl.entry_id,
+        fdl.voucher_date, fdl.voucher_no, fdl.summary, fdl.debit_amount, fdl.credit_amount,
+        fdl.balance, fdl.balance_direction, fdl.created_time
+        FROM fin_detail_ledger fdl
+        JOIN fin_accounting_subjects s ON fdl.subject_id = s.subject_id AND fdl.groupid = s.groupid
+        WHERE fdl.groupid = #{groupid}
+        AND s.subject_code IN
+        <foreach collection="subjectCodes" item="code" open="(" close=")" separator=",">
+            #{code}
+        </foreach>
+        AND fdl.voucher_date BETWEEN #{startDate} AND #{endDate}
+        ORDER BY s.subject_code, fdl.voucher_date, fdl.detail_id
+    </select>
+
+    <!-- 获取指定科目的期初余额 -->
+    <select id="selectLatestBalanceBeforeDate" resultMap="FinDetailLedgerResult">
+        SELECT fdl.detail_id, fdl.groupid, fdl.subject_id, s.subject_code, fdl.voucher_id, fdl.entry_id,
+               fdl.voucher_date, fdl.voucher_no, fdl.summary, fdl.debit_amount, fdl.credit_amount,
+               fdl.balance, fdl.balance_direction, fdl.created_time
+        FROM fin_detail_ledger fdl
+                 JOIN fin_accounting_subjects s ON fdl.subject_id = s.subject_id AND fdl.groupid = s.groupid
+        WHERE fdl.groupid = #{groupid}
+          AND s.subject_code = #{subjectCode}
+          AND fdl.voucher_date &lt; #{startDate}
+        ORDER BY fdl.voucher_date DESC, fdl.detail_id DESC
+            LIMIT 1
+    </select>
+
+    <!-- 计算父科目下所有子科目的期初余额总和 -->
+    <select id="sumChildSubjectsOpeningBalance" resultType="java.math.BigDecimal">
+        SELECT COALESCE(SUM(t.balance), 0)
+        FROM (
+            SELECT fdl.balance,
+                   ROW_NUMBER() OVER (PARTITION BY s.subject_code ORDER BY fdl.voucher_date DESC, fdl.detail_id DESC) AS rn
+            FROM fin_detail_ledger fdl
+                     JOIN fin_accounting_subjects s ON fdl.subject_id = s.subject_id AND fdl.groupid = s.groupid
+            WHERE fdl.groupid = #{groupid}
+              AND s.subject_code LIKE CONCAT(#{parentSubjectCode}, '%')
+              AND fdl.voucher_date &lt; #{startDate}
+        ) t
+        WHERE t.rn = 1
+    </select>
+
+    <!-- 计算借方发生额合计 -->
+    <select id="sumDebitAmountBySubjectAndPeriod" resultType="java.math.BigDecimal">
+        SELECT COALESCE(SUM(fdl.debit_amount), 0)
+        FROM fin_detail_ledger fdl
+                 JOIN fin_accounting_subjects s ON fdl.subject_id = s.subject_id AND fdl.groupid = s.groupid
+        WHERE fdl.groupid = #{groupid}
+          AND s.subject_code = #{subjectCode}
+          AND fdl.voucher_date BETWEEN #{startDate} AND #{endDate}
+    </select>
+
+    <!-- 计算贷方发生额合计 -->
+    <select id="sumCreditAmountBySubjectAndPeriod" resultType="java.math.BigDecimal">
+        SELECT COALESCE(SUM(fdl.credit_amount), 0)
+        FROM fin_detail_ledger fdl
+                 JOIN fin_accounting_subjects s ON fdl.subject_id = s.subject_id AND fdl.groupid = s.groupid
+        WHERE fdl.groupid = #{groupid}
+          AND s.subject_code = #{subjectCode}
+          AND fdl.voucher_date BETWEEN #{startDate} AND #{endDate}
+    </select>
+
+    <!-- 获取指定日期最后余额 -->
+    <select id="selectLatestBalanceByDate" resultMap="FinDetailLedgerResult">
+        SELECT fdl.detail_id, fdl.groupid, fdl.subject_id, s.subject_code, fdl.voucher_id, fdl.entry_id,
+               fdl.voucher_date, fdl.voucher_no, fdl.summary, fdl.debit_amount, fdl.credit_amount,
+               fdl.balance, fdl.balance_direction, fdl.created_time
+        FROM fin_detail_ledger fdl
+                 JOIN fin_accounting_subjects s ON fdl.subject_id = s.subject_id AND fdl.groupid = s.groupid
+        WHERE fdl.groupid = #{groupid}
+          AND s.subject_code = #{subjectCode}
+          AND fdl.voucher_date &lt;= #{endDate}
+        ORDER BY fdl.voucher_date DESC, fdl.detail_id DESC
+            LIMIT 1
+    </select>
+
+    <!-- 批量计算科目余额信息 -->
+    <select id="selectSubjectBalances" resultType="com.wimoor.finance.ledger.domain.dto.SubjectBalanceDTO">
+        WITH begin_bal AS (
+        SELECT
+        subject_id,
+        SUM(debit_amount) - SUM(credit_amount) AS begin_balance_signed
+        FROM fin_detail_ledger
+        WHERE groupid = #{params.groupid}
+        AND voucher_date &lt; #{params.startDate}
+        GROUP BY subject_id
+        ),
+        dl_summary AS (
+        SELECT
+        subject_id,
+        SUM(debit_amount) AS debit_total,
+        SUM(credit_amount) AS credit_total
+        FROM fin_detail_ledger
+        WHERE groupid = #{params.groupid}
+        AND voucher_date &gt;= #{params.startDate}
+        AND voucher_date &lt;= #{params.endDate}
+        GROUP BY subject_id
+        ),
+        year_summary AS (
+        SELECT
+        subject_id,
+        SUM(debit_amount) AS year_debit_total,
+        SUM(credit_amount) AS year_credit_total
+        FROM fin_detail_ledger
+        WHERE groupid = #{params.groupid}
+        AND voucher_date &gt;= DATE_FORMAT(#{params.startDate}, '%Y-01-01')
+        AND voucher_date &lt;= #{params.endDate}
+        GROUP BY subject_id
+        )
+        SELECT
+        s.subject_code AS subjectCode,
+        s.subject_name AS subjectName,
+        s.subject_type AS subjectType,
+        st.name AS subjectTypeName,
+        s.direction AS direction,
+        ABS(COALESCE(b.begin_balance_signed, 0)) AS beginBalance,
+        CASE WHEN COALESCE(b.begin_balance_signed, 0) &gt;= 0 THEN 1 ELSE 2 END AS beginDirection,
+        COALESCE(d.debit_total, 0) AS debitTotal,
+        COALESCE(d.credit_total, 0) AS creditTotal,
+        COALESCE(y.year_debit_total, 0) AS yearDebitTotal,
+        COALESCE(y.year_credit_total, 0) AS yearCreditTotal,
+        -- 期末余额 = 期初余额(带符号) + 本期借方 - 本期贷方
+        COALESCE(b.begin_balance_signed, 0) + COALESCE(d.debit_total, 0) - COALESCE(d.credit_total, 0) AS endBalanceSigned
+        FROM fin_accounting_subjects s
+        LEFT JOIN fin_subject_type st ON s.subject_type = st.id
+        LEFT JOIN begin_bal b ON s.subject_id = b.subject_id
+        LEFT JOIN dl_summary d ON s.subject_id = d.subject_id
+        LEFT JOIN year_summary y ON s.subject_id = y.subject_id
+        WHERE s.groupid = #{params.groupid}
+        <if test="params.subjectCodes != null and params.subjectCodes.size() > 0">
+            AND s.subject_code IN
+            <foreach collection="params.subjectCodes" item="code" open="(" close=")" separator=",">
+                #{code}
+            </foreach>
+        </if>
+        AND s.status = 1
+        ORDER BY s.subject_code
+    </select>
+
+    <!-- 计算科目组合余额 -->
+    <select id="calculateSubjectGroupBalance" resultType="java.math.BigDecimal">
+        SELECT
+        <choose>
+            <when test="amountType == 'END_BALANCE'">
+                COALESCE(SUM(
+                CASE
+                WHEN dl_end.balance_direction = 1 THEN dl_end.balance
+                WHEN dl_end.balance_direction = 2 THEN -dl_end.balance
+                WHEN s.direction = 1 THEN 0
+                WHEN s.direction = 2 THEN 0
+                ELSE 0
+                END
+                ), 0)
+                FROM fin_accounting_subjects s
+                LEFT JOIN (
+                SELECT s2.subject_code, dl2.balance, dl2.balance_direction
+                FROM fin_detail_ledger dl2
+                JOIN fin_accounting_subjects s2 ON dl2.subject_id = s2.subject_id AND dl2.groupid = s2.groupid
+                WHERE dl2.groupid = #{groupid}
+                AND dl2.voucher_date &lt;= #{endDate}
+                AND (dl2.detail_id) IN (
+                SELECT MAX(fdl.detail_id)
+                FROM fin_detail_ledger fdl
+                JOIN fin_accounting_subjects s3 ON fdl.subject_id = s3.subject_id AND fdl.groupid = s3.groupid
+                WHERE fdl.groupid = #{groupid}
+                AND fdl.voucher_date &lt;= #{endDate}
+                AND s3.subject_code LIKE #{subjectCodePattern}
+                GROUP BY s3.subject_code
+                )
+                ) dl_end ON s.subject_code = dl_end.subject_code
+                WHERE s.groupid = #{groupid}
+                <if test="subjectCodePattern != null">
+                    AND s.subject_code LIKE #{subjectCodePattern}
+                </if>
+
+                AND s.status = 1
+            </when>
+            <when test="amountType == 'BEGIN_BALANCE'">
+                COALESCE(SUM(
+                CASE
+                WHEN dl_begin.balance_direction = 1 THEN dl_begin.balance
+                WHEN dl_begin.balance_direction = 2 THEN -dl_begin.balance
+                WHEN s.direction = 1 THEN 0
+                WHEN s.direction = 2 THEN 0
+                ELSE 0
+                END
+                ), 0)
+                FROM fin_accounting_subjects s
+                LEFT JOIN (
+                SELECT s2.subject_code, dl1.balance, dl1.balance_direction
+                FROM fin_detail_ledger dl1
+                JOIN fin_accounting_subjects s2 ON dl1.subject_id = s2.subject_id AND dl1.groupid = s2.groupid
+                WHERE dl1.groupid = #{groupid}
+                AND dl1.voucher_date &lt;= #{startDate}
+                AND (dl1.detail_id) IN (
+                SELECT MAX(fdl.detail_id)
+                FROM fin_detail_ledger fdl
+                JOIN fin_accounting_subjects s3 ON fdl.subject_id = s3.subject_id AND fdl.groupid = s3.groupid
+                WHERE fdl.groupid = #{groupid}
+                AND fdl.voucher_date &lt; #{startDate}
+                AND s3.subject_code LIKE #{subjectCodePattern}
+                GROUP BY s3.subject_code
+                )
+                ) dl_begin ON s.subject_code = dl_begin.subject_code
+                WHERE s.groupid = #{groupid}
+                <if test="subjectCodePattern != null">
+                    AND s.subject_code LIKE #{subjectCodePattern}
+                </if>
+                AND s.status = 1
+            </when>
+            <when test="amountType == 'DEBIT_TOTAL'">
+                COALESCE(SUM(dl.debit_amount), 0)
+                FROM fin_detail_ledger dl
+                JOIN fin_accounting_subjects s ON dl.subject_id = s.subject_id AND dl.groupid = s.groupid
+                WHERE dl.groupid = #{groupid}
+                <if test="subjectCodePattern != null">
+                    AND s.subject_code LIKE #{subjectCodePattern}
+                </if>
+                AND dl.voucher_date BETWEEN #{startDate} AND #{endDate}
+            </when>
+            <when test="amountType == 'CREDIT_TOTAL'">
+                COALESCE(SUM(dl.credit_amount), 0)
+                FROM fin_detail_ledger dl
+                JOIN fin_accounting_subjects s ON dl.subject_id = s.subject_id AND dl.groupid = s.groupid
+                WHERE dl.groupid = #{groupid}
+                <if test="subjectCodePattern != null">
+                    AND s.subject_code LIKE #{subjectCodePattern}
+                </if>
+                AND dl.voucher_date BETWEEN #{startDate} AND #{endDate}
+            </when>
+            <otherwise>0</otherwise>
+        </choose>
+    </select>
+
+</mapper>
