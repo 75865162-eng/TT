@@ -9,139 +9,115 @@
       "expectedTitle": "发货地址",
       "status": 200,
       "finalUrl": "/amazon/address",
-      "textLen": 93,
+      "textLen": 76,
       "titleHit": false,
       "class": "OK",
-      "errors": [
-        "Failed to load resource: the server responded with a status of 503 (Service Unavailable)",
-        "PAGEERROR: Request failed with status code 503"
-      ],
-      "snippet": "产品 销售 采购 仓库 发货 广告 账目 财务 设置 系统 首页 添加地址 全部店铺 已删地址 名称 所在发货地 街道/详细地址 邮政编码 电话 操作人 操作 暂无数据！ 共 0 条 10条/页 1 前往 页 服务不可用，请检查后端服务是否启动"
+      "errors": [],
+      "snippet": "产品 销售 采购 仓库 发货 广告 账目 财务 设置 系统 首页 添加地址 全部店铺 已删地址 名称 所在发货地 街道/详细地址 邮政编码 电话 操作人 操作 暂无数据！ 共 0 条 10条/页 1 前往 页"
     },
     {
       "url": "/amazon/a/download",
       "expectedTitle": "广告报表下载",
       "status": 200,
       "finalUrl": "/amazon/a/download",
-      "textLen": 142,
+      "textLen": 125,
       "titleHit": true,
       "class": "OK",
-      "errors": [
-        "Failed to load resource: the server responded with a status of 503 (Service Unavailable)",
-        "PAGEERROR: Request failed with status code 503"
-      ],
-      "snippet": "产品 销售 采购 仓库 发货 广告 账目 财务 设置 系统 首页 广告报表下载 店铺站点 全部店铺 全部国家 日 期 至 汇总方式 Daily Total 广告类型 Sponsored Products Sponsored Brands Sponsored Display 报表类型 Campaign 下载报表 服务不可用，请检查后端服务是否启动"
+      "errors": [],
+      "snippet": "产品 销售 采购 仓库 发货 广告 账目 财务 设置 系统 首页 广告报表下载 店铺站点 全部店铺 全部国家 日 期 至 汇总方式 Daily Total 广告类型 Sponsored Products Sponsored Brands Sponsored Display 报表类型 Campaign 下载报表"
     },
     {
       "url": "/amazon/a/record",
       "expectedTitle": "广告操作记录",
       "status": 200,
       "finalUrl": "/amazon/a/record",
-      "textLen": 93,
+      "textLen": 82,
       "titleHit": false,
       "class": "OK",
-      "errors": [
-        "Failed to load resource: the server responded with a status of 503 (Service Unavailable)",
-        "PAGEERROR: Request failed with status code 503"
-      ],
-      "snippet": "产品 销售 采购 仓库 发货 广告 账目 财务 设置 系统 首页 全部店铺 全部国家 至 操作时间 广告活动(店铺/站点) 广告组 日志记录 操作人员 备注 暂无数据！ 共 0 条 10条/页 1 前往 页 服务不可用，请检查后端服务是否启动"
+      "errors": [],
+      "snippet": "产品 销售 采购 仓库 发货 广告 账目 财务 设置 系统 首页 全部店铺 全部国家 至 操作时间 广告活动(店铺/站点) 广告组 日志记录 操作人员 备注 暂无数据！ 加载中... 共 0 条 10条/页 1 前往 页"
     },
     {
       "url": "/amazon/a/rules",
       "expectedTitle": "广告规则",
       "status": 200,
       "finalUrl": "/amazon/a/rules",
-      "textLen": 108,
+      "textLen": 97,
       "titleHit": false,
       "class": "OK",
       "errors": [
-        "Failed to load resource: the server responded with a status of 503 (Service Unavailable)",
-        "PAGEERROR: Request failed with status code 503"
+        "Failed to load resource: the server responded with a status of 404 (Not Found)",
+        "PAGEERROR: Request failed with status code 404"
       ],
-      "snippet": "产品 销售 采购 仓库 发货 广告 账目 财务 设置 系统 首页 预算规则 竞价规则 全部店铺 全部国家 商品推广 品牌推广 展示推广 新建 创建时间 名称 状态 预算增加依据 区间 执行频率 指标 暂无数据！ 共 0 条 10条/页 1 前往 页 服务不可用，请检查后端服务是否启动"
+      "snippet": "产品 销售 采购 仓库 发货 广告 账目 财务 设置 系统 首页 预算规则 竞价规则 全部店铺 全部国家 商品推广 品牌推广 展示推广 新建 创建时间 名称 状态 预算增加依据 区间 执行频率 指标 暂无数据！ 加载中... 共 0 条 10条/页 1 前往 页"
     },
     {
       "url": "/amazon/a/summary",
       "expectedTitle": "广告统计",
       "status": 200,
       "finalUrl": "/amazon/a/summary",
-      "textLen": 375,
+      "textLen": 282,
       "titleHit": false,
       "class": "OK",
       "errors": [
-        "Failed to load resource: the server responded with a status of 503 (Service Unavailable)",
-        "PAGEERROR: Request failed with status code 503"
+        "PAGEERROR: Object",
+        "PAGEERROR: canceled"
       ],
-      "snippet": "产品 销售 采购 仓库 发货 广告 账目 财务 设置 系统 首页 运行中活动 广告活动数 广组数 商品广告数 关键词数 异常数据预警 商品广告 关键词 同期变动 曝光量突降 点击量突降 转化率突降 ACOS突增 最近七天广告转化数据 全部店铺 全部国家 曝光量 点击率:% 点击次数 转化率:% 订单数 ￥ 广告花费 ￥ 广告贡献销售额 % ACOS ROAS后五名 全部店铺 全部国家 广告组 商品"
+      "snippet": "产品 销售 采购 仓库 发货 广告 账目 财务 设置 系统 首页 运行中活动 广告活动数 广组数 商品广告数 0 关键词数 异常数据预警 商品广告 关键词 同期变动 曝光量突降 点击量突降 转化率突降 ACOS突增 最近七天广告转化数据 全部店铺 全部国家 0 曝光量 点击率:0% 0 点击次数 转化率:0% 0 订单数 ￥0 广告花费 ￥0 广告贡献销售额 0% ACOS ROAS后五名 全部店"
     },
     {
       "url": "/amazon/customs/rpt",
       "expectedTitle": "海关申报统计",
       "status": 200,
       "finalUrl": "/amazon/customs/rpt",
-      "textLen": 393,
+      "textLen": 138,
       "titleHit": false,
       "class": "OK",
-      "errors": [
-        "Failed to load resource: the server responded with a status of 503 (Service Unavailable)",
-        "Failed to load resource: the server responded with a status of 503 (Service Unavailable)"
-      ],
-      "snippet": "产品 销售 采购 仓库 发货 广告 账目 财务 设置 系统 首页 电商订单 电商出口清单 出口报关单 申报信息 运输信息 数量统计 申报单 SKU统计 全部店铺 全部国家 申报时间 至 导出 导入发送状态 申报状态/类型 申报类型 申报金额 申报数量 重量 申报货件 装箱重量 物流重量 返回信息 操作时间 操作 暂无数据！ 共 0 条 10条/页 1 前往 页 服务不可用，请检查后端服务是否启动 "
+      "errors": [],
+      "snippet": "产品 销售 采购 仓库 发货 广告 账目 财务 设置 系统 首页 电商订单 电商出口清单 出口报关单 申报信息 运输信息 数量统计 申报单 SKU统计 全部店铺 全部国家 申报时间 至 导出 导入发送状态 申报状态/类型 申报类型 申报金额 申报数量 重量 申报货件 装箱重量 物流重量 返回信息 操作时间 操作 暂无数据！ 共 0 条 10条/页 1 前往 页"
     },
     {
       "url": "/amazon/inbound/fbacenter",
       "expectedTitle": "FBA中心配置",
       "status": 200,
       "finalUrl": "/amazon/inbound/fbacenter",
-      "textLen": 83,
+      "textLen": 66,
       "titleHit": false,
       "class": "OK",
-      "errors": [
-        "Failed to load resource: the server responded with a status of 503 (Service Unavailable)",
-        "PAGEERROR: Request failed with status code 503"
-      ],
-      "snippet": "产品 销售 采购 仓库 发货 广告 账目 财务 设置 系统 首页 全部国家 添加 Code 国家 地址名称 城市 州/区 邮编 区域 操作 暂无数据！ 共 0 条 20条/页 1 前往 页 服务不可用，请检查后端服务是否启动"
+      "errors": [],
+      "snippet": "产品 销售 采购 仓库 发货 广告 账目 财务 设置 系统 首页 全部国家 添加 Code 国家 地址名称 城市 州/区 邮编 区域 操作 暂无数据！ 共 0 条 20条/页 1 前往 页"
     },
     {
       "url": "/amazon/inventory/fba",
       "expectedTitle": "FBA库存",
       "status": 200,
       "finalUrl": "/amazon/inventory/fba",
-      "textLen": 126,
+      "textLen": 109,
       "titleHit": false,
       "class": "OK",
-      "errors": [
-        "Failed to load resource: the server responded with a status of 503 (Service Unavailable)",
-        "PAGEERROR: Request failed with status code 503"
-      ],
-      "snippet": "产品 销售 采购 仓库 发货 广告 账目 财务 设置 系统 首页 全部店铺 全部国家 导出 头程费用导入 上传报告 产品信息 仓库 库存 可售库存 预留库存 正在发货 待接收 正在接收 不可用 异常 安全库存周期 最小发货周期 头程运输成本 暂无数据！ 共 0 条 10条/页 1 前往 页 服务不可用，请检查后端服务是否启动"
+      "errors": [],
+      "snippet": "产品 销售 采购 仓库 发货 广告 账目 财务 设置 系统 首页 全部店铺 全部国家 导出 头程费用导入 上传报告 产品信息 仓库 库存 可售库存 预留库存 正在发货 待接收 正在接收 不可用 异常 安全库存周期 最小发货周期 头程运输成本 暂无数据！ 共 0 条 10条/页 1 前往 页"
     },
     {
       "url": "/amazon/inventory/fba_today",
       "expectedTitle": "FBA每日库存",
       "status": 200,
       "finalUrl": "/amazon/inventory/fba_today",
-      "textLen": 73,
+      "textLen": 56,
       "titleHit": false,
       "class": "OK",
-      "errors": [
-        "Failed to load resource: the server responded with a status of 503 (Service Unavailable)",
-        "PAGEERROR: Request failed with status code 503"
-      ],
-      "snippet": "产品 销售 采购 仓库 发货 广告 账目 财务 设置 系统 首页 全部店铺 全部国家 至 导出 产品信息 仓库 暂无数据！ 共 0 条 10条/页 1 前往 页 服务不可用，请检查后端服务是否启动"
+      "errors": [],
+      "snippet": "产品 销售 采购 仓库 发货 广告 账目 财务 设置 系统 首页 全部店铺 全部国家 至 导出 产品信息 仓库 暂无数据！ 共 0 条 10条/页 1 前往 页"
     },
     {
       "url": "/amazon/inventory/planning",
       "expectedTitle": "FBA滞销",
       "status": 200,
       "finalUrl": "/amazon/inventory/planning",
-      "textLen": 351,
+      "textLen": 317,
       "titleHit": false,
       "class": "OK",
-      "errors": [
-        "Failed to load resource: the server responded with a status of 503 (Service Unavailable)",
-        "PAGEERROR: Request failed with status code 503"
-      ],
+      "errors": [],
       "snippet": "产品 销售 采购 仓库 发货 广告 账目 财务 设置 系统 首页 全部店铺 全部国家 SKU 请选择筛选条件 重置 更新时间: 导出 图片 商品信息 站点信息 采购成本 可用库存 持续供货 库存健康状况 历史供货天数 低库存水平量 周转数量 滞销费用 下月仓储费 库龄数量(单位:天)-季度视角 库龄数量-30(单位:天)-月度视角 销售额(站点币种) 最近发货(单位:天) 冗余库存 龄库存附加费数"
     },
     {
@@ -149,111 +125,90 @@
       "expectedTitle": "趋势分析",
       "status": 200,
       "finalUrl": "/amazon/listing/analysis",
-      "textLen": 101,
+      "textLen": 84,
       "titleHit": false,
       "class": "OK",
-      "errors": [
-        "Failed to load resource: the server responded with a status of 503 (Service Unavailable)",
-        "PAGEERROR: Request failed with status code 503"
-      ],
-      "snippet": "产品 销售 采购 仓库 发货 广告 账目 财务 设置 系统 首页 全部店铺 全部国家 平台SKU SKU列表 共 10 条 ASIN: 首次上架日期: 备注 跳转 销量 历史排名 近7天 近30天 近90天 至 项目名称 汇总 服务不可用，请检查后端服务是否启动"
+      "errors": [],
+      "snippet": "产品 销售 采购 仓库 发货 广告 账目 财务 设置 系统 首页 全部店铺 全部国家 平台SKU SKU列表 共 10 条 ASIN: 首次上架日期: 备注 跳转 销量 历史排名 近7天 近30天 近90天 至 项目名称 汇总"
     },
     {
       "url": "/amazon/listing/catalog",
       "expectedTitle": "商品搜索",
       "status": 200,
       "finalUrl": "/amazon/listing/catalog",
-      "textLen": 79,
+      "textLen": 62,
       "titleHit": false,
       "class": "OK",
-      "errors": [
-        "Failed to load resource: the server responded with a status of 503 (Service Unavailable)",
-        "PAGEERROR: Request failed with status code 503"
-      ],
-      "snippet": "产品 销售 采购 仓库 发货 广告 账目 财务 设置 系统 首页 全部店铺 全部国家 站点语言 搜索 导出 总计：0 条记录 暂无数据 总计：0 条记录 上一页 下一页 服务不可用，请检查后端服务是否启动"
+      "errors": [],
+      "snippet": "产品 销售 采购 仓库 发货 广告 账目 财务 设置 系统 首页 全部店铺 全部国家 站点语言 搜索 导出 总计：0 条记录 暂无数据 总计：0 条记录 上一页 下一页"
     },
     {
       "url": "/amazon/listing/relation",
       "expectedTitle": "SKU配对",
       "status": 200,
       "finalUrl": "/amazon/listing/relation",
-      "textLen": 106,
+      "textLen": 89,
       "titleHit": false,
       "class": "OK",
-      "errors": [
-        "Failed to load resource: the server responded with a status of 503 (Service Unavailable)",
-        "PAGEERROR: Request failed with status code 503"
-      ],
-      "snippet": "产品 销售 采购 仓库 发货 广告 账目 财务 设置 系统 首页 全部店铺 全部国家 导入 导出 平台商品信息 FBA库存 店铺/站点 本地产品信息 本地库存 采购价格 重量(kg) 操作 暂无数据！ 共 0 条 10条/页 1 前往 页 服务不可用，请检查后端服务是否启动"
+      "errors": [],
+      "snippet": "产品 销售 采购 仓库 发货 广告 账目 财务 设置 系统 首页 全部店铺 全部国家 导入 导出 平台商品信息 FBA库存 店铺/站点 本地产品信息 本地库存 采购价格 重量(kg) 操作 暂无数据！ 共 0 条 10条/页 1 前往 页"
     },
     {
       "url": "/amazon/manager",
       "expectedTitle": "广告管理",
       "status": 200,
       "finalUrl": "/amazon/manager",
-      "textLen": 98,
+      "textLen": 241,
       "titleHit": false,
       "class": "OK",
       "errors": [
-        "Failed to load resource: the server responded with a status of 503 (Service Unavailable)",
-        "PAGEERROR: Request failed with status code 503"
+        "PAGEERROR: canceled",
+        "PAGEERROR: canceled"
       ],
-      "snippet": "产品 销售 采购 仓库 发货 广告 账目 财务 设置 系统 首页 全部店铺 全部国家 广告活动 广告组合 商品推广 品牌推广 展示推广 开启 无数据或加载中 portfolios / 广告活动 / 广告组 时间 : 服务不可用，请检查后端服务是否启动"
+      "snippet": "产品 销售 采购 仓库 发货 广告 账目 财务 设置 系统 首页 全部店铺 全部国家 广告活动 广告组合 商品推广 品牌推广 展示推广 开启 无数据或加载中 portfolios / 广告活动 / 广告组 时间 : NaN年NaN月NaN日 NaN:NaN:NaN 周日 广告活动 广告组 商品 全部广告状态 手动及自动 按日 至 昨天 近7天 近30天 重置 筛选器 新建广告活动 批量操作 广告活"
     },
     {
       "url": "/amazon/payment/record",
       "expectedTitle": "结算记录",
       "status": 200,
       "finalUrl": "/amazon/payment/record",
-      "textLen": 144,
+      "textLen": 127,
       "titleHit": false,
       "class": "OK",
-      "errors": [
-        "Failed to load resource: the server responded with a status of 503 (Service Unavailable)",
-        "PAGEERROR: Request failed with status code 503"
-      ],
-      "snippet": "产品 销售 采购 仓库 发货 广告 账目 财务 设置 系统 首页 账期 汇总 图表 已结算 未结算 全部店铺 全部国家 CNY 结算日期 至 汇总 导出所有账期 未结算金额 已结算金额 总金额 转账失败金额 ¥0.00 店铺 国家 结算周期 状态 存款总计 转账日期 转账状态 汇总状态 操作 暂无数据！ 共 0 条 10条/页 1 前往 页 服务不可用，请检查后端服务是否启动"
+      "errors": [],
+      "snippet": "产品 销售 采购 仓库 发货 广告 账目 财务 设置 系统 首页 账期 汇总 图表 已结算 未结算 全部店铺 全部国家 CNY 结算日期 至 汇总 导出所有账期 未结算金额 已结算金额 总金额 转账失败金额 ¥0.00 店铺 国家 结算周期 状态 存款总计 转账日期 转账状态 汇总状态 操作 暂无数据！ 共 0 条 10条/页 1 前往 页"
     },
     {
       "url": "/amazon/product/customs",
       "expectedTitle": "海关报价",
       "status": 200,
       "finalUrl": "/amazon/product/customs",
-      "textLen": 171,
+      "textLen": 103,
       "titleHit": false,
       "class": "OK",
-      "errors": [
-        "Failed to load resource: the server responded with a status of 503 (Service Unavailable)",
-        "Failed to load resource: the server responded with a status of 503 (Service Unavailable)"
-      ],
-      "snippet": "产品 销售 采购 仓库 发货 广告 账目 财务 设置 系统 首页 店铺 产品销售状态 产品负责人 未隐藏 ASIN 父ASIN SKU 指数过滤 重置 修改申报比例 导出 此功能只支持英国 图片 产品信息 售价 申报金额 备注 暂无数据！ 共 0 条 20条/页 1 前往 页 服务不可用，请检查后端服务是否启动 服务不可用，请检查后端服务是否启动 服务不可用，请检查后端服务是否启动 服务不可用，请"
+      "errors": [],
+      "snippet": "产品 销售 采购 仓库 发货 广告 账目 财务 设置 系统 首页 店铺 产品销售状态 产品负责人 未隐藏 ASIN 父ASIN SKU 指数过滤 重置 修改申报比例 导出 此功能只支持英国 图片 产品信息 售价 申报金额 备注 暂无数据！ 共 0 条 20条/页 1 前往 页"
     },
     {
       "url": "/amazon/product/label",
       "expectedTitle": "标签打印",
       "status": 200,
       "finalUrl": "/amazon/product/label",
-      "textLen": 132,
+      "textLen": 115,
       "titleHit": false,
       "class": "OK",
-      "errors": [
-        "Failed to load resource: the server responded with a status of 503 (Service Unavailable)",
-        "PAGEERROR: Request failed with status code 503"
-      ],
-      "snippet": "产品 销售 采购 仓库 发货 广告 账目 财务 设置 系统 首页 全部店铺 全部国家 批量添加 导入添加 产品信息 FBA库存 本地库存 操作 暂无数据！ 共 0 条 10条/页 1 前往 页 SKU0个 全部清空 产品信息 打印数量 操作 暂无数据 打印产品标签-PDF 打印产品标签-Excel 服务不可用，请检查后端服务是否启动"
+      "errors": [],
+      "snippet": "产品 销售 采购 仓库 发货 广告 账目 财务 设置 系统 首页 全部店铺 全部国家 批量添加 导入添加 产品信息 FBA库存 本地库存 操作 暂无数据！ 共 0 条 10条/页 1 前往 页 SKU0个 全部清空 产品信息 打印数量 操作 暂无数据 打印产品标签-PDF 打印产品标签-Excel"
     },
     {
       "url": "/amazon/report/fbafee",
       "expectedTitle": "FBA费用",
       "status": 200,
       "finalUrl": "/amazon/report/fbafee",
-      "textLen": 215,
+      "textLen": 198,
       "titleHit": true,
       "class": "OK",
-      "errors": [
-        "Failed to load resource: the server responded with a status of 503 (Service Unavailable)",
-        "PAGEERROR: Request failed with status code 503"
-      ],
+      "errors": [],
       "snippet": "产品 销售 采购 仓库 发货 广告 账目 财务 设置 系统 首页 全部店铺 全部国家 自测尺寸对比FBA尺寸 SKU 超收费用的SKU 重要提示：当本地录入的产品类型与亚马逊分类不一致时，可能造成FBA费用不一样。如：Apparel/Clothing类型的产品，在美国站点每笔加收$0.4. 图片 商品信息 参数类型 尺寸(长*宽*高cm) 重量（kg） 价格 尺寸分段 FBA收费(每月预计超收费用"
     },
     {
@@ -261,153 +216,120 @@
       "expectedTitle": "账期未结算",
       "status": 200,
       "finalUrl": "/amazon/report/open",
-      "textLen": 93,
+      "textLen": 76,
       "titleHit": false,
       "class": "OK",
-      "errors": [
-        "Failed to load resource: the server responded with a status of 503 (Service Unavailable)",
-        "PAGEERROR: Request failed with status code 503"
-      ],
-      "snippet": "产品 销售 采购 仓库 发货 广告 账目 财务 设置 系统 首页 全部店铺 全部国家 至 导出 平台商品信息 费用时间 数量 费用 费用币种 费用类型 事件类型 暂无数据！ 共 0 条 10条/页 1 前往 页 服务不可用，请检查后端服务是否启动"
+      "errors": [],
+      "snippet": "产品 销售 采购 仓库 发货 广告 账目 财务 设置 系统 首页 全部店铺 全部国家 至 导出 平台商品信息 费用时间 数量 费用 费用币种 费用类型 事件类型 暂无数据！ 共 0 条 10条/页 1 前往 页"
     },
     {
       "url": "/amazon/report/pageview",
       "expectedTitle": "流量报表",
       "status": 200,
       "finalUrl": "/amazon/report/pageview",
-      "textLen": 107,
+      "textLen": 90,
       "titleHit": false,
       "class": "OK",
-      "errors": [
-        "Failed to load resource: the server responded with a status of 503 (Service Unavailable)",
-        "PAGEERROR: Request failed with status code 503"
-      ],
-      "snippet": "产品 销售 采购 仓库 发货 广告 账目 财务 设置 系统 首页 全部店铺 全部国家 至 图片 SKU 日期 访问次数 访问转化率 浏览次数 浏览转化率 购物车比例 销量 商品转化率 销售额 订单 暂无数据！ 共 0 条 10条/页 1 前往 页 服务不可用，请检查后端服务是否启动"
+      "errors": [],
+      "snippet": "产品 销售 采购 仓库 发货 广告 账目 财务 设置 系统 首页 全部店铺 全部国家 至 图片 SKU 日期 访问次数 访问转化率 浏览次数 浏览转化率 购物车比例 销量 商品转化率 销售额 订单 暂无数据！ 共 0 条 10条/页 1 前往 页"
     },
     {
       "url": "/amazon/report/performance",
       "expectedTitle": "促销报告",
       "status": 200,
       "finalUrl": "/amazon/report/performance",
-      "textLen": 104,
+      "textLen": 87,
       "titleHit": false,
       "class": "OK",
-      "errors": [
-        "Failed to load resource: the server responded with a status of 503 (Service Unavailable)",
-        "PAGEERROR: Request failed with status code 503"
-      ],
-      "snippet": "产品 销售 采购 仓库 发货 广告 账目 财务 设置 系统 首页 优惠券 促销 全部店铺 全部国家 站点 couponid 产品 时间区间 币种 预算 折扣 赠券 赠券抵用 销售额 更新时间 暂无数据！ 共 0 条 10条/页 1 前往 页 服务不可用，请检查后端服务是否启动"
+      "errors": [],
+      "snippet": "产品 销售 采购 仓库 发货 广告 账目 财务 设置 系统 首页 优惠券 促销 全部店铺 全部国家 站点 couponid 产品 时间区间 币种 预算 折扣 赠券 赠券抵用 销售额 更新时间 暂无数据！ 共 0 条 10条/页 1 前往 页"
     },
     {
       "url": "/amazon/report/reimbursements",
       "expectedTitle": "赔偿费用",
       "status": 200,
       "finalUrl": "/amazon/report/reimbursements",
-      "textLen": 106,
+      "textLen": 89,
       "titleHit": false,
       "class": "OK",
-      "errors": [
-        "Failed to load resource: the server responded with a status of 503 (Service Unavailable)",
-        "PAGEERROR: Request failed with status code 503"
-      ],
-      "snippet": "产品 销售 采购 仓库 发货 广告 账目 财务 设置 系统 首页 全部店铺 全部国家 至 导出 平台商品信息 费用时间 报销原因 每个金额 总金额 币种 已偿还数量 已报销数量 已报数量总计 暂无数据！ 共 0 条 10条/页 1 前往 页 服务不可用，请检查后端服务是否启动"
+      "errors": [],
+      "snippet": "产品 销售 采购 仓库 发货 广告 账目 财务 设置 系统 首页 全部店铺 全部国家 至 导出 平台商品信息 费用时间 报销原因 每个金额 总金额 币种 已偿还数量 已报销数量 已报数量总计 暂无数据！ 共 0 条 10条/页 1 前往 页"
     },
     {
       "url": "/amazon/report/storage",
       "expectedTitle": "FBA仓储费",
       "status": 200,
       "finalUrl": "/amazon/report/storage",
-      "textLen": 108,
+      "textLen": 91,
       "titleHit": false,
       "class": "OK",
-      "errors": [
-        "Failed to load resource: the server responded with a status of 503 (Service Unavailable)",
-        "PAGEERROR: Request failed with status code 503"
-      ],
-      "snippet": "产品 销售 采购 仓库 发货 广告 账目 财务 设置 系统 首页 仓储费 超龄库存附加费 全部店铺 全部国家 导出 导入 平台商品信息 尺寸 日均 仓储利用率 仓储费 仓储费奖励 体积 附加费金额 暂无数据！ 共 0 条 10条/页 1 前往 页 服务不可用，请检查后端服务是否启动"
+      "errors": [],
+      "snippet": "产品 销售 采购 仓库 发货 广告 账目 财务 设置 系统 首页 仓储费 超龄库存附加费 全部店铺 全部国家 导出 导入 平台商品信息 尺寸 日均 仓储利用率 仓储费 仓储费奖励 体积 附加费金额 暂无数据！ 共 0 条 10条/页 1 前往 页"
     },
     {
       "url": "/amazon/sale/listing",
       "expectedTitle": "商品分析",
       "status": 200,
       "finalUrl": "/amazon/sale/listing",
-      "textLen": 209,
+      "textLen": 160,
       "titleHit": false,
       "class": "OK",
-      "errors": [
-        "Failed to load resource: the server responded with a status of 503 (Service Unavailable)",
-        "Failed to load resource: the server responded with a status of 503 (Service Unavailable)"
-      ],
-      "snippet": "产品 销售 采购 仓库 发货 广告 账目 财务 设置 系统 首页 店铺 站点 产品销售状态 产品负责人 未隐藏 ASIN 父ASIN SKU 指数过滤 重置 同步商品 批量同步FBA库存 批量修改负责人 批量修改商品价格 批量修改销售状态 批量同步商品 批量下载本地SKU信息 图片 产品信息 售价 销售数据 近七天广告数据 近七天成本利润 备注 操作 暂无数据！ 共 0 条 20条/页 1 前往 "
+      "errors": [],
+      "snippet": "产品 销售 采购 仓库 发货 广告 账目 财务 设置 系统 首页 店铺 不限 站点 产品销售状态 产品负责人 未隐藏 ASIN 父ASIN SKU 指数过滤 重置 同步商品 批量同步FBA库存 批量修改负责人 批量修改商品价格 批量修改销售状态 批量同步商品 批量下载本地SKU信息 图片 产品信息 售价 销售数据 近七天广告数据 近七天成本利润 备注 操作 暂无数据！ 共 0 条 20条/页 1 "
     },
     {
       "url": "/amazon/sale/order/fulfillment",
       "expectedTitle": "手动订单",
       "status": 200,
       "finalUrl": "/amazon/sale/order/fulfillment",
-      "textLen": 102,
+      "textLen": 85,
       "titleHit": false,
       "class": "OK",
-      "errors": [
-        "Failed to load resource: the server responded with a status of 503 (Service Unavailable)",
-        "PAGEERROR: Request failed with status code 503"
-      ],
-      "snippet": "产品 销售 采购 仓库 发货 广告 账目 财务 设置 系统 首页 全部店铺 全部国家 至 订单状态 亚马逊订单号 其它平台订单号 购买时间 订单评论 订单状态 订单联系信息 操作 暂无数据！ 共 0 条 10条/页 1 前往 页 服务不可用，请检查后端服务是否启动"
+      "errors": [],
+      "snippet": "产品 销售 采购 仓库 发货 广告 账目 财务 设置 系统 首页 全部店铺 全部国家 至 订单状态 亚马逊订单号 其它平台订单号 购买时间 订单评论 订单状态 订单联系信息 操作 暂无数据！ 共 0 条 10条/页 1 前往 页"
     },
     {
       "url": "/amazon/sale/order/list",
       "expectedTitle": "订单列表",
       "status": 200,
       "finalUrl": "/amazon/sale/order/list",
-      "textLen": 129,
+      "textLen": 112,
       "titleHit": false,
       "class": "OK",
-      "errors": [
-        "Failed to load resource: the server responded with a status of 503 (Service Unavailable)",
-        "PAGEERROR: Request failed with status code 503"
-      ],
-      "snippet": "产品 销售 采购 仓库 发货 广告 账目 财务 设置 系统 首页 全部 已发货 未发货 进行中 已取消 全部店铺 全部国家 客户类型 至 SKU 重置 邀请评论 导出 上传报告 图片 商品信息 订单号 订单总金额 数量/单价 订购时间 邀评状态 备注 操作 暂无数据！ 共 0 条 10条/页 1 前往 页 服务不可用，请检查后端服务是否启动"
+      "errors": [],
+      "snippet": "产品 销售 采购 仓库 发货 广告 账目 财务 设置 系统 首页 全部 已发货 未发货 进行中 已取消 全部店铺 全部国家 客户类型 至 SKU 重置 邀请评论 导出 上传报告 图片 商品信息 订单号 订单总金额 数量/单价 订购时间 邀评状态 备注 操作 暂无数据！ 共 0 条 10条/页 1 前往 页"
     },
     {
       "url": "/amazon/sale/order/refund",
       "expectedTitle": "退货订单",
       "status": 200,
       "finalUrl": "/amazon/sale/order/refund",
-      "textLen": 88,
+      "textLen": 71,
       "titleHit": false,
       "class": "OK",
-      "errors": [
-        "Failed to load resource: the server responded with a status of 503 (Service Unavailable)",
-        "PAGEERROR: Request failed with status code 503"
-      ],
-      "snippet": "产品 销售 采购 仓库 发货 广告 账目 财务 设置 系统 首页 全部店铺 全部区域 至 SKU 高级搜索 导出 概览图表 SKU汇总 订单列表 退货数量 0 退款金额 0 退货率 0% 销量 0 服务不可用，请检查后端服务是否启动"
+      "errors": [],
+      "snippet": "产品 销售 采购 仓库 发货 广告 账目 财务 设置 系统 首页 全部店铺 全部区域 至 SKU 高级搜索 导出 概览图表 SKU汇总 订单列表 退货数量 0 退款金额 0 退货率 0% 销量 0"
     },
     {
       "url": "/amazon/sale/order/remove",
       "expectedTitle": "移除订单",
       "status": 200,
       "finalUrl": "/amazon/sale/order/remove",
-      "textLen": 111,
+      "textLen": 94,
       "titleHit": false,
       "class": "OK",
-      "errors": [
-        "Failed to load resource: the server responded with a status of 503 (Service Unavailable)",
-        "PAGEERROR: Request failed with status code 503"
-      ],
-      "snippet": "产品 销售 采购 仓库 发货 广告 账目 财务 设置 系统 首页 全部店铺 全部区域 订单时间 至 SKU 导出 图片 商品信息 订单号 订单类型 订单时间 更新时间 请求数量 处理数量 完成数量 费用 币种 暂无数据！ 共 0 条 10条/页 1 前往 页 服务不可用，请检查后端服务是否启动"
+      "errors": [],
+      "snippet": "产品 销售 采购 仓库 发货 广告 账目 财务 设置 系统 首页 全部店铺 全部区域 订单时间 至 SKU 导出 图片 商品信息 订单号 订单类型 订单时间 更新时间 请求数量 处理数量 完成数量 费用 币种 暂无数据！ 共 0 条 10条/页 1 前往 页"
     },
     {
       "url": "/amazon/sale/order/today",
       "expectedTitle": "今日订单",
       "status": 200,
       "finalUrl": "/amazon/sale/order/today",
-      "textLen": 178,
+      "textLen": 161,
       "titleHit": false,
       "class": "OK",
-      "errors": [
-        "Failed to load resource: the server responded with a status of 503 (Service Unavailable)",
-        "PAGEERROR: Request failed with status code 503"
-      ],
+      "errors": [],
       "snippet": "产品 销售 采购 仓库 发货 广告 账目 财务 设置 系统 首页 全部店铺 全部国家 全部状态 客户类型 发货方式 SKU 导出 : 订单数量 销量 订单金额 每单平均销量 平均单品净销售额 : 订单数量 销量 订单金额 每单平均销量 平均单品净销售额 图片 商品信息 今日 昨日 上周同日 库存 销量 净销售额 单价 销量 净销售额 单价 销量 净销售额 单价 可售 待收货 预留 暂无数据！ 共 "
     },
     {
@@ -415,41 +337,32 @@
       "expectedTitle": "销量详情",
       "status": 200,
       "finalUrl": "/amazon/sales/details",
-      "textLen": 93,
+      "textLen": 76,
       "titleHit": false,
       "class": "OK",
-      "errors": [
-        "Failed to load resource: the server responded with a status of 503 (Service Unavailable)",
-        "PAGEERROR: Request failed with status code 503"
-      ],
-      "snippet": "产品 销售 采购 仓库 发货 广告 账目 财务 设置 系统 首页 导出 按日汇总 销量 全部店铺 全部国家 产品负责人 至 图片 名称/MSKU 上架日期 汇总 暂无数据！ 共 0 条 10条/页 1 前往 页 服务不可用，请检查后端服务是否启动"
+      "errors": [],
+      "snippet": "产品 销售 采购 仓库 发货 广告 账目 财务 设置 系统 首页 导出 按日汇总 销量 全部店铺 全部国家 产品负责人 至 图片 名称/MSKU 上架日期 汇总 暂无数据！ 共 0 条 10条/页 1 前往 页"
     },
     {
       "url": "/amazon/sales/forecast",
       "expectedTitle": "销售计划",
       "status": 200,
       "finalUrl": "/amazon/sales/forecast",
-      "textLen": 128,
+      "textLen": 111,
       "titleHit": false,
       "class": "OK",
-      "errors": [
-        "Failed to load resource: the server responded with a status of 503 (Service Unavailable)",
-        "PAGEERROR: Request failed with status code 503"
-      ],
-      "snippet": "产品 销售 采购 仓库 发货 广告 账目 财务 设置 系统 首页 全部店铺 全部国家 产品负责人 至 SKU 发货规划中未出现 导出 导入 图片 名称/SKU 店铺/国家 本地库存 销量 上架时间 销量预测 操作 批量保存 日均 7天 30天 月 月 月 暂无数据！ 共 0 条 10条/页 1 前往 页 服务不可用，请检查后端服务是否启动"
+      "errors": [],
+      "snippet": "产品 销售 采购 仓库 发货 广告 账目 财务 设置 系统 首页 全部店铺 全部国家 产品负责人 至 SKU 发货规划中未出现 导出 导入 图片 名称/SKU 店铺/国家 本地库存 销量 上架时间 销量预测 操作 批量保存 日均 7天 30天 月 月 月 暂无数据！ 共 0 条 10条/页 1 前往 页"
     },
     {
       "url": "/amazon/sales/report",
       "expectedTitle": "销售报表",
       "status": 200,
       "finalUrl": "/amazon/sales/report",
-      "textLen": 203,
+      "textLen": 169,
       "titleHit": false,
       "class": "OK",
-      "errors": [
-        "Failed to load resource: the server responded with a status of 503 (Service Unavailable)",
-        "PAGEERROR: Request failed with status code 503"
-      ],
+      "errors": [],
       "snippet": "产品 销售 采购 仓库 发货 广告 账目 财务 设置 系统 首页 销售渠道: 全部渠道 配送方式: 卖家自配送 亚马逊配送 更多条件筛选 客户类型: ä¼ä¸šä¹°å®¶ ä¸ªäººä¹°å®¶ 促销订单: 折扣金额占原价 订单状态: Pending Unshipped Shipped Cancelled 全部店铺 至 Units 销量: 环比上期: Orders 订单数: 环比上期: 每日"
     },
     {
@@ -457,55 +370,43 @@
       "expectedTitle": "发货详情(新)",
       "status": 200,
       "finalUrl": "/amazon/shipdetail/new/report",
-      "textLen": 116,
+      "textLen": 99,
       "titleHit": false,
       "class": "OK",
-      "errors": [
-        "Failed to load resource: the server responded with a status of 503 (Service Unavailable)",
-        "PAGEERROR: Request failed with status code 503"
-      ],
-      "snippet": "产品 销售 采购 仓库 发货 广告 账目 财务 设置 系统 首页 按货件汇总 按SKU汇总 全部店铺 全部国家 创建日期 至 全部仓库 导出 货件信息 订单日期 收货站点 承运商 接收数量 物流总费用数量 运输重量 暂无数据！ 共 0 条 10条/页 1 前往 页 服务不可用，请检查后端服务是否启动"
+      "errors": [],
+      "snippet": "产品 销售 采购 仓库 发货 广告 账目 财务 设置 系统 首页 按货件汇总 按SKU汇总 全部店铺 全部国家 创建日期 至 全部仓库 导出 货件信息 订单日期 收货站点 承运商 接收数量 物流总费用数量 运输重量 暂无数据！ 共 0 条 10条/页 1 前往 页"
     },
     {
       "url": "/amazon/shipdetail/time",
       "expectedTitle": "发货时效",
       "status": 200,
       "finalUrl": "/amazon/shipdetail/time",
-      "textLen": 115,
+      "textLen": 98,
       "titleHit": true,
       "class": "OK",
-      "errors": [
-        "Failed to load resource: the server responded with a status of 503 (Service Unavailable)",
-        "PAGEERROR: Request failed with status code 503"
-      ],
-      "snippet": "产品 销售 采购 仓库 发货 广告 账目 财务 设置 系统 首页 全部店铺 全部国家 至 SKU 导出 图片 商品信息 店铺站点 发货仓库 计划时间 配货时间 出库时间 物流信息 完成时间 发货时效 收货时效 总时效 暂无数据！ 共 0 条 10条/页 1 前往 页 服务不可用，请检查后端服务是否启动"
+      "errors": [],
+      "snippet": "产品 销售 采购 仓库 发货 广告 账目 财务 设置 系统 首页 全部店铺 全部国家 至 SKU 导出 图片 商品信息 店铺站点 发货仓库 计划时间 配货时间 出库时间 物流信息 完成时间 发货时效 收货时效 总时效 暂无数据！ 共 0 条 10条/页 1 前往 页"
     },
     {
       "url": "/amazon/shipfee/report_new",
       "expectedTitle": "费用分摊(新)",
       "status": 200,
       "finalUrl": "/amazon/shipfee/report_new",
-      "textLen": 130,
+      "textLen": 113,
       "titleHit": false,
       "class": "OK",
-      "errors": [
-        "Failed to load resource: the server responded with a status of 503 (Service Unavailable)",
-        "PAGEERROR: Request failed with status code 503"
-      ],
-      "snippet": "产品 销售 采购 仓库 发货 广告 账目 财务 设置 系统 首页 SKU头程 SKU头程明细 全部店铺 全部国家 发货日期 至 选择承运商 选择物流渠道 导出 产品信息 产品负责人 发货数量 SKU头程费用(元) 平均单件头程费用(元) 操作 暂无数据！ 共 0 条 10条/页 1 前往 页 服务不可用，请检查后端服务是否启动"
+      "errors": [],
+      "snippet": "产品 销售 采购 仓库 发货 广告 账目 财务 设置 系统 首页 SKU头程 SKU头程明细 全部店铺 全部国家 发货日期 至 选择承运商 选择物流渠道 导出 产品信息 产品负责人 发货数量 SKU头程费用(元) 平均单件头程费用(元) 操作 暂无数据！ 共 0 条 10条/页 1 前往 页"
     },
     {
       "url": "/amazon/ship/report_new",
       "expectedTitle": "发货统计(新)",
       "status": 200,
       "finalUrl": "/amazon/ship/report_new",
-      "textLen": 307,
+      "textLen": 256,
       "titleHit": false,
       "class": "OK",
-      "errors": [
-        "Failed to load resource: the server responded with a status of 503 (Service Unavailable)",
-        "PAGEERROR: Request failed with status code 503"
-      ],
+      "errors": [],
       "snippet": "产品 销售 采购 仓库 发货 广告 账目 财务 设置 系统 首页 物流承运商(汇总) FBA仓库(汇总) 本地仓库(汇总) 店铺(汇总) 站点(汇总) SKU(汇总) 货件(汇总) 导出 全部店铺 全部国家 全部仓库 创建日期 至 选择承运商 选择物流渠道 汇总指标: 发货运输重量(KG) 物流承运商 物流渠道 发货信息 运输信息 货件信息 计划发货 实际发货 实际接收 接收差值 接收差值 待接收"
     },
     {
@@ -513,28 +414,22 @@
       "expectedTitle": "店铺管理",
       "status": 200,
       "finalUrl": "/amazon/storeAuth",
-      "textLen": 140,
+      "textLen": 89,
       "titleHit": false,
       "class": "OK",
-      "errors": [
-        "Failed to load resource: the server responded with a status of 503 (Service Unavailable)",
-        "Failed to load resource: the server responded with a status of 503 (Service Unavailable)"
-      ],
-      "snippet": "产品 销售 采购 仓库 发货 广告 账目 财务 设置 系统 首页 店铺账号列表 用于区分店铺的名称 新增 排序 请添加要授权的店铺! 店铺授权 广告授权 店铺名称 卖家ID 区域 国家 店铺授权 广告授权 授权日期 操作 暂无数据 服务不可用，请检查后端服务是否启动 服务不可用，请检查后端服务是否启动 服务不可用，请检查后端服务是否启动"
+      "errors": [],
+      "snippet": "产品 销售 采购 仓库 发货 广告 账目 财务 设置 系统 首页 店铺账号列表 用于区分店铺的名称 新增 排序 请添加要授权的店铺! 店铺授权 广告授权 店铺名称 卖家ID 区域 国家 店铺授权 广告授权 授权日期 操作 暂无数据"
     },
     {
       "url": "/amazon/transparency/auth",
       "expectedTitle": "透明计划授权",
       "status": 200,
       "finalUrl": "/amazon/transparency/auth",
-      "textLen": 73,
+      "textLen": 56,
       "titleHit": false,
       "class": "OK",
-      "errors": [
-        "Failed to load resource: the server responded with a status of 503 (Service Unavailable)",
-        "PAGEERROR: Request failed with status code 503"
-      ],
-      "snippet": "产品 销售 采购 仓库 发货 广告 账目 财务 设置 系统 首页 新增 名称 Client Id Client Secret 创建时间 操作 暂无数据 服务不可用，请检查后端服务是否启动"
+      "errors": [],
+      "snippet": "产品 销售 采购 仓库 发货 广告 账目 财务 设置 系统 首页 新增 名称 Client Id Client Secret 创建时间 操作 暂无数据"
     },
     {
       "url": "/doc/api/index",
@@ -741,42 +636,38 @@
       "expectedTitle": "采购单",
       "status": 200,
       "finalUrl": "/erp/purchase/orders",
-      "textLen": 331,
+      "textLen": 133,
       "titleHit": true,
       "class": "OK",
       "errors": [
-        "Failed to load resource: the server responded with a status of 503 (Service Unavailable)",
-        "PAGEERROR: Request failed with status code 503"
+        "PAGEERROR: canceled"
       ],
-      "snippet": "产品 销售 采购 仓库 发货 广告 账目 财务 设置 系统 首页 全部订单 待审核 0 待付款 0 待收货 0 已完成 已作废 换货中 全部店铺 全部仓库 全部供应商 创建日期 至 SKU 重置 添加采购单 单据 SKU 导出SKU列表 自动付运费 批量修改产品备注 订单信息 / 创建日期 产品信息 供应商信息 采购信息 备注 操作 暂无匹配数据! 服务不可用，请检查后端服务是否启动 [503] "
+      "snippet": "产品 销售 采购 仓库 发货 广告 账目 财务 设置 系统 首页 全部订单 待审核 0 待付款 0 待收货 0 已完成 已作废 换货中 全部店铺 全部仓库 全部供应商 创建日期 至 SKU 重置 添加采购单 单据 SKU 导出SKU列表 自动付运费 批量修改产品备注 订单信息 / 创建日期 产品信息 供应商信息 采购信息 备注 操作 暂无匹配数据!"
     },
     {
       "url": "/erp/purchase/paymentDetail",
       "expectedTitle": "采购付款明细",
       "status": 200,
       "finalUrl": "/erp/purchase/paymentDetail",
-      "textLen": 713,
+      "textLen": 696,
       "titleHit": false,
       "class": "OK",
       "errors": [
-        "Failed to load resource: the server responded with a status of 503 (Service Unavailable)",
-        "PAGEERROR: Request failed with status code 503"
+        "PAGEERROR: Cannot set properties of undefined (setting 'projectid')",
+        "Failed to load resource: the server responded with a status of 400 (Bad Request)"
       ],
-      "snippet": "产品 销售 采购 仓库 发货 广告 账目 财务 设置 系统 首页 全部店铺 全部仓库 全部供应商 付款时间 至 付款账户 费用类型 SKU 导出 付款金额总计:￥0 订单编号 图片 名称/SKU 供应商 采购数量 采购金额 费用类型 付款金额 备注 暂无数据！ 共 0 条 10条/页 1 前往 页 服务不可用，请检查后端服务是否启动 ### Error querying database. Cau"
+      "snippet": "产品 销售 采购 仓库 发货 广告 账目 财务 设置 系统 首页 全部店铺 全部仓库 全部供应商 付款时间 至 付款账户 费用类型 SKU 导出 付款金额总计:￥0 订单编号 图片 名称/SKU 供应商 采购数量 采购金额 费用类型 付款金额 备注 暂无数据！ 共 0 条 10条/页 1 前往 页 ### Error querying database. Cause: java.sql.SQLSy"
     },
     {
       "url": "/erp/purchase/plan",
       "expectedTitle": "采购规划",
       "status": 200,
       "finalUrl": "/erp/purchase/plan",
-      "textLen": 208,
+      "textLen": 140,
       "titleHit": false,
       "class": "OK",
-      "errors": [
-        "Failed to load resource: the server responded with a status of 503 (Service Unavailable)",
-        "Failed to load resource: the server responded with a status of 503 (Service Unavailable)"
-      ],
-      "snippet": "产品 销售 采购 仓库 发货 广告 账目 财务 设置 系统 首页 采购计划： 清空计划 全部店铺 全部国家 产品负责人 产品销售状态 排除 SKU 重置 采购 销售计划 导入SKU入库仓库 显示已选 默认展开 已选 0 个SKU采购总数 0 图片 名称/SKU 报表 公告 采购记录 可用库存 建议采购 实际采购量 操作 暂无数据！ 共 0 条 50条/页 1 前往 页 服务不可用，请检查后端服务是"
+      "errors": [],
+      "snippet": "产品 销售 采购 仓库 发货 广告 账目 财务 设置 系统 首页 采购计划： 清空计划 全部店铺 全部国家 产品负责人 产品销售状态 排除 SKU 重置 采购 销售计划 导入SKU入库仓库 显示已选 默认展开 已选 0 个SKU采购总数 0 图片 名称/SKU 报表 公告 采购记录 可用库存 建议采购 实际采购量 操作 暂无数据！ 共 0 条 50条/页 1 前往 页"
     },
     {
       "url": "/erp/purchase/process",
@@ -880,27 +771,21 @@
       "expectedTitle": "货件跟踪",
       "status": 200,
       "finalUrl": "/erp/ship/shipment_handing",
-      "textLen": 177,
+      "textLen": 143,
       "titleHit": false,
       "class": "OK",
-      "errors": [
-        "Failed to load resource: the server responded with a status of 503 (Service Unavailable)",
-        "Failed to load resource: the server responded with a status of 503 (Service Unavailable)"
-      ],
-      "snippet": "产品 销售 采购 仓库 发货 广告 账目 财务 设置 系统 首页 全部货件 处理中 已发货 正在接收 已完成 已取消 异常单据 全部店铺 全部国家 全部仓库 至 SKU 重置 未下架 可拣货 同步货件 导入追踪号 货件编码/货件名称 店铺/发货仓库 配送中心 创建日期 超期 SKU个数 实际配货数量 发货渠道 状态 备注 操作 暂无数据！ 共 0 条 10条/页 1 前往 页 服务不可用，请检查后"
+      "errors": [],
+      "snippet": "产品 销售 采购 仓库 发货 广告 账目 财务 设置 系统 首页 全部货件 处理中 已发货 正在接收 已完成 已取消 异常单据 全部店铺 全部国家 全部仓库 至 SKU 重置 未下架 可拣货 同步货件 导入追踪号 货件编码/货件名称 店铺/发货仓库 配送中心 创建日期 超期 SKU个数 实际配货数量 发货渠道 状态 备注 操作 暂无数据！ 共 0 条 10条/页 1 前往 页"
     },
     {
       "url": "/erp/ship/ship_plan",
       "expectedTitle": "FBA发货规划",
       "status": 200,
       "finalUrl": "/erp/ship/ship_plan",
-      "textLen": 215,
+      "textLen": 164,
       "titleHit": false,
       "class": "OK",
-      "errors": [
-        "Failed to load resource: the server responded with a status of 503 (Service Unavailable)",
-        "PAGEERROR: Request failed with status code 503"
-      ],
+      "errors": [],
       "snippet": "产品 销售 采购 仓库 发货 广告 账目 财务 设置 系统 首页 发货店铺： 全部店铺 发货仓库： 本地仓 全部仓库 清空计划 全部国家 产品负责人 产品销售状态 排除 SKU 重置 发货 FBA发货配置 FBA站点配货优先级 销售计划 库存报告任务 默认展开 显示已选 已选 0个SKU发货总数 0 图片 名称/SKU 报表 发货需求量 实际发货总量 可用库存 公告 操作 暂无数据！ 共 0 条 "
     },
     {
@@ -908,28 +793,22 @@
       "expectedTitle": "发货单",
       "status": 200,
       "finalUrl": "/erp/shipv2/shipment_add/list",
-      "textLen": 166,
+      "textLen": 149,
       "titleHit": false,
       "class": "OK",
-      "errors": [
-        "Failed to load resource: the server responded with a status of 503 (Service Unavailable)",
-        "PAGEERROR: Request failed with status code 503"
-      ],
-      "snippet": "产品 销售 采购 仓库 发货 广告 账目 财务 设置 系统 首页 全部订单 待审核 已保持 待配货 计划装箱 配送方案确认 货件装箱 物流确认 发货出库 货件跟踪 已取消 已驳回 全部店铺 全部国家 全部仓库 至 SKU 重置 添加新版货件 同步计划 店铺 计划编码 SKU个数 发货数量 发货仓库 收货站点 申请日期 审核日期 超期 备注 操作 暂无数据！ 共 0 条 10条/页 1 前往 页 服"
+      "errors": [],
+      "snippet": "产品 销售 采购 仓库 发货 广告 账目 财务 设置 系统 首页 全部订单 待审核 已保持 待配货 计划装箱 配送方案确认 货件装箱 物流确认 发货出库 货件跟踪 已取消 已驳回 全部店铺 全部国家 全部仓库 至 SKU 重置 添加新版货件 同步计划 店铺 计划编码 SKU个数 发货数量 发货仓库 收货站点 申请日期 审核日期 超期 备注 操作 暂无数据！ 共 0 条 10条/页 1 前往 页"
     },
     {
       "url": "/erp/shipv2/shipment_handing",
       "expectedTitle": "货件处理",
       "status": 200,
       "finalUrl": "/erp/shipv2/shipment_handing",
-      "textLen": 412,
+      "textLen": 140,
       "titleHit": false,
       "class": "OK",
-      "errors": [
-        "Failed to load resource: the server responded with a status of 503 (Service Unavailable)",
-        "PAGEERROR: Request failed with status code 503"
-      ],
-      "snippet": "产品 销售 采购 仓库 发货 广告 账目 财务 设置 系统 首页 全部订单 待装箱 待打标 物流跟踪 海关 待接收 已完成 异常单据 已取消 全部店铺 全部国家 全部仓库 至 SKU 重置 同步计划 导入追踪号 货件编码/货件名称 店铺/发货仓库 创建日期 SKU个数 实际配货数量 发货渠道 运输方式 状态 备注 操作 暂无数据！ 共 0 条 10条/页 1 前往 页 服务不可用，请检查后端服务是"
+      "errors": [],
+      "snippet": "产品 销售 采购 仓库 发货 广告 账目 财务 设置 系统 首页 全部订单 待装箱 待打标 物流跟踪 海关 待接收 已完成 异常单据 已取消 全部店铺 全部国家 全部仓库 至 SKU 重置 同步计划 导入追踪号 货件编码/货件名称 店铺/发货仓库 创建日期 SKU个数 实际配货数量 发货渠道 运输方式 状态 备注 操作 暂无数据！ 共 0 条 10条/页 1 前往 页"
     },
     {
       "url": "/erp/thirdparty",
@@ -947,14 +826,11 @@
       "expectedTitle": "物流公司",
       "status": 200,
       "finalUrl": "/erp/transportation",
-      "textLen": 106,
+      "textLen": 89,
       "titleHit": true,
       "class": "OK",
-      "errors": [
-        "Failed to load resource: the server responded with a status of 503 (Service Unavailable)",
-        "PAGEERROR: Request failed with status code 503"
-      ],
-      "snippet": "产品 销售 采购 仓库 发货 广告 账目 财务 设置 系统 首页 物流维护 物流比价 添加物流渠道 导入 导出 删除 启用 物流公司 物流公司 物流接口 报价单 公司简称 操作人 操作时间 操作 暂无数据！ 共 0 条 10条/页 1 前往 页 服务不可用，请检查后端服务是否启动"
+      "errors": [],
+      "snippet": "产品 销售 采购 仓库 发货 广告 账目 财务 设置 系统 首页 物流维护 物流比价 添加物流渠道 导入 导出 删除 启用 物流公司 物流公司 物流接口 报价单 公司简称 操作人 操作时间 操作 暂无数据！ 共 0 条 10条/页 1 前往 页"
     },
     {
       "url": "/erp/warehouse/address",
@@ -1060,14 +936,11 @@
       "expectedTitle": "FBA费设置",
       "status": 200,
       "finalUrl": "/fbafee/detail",
-      "textLen": 138,
+      "textLen": 121,
       "titleHit": false,
       "class": "OK",
-      "errors": [
-        "Failed to load resource: the server responded with a status of 503 (Service Unavailable)",
-        "PAGEERROR: Request failed with status code 503"
-      ],
-      "snippet": "产品 销售 采购 仓库 发货 广告 账目 财务 设置 系统 首页 FBA费用公式 尺寸分段公式 分段管理 分段重量 佣金 仓储费 货件目标 货件目标费 FBA SIPP 全部国家 请选择 请选择 添加 国家 尺寸分段 泛欧 服装 媒体 重量 生效日期 失效日期 FBA费 操作 暂无数据！ 共 0 条 10条/页 1 前往 页 服务不可用，请检查后端服务是否启动"
+      "errors": [],
+      "snippet": "产品 销售 采购 仓库 发货 广告 账目 财务 设置 系统 首页 FBA费用公式 尺寸分段公式 分段管理 分段重量 佣金 仓储费 货件目标 货件目标费 FBA SIPP 全部国家 请选择 请选择 添加 国家 尺寸分段 泛欧 服装 媒体 重量 生效日期 失效日期 FBA费 操作 暂无数据！ 共 0 条 10条/页 1 前往 页"
     },
     {
       "url": "/finance/account",
@@ -1088,28 +961,22 @@
       "expectedTitle": "其它费用",
       "status": 200,
       "finalUrl": "/finance/costSharing",
-      "textLen": 124,
+      "textLen": 90,
       "titleHit": true,
       "class": "OK",
-      "errors": [
-        "Failed to load resource: the server responded with a status of 503 (Service Unavailable)",
-        "Failed to load resource: the server responded with a status of 503 (Service Unavailable)"
-      ],
-      "snippet": "产品 销售 采购 仓库 发货 广告 账目 财务 设置 系统 首页 全部店铺 全部国家 请选择其它费用项 至 SKU 重置 添加费用 费用类型管理 导入分摊费 导出 店铺 国家 费用类型 货币 金额 暂无数据！ 共 0 条 10条/页 1 前往 页 服务不可用，请检查后端服务是否启动 服务不可用，请检查后端服务是否启动"
+      "errors": [],
+      "snippet": "产品 销售 采购 仓库 发货 广告 账目 财务 设置 系统 首页 全部店铺 全部国家 请选择其它费用项 至 SKU 重置 添加费用 费用类型管理 导入分摊费 导出 店铺 国家 费用类型 货币 金额 暂无数据！ 共 0 条 10条/页 1 前往 页"
     },
     {
       "url": "/finance/exchangeRate",
       "expectedTitle": "汇率管理",
       "status": 200,
       "finalUrl": "/finance/exchangeRate",
-      "textLen": 68,
+      "textLen": 51,
       "titleHit": false,
       "class": "OK",
-      "errors": [
-        "Failed to load resource: the server responded with a status of 503 (Service Unavailable)",
-        "PAGEERROR: Request failed with status code 503"
-      ],
-      "snippet": "产品 销售 采购 仓库 发货 广告 账目 财务 设置 系统 首页 导出 货币 货币代码 兑换币 官方汇率 我的当前汇率 生效时间 暂无数据 服务不可用，请检查后端服务是否启动"
+      "errors": [],
+      "snippet": "产品 销售 采购 仓库 发货 广告 账目 财务 设置 系统 首页 导出 货币 货币代码 兑换币 官方汇率 我的当前汇率 生效时间 暂无数据"
     },
     {
       "url": "/finance/inventoryValue",
@@ -1127,41 +994,35 @@
       "expectedTitle": "批次成本",
       "status": 200,
       "finalUrl": "/finance/jobCosting",
-      "textLen": 134,
+      "textLen": 117,
       "titleHit": false,
       "class": "OK",
-      "errors": [
-        "Failed to load resource: the server responded with a status of 503 (Service Unavailable)",
-        "PAGEERROR: Request failed with status code 503"
-      ],
-      "snippet": "产品 销售 采购 仓库 发货 广告 账目 财务 设置 系统 首页 全部店铺 全部国家 产品负责人 至 状态 平台SKU 重置成本 导出 修改接收日期 图片 平台SKU 发货日期 接收日期 状态 单据号 货件号 发出数量 接收数量 扣除数量 采购成本 头程成本 操作 暂无数据！ 共 0 条 10条/页 1 前往 页 服务不可用，请检查后端服务是否启动"
+      "errors": [],
+      "snippet": "产品 销售 采购 仓库 发货 广告 账目 财务 设置 系统 首页 全部店铺 全部国家 产品负责人 至 状态 平台SKU 重置成本 导出 修改接收日期 图片 平台SKU 发货日期 接收日期 状态 单据号 货件号 发出数量 接收数量 扣除数量 采购成本 头程成本 操作 暂无数据！ 共 0 条 10条/页 1 前往 页"
     },
     {
       "url": "/finance/paymentRequest",
       "expectedTitle": "请款单",
       "status": 200,
       "finalUrl": "/finance/paymentRequest",
-      "textLen": 1680,
+      "textLen": 1663,
       "titleHit": true,
       "class": "OK",
       "errors": [
-        "Failed to load resource: the server responded with a status of 503 (Service Unavailable)",
-        "PAGEERROR: Request failed with status code 503"
+        "Failed to load resource: the server responded with a status of 400 (Bad Request)",
+        "PAGEERROR: Request failed with status code 400"
       ],
-      "snippet": "产品 销售 采购 仓库 发货 广告 账目 财务 设置 系统 首页 全部订单 待审核 待付款 已完成 已驳回 全部供应商 全部店铺 支付方式 申请日期 至 关联单号 重置 新增请款单 店铺 请款单号 关联单号 付款方式 状态 申请总金额(￥) 申请人 申请日期 审核人 审核日期 备注 操作 暂无数据！ 加载中... 共 0 条 10条/页 1 前往 页 服务不可用，请检查后端服务是否启动 ### E"
+      "snippet": "产品 销售 采购 仓库 发货 广告 账目 财务 设置 系统 首页 全部订单 待审核 待付款 已完成 已驳回 全部供应商 全部店铺 支付方式 申请日期 至 关联单号 重置 新增请款单 店铺 请款单号 关联单号 付款方式 状态 申请总金额(￥) 申请人 申请日期 审核人 审核日期 备注 操作 暂无数据！ 加载中... 共 0 条 10条/页 1 前往 页 ### Error querying data"
     },
     {
       "url": "/finance/performanpce",
       "expectedTitle": "业绩报告",
       "status": 200,
       "finalUrl": "/finance/performanpce",
-      "textLen": 227,
+      "textLen": 159,
       "titleHit": false,
       "class": "OK",
-      "errors": [
-        "Failed to load resource: the server responded with a status of 503 (Service Unavailable)",
-        "Failed to load resource: the server responded with a status of 503 (Service Unavailable)"
-      ],
+      "errors": [],
       "snippet": "产品 销售 采购 仓库 发货 广告 账目 财务 设置 系统 首页 店铺 站点 人民币 品类 产品负责人 至 SKU 重置 导出 负责人 销售额 销量 订单 平均售价 广告销售额 广告销量 退款数量 退款金额 退款率 FBA费用 销售佣金 买家运费 促销费 其它收支 SKU结算 毛利润 毛利润率 月报表 未对应本地产品负责人 0 0 合计 0 - 0 0 - 0 0 0 0 0 0 0 - 0 加载"
     },
     {
@@ -1169,27 +1030,21 @@
       "expectedTitle": "店铺利润",
       "status": 200,
       "finalUrl": "/finance/profitGroup",
-      "textLen": 112,
+      "textLen": 95,
       "titleHit": true,
       "class": "OK",
-      "errors": [
-        "Failed to load resource: the server responded with a status of 503 (Service Unavailable)",
-        "PAGEERROR: Request failed with status code 503"
-      ],
-      "snippet": "产品 销售 采购 仓库 发货 广告 账目 财务 设置 系统 首页 店铺利润 月度结算 月度结算(简洁版) 店铺 站点 结算日期 至 人民币 导出 店铺 币种 销售额 销售佣金 FBA费用 退款金额 仓储费 广告费 其它 结算收入 采购成本 利润 暂无数据 服务不可用，请检查后端服务是否启动"
+      "errors": [],
+      "snippet": "产品 销售 采购 仓库 发货 广告 账目 财务 设置 系统 首页 店铺利润 月度结算 月度结算(简洁版) 店铺 站点 结算日期 至 人民币 导出 店铺 币种 销售额 销售佣金 FBA费用 退款金额 仓储费 广告费 其它 结算收入 采购成本 利润 暂无数据"
     },
     {
       "url": "/finance/profitReport",
       "expectedTitle": "利润报表",
       "status": 200,
       "finalUrl": "/finance/profitReport",
-      "textLen": 247,
+      "textLen": 179,
       "titleHit": false,
       "class": "OK",
-      "errors": [
-        "Failed to load resource: the server responded with a status of 503 (Service Unavailable)",
-        "PAGEERROR: Request failed with status code 503"
-      ],
+      "errors": [],
       "snippet": "产品 销售 采购 仓库 发货 广告 账目 财务 设置 系统 首页 SKU MSKU ASIN 父ASIN 品类 店铺 店铺 站点 人民币 品类 产品负责人 至 SKU 重置 导出 导出（旧） 重算 商品信息 销售额 销量 订单 平均售价 广告销售额 广告销量 退款数量 退款金额 退款率 FBA费用 销售佣金 买家运费 促销费 其它收支 SKU结算 毛利润 毛利润率 ASIN: - 0 0 合计 0"
     },
     {
@@ -1197,14 +1052,11 @@
       "expectedTitle": "账期SKU",
       "status": 200,
       "finalUrl": "/finance/settlementsku",
-      "textLen": 151,
+      "textLen": 134,
       "titleHit": true,
       "class": "OK",
-      "errors": [
-        "Failed to load resource: the server responded with a status of 503 (Service Unavailable)",
-        "PAGEERROR: Request failed with status code 503"
-      ],
-      "snippet": "产品 销售 采购 仓库 发货 广告 账目 财务 设置 系统 首页 SKU详情 账期SKU 全部店铺 全部国家 导出 所有费用使用站点币种 图片 SKU/名称 销售额(含税) 销售额 销量 订单量 退货数 退货金额 FBA费 数字服务费 佣金 赔偿金 仓储费 广告花费 其他费用 采购成本 毛利润 毛利率 暂无数据！ 共 1 条 10条/页 1 前往 页 服务不可用，请检查后端服务是否启动"
+      "errors": [],
+      "snippet": "产品 销售 采购 仓库 发货 广告 账目 财务 设置 系统 首页 SKU详情 账期SKU 全部店铺 全部国家 导出 所有费用使用站点币种 图片 SKU/名称 销售额(含税) 销售额 销量 订单量 退货数 退货金额 FBA费 数字服务费 佣金 赔偿金 仓储费 广告花费 其他费用 采购成本 毛利润 毛利率 暂无数据！ 共 1 条 10条/页 1 前往 页"
     },
     {
       "url": "/fin/auxiliary/item",
@@ -1225,14 +1077,14 @@
       "expectedTitle": "财务币别",
       "status": 200,
       "finalUrl": "/fin/currency",
-      "textLen": 133,
+      "textLen": 116,
       "titleHit": false,
       "class": "OK",
       "errors": [
         "Failed to load resource: the server responded with a status of 503 (Service Unavailable)",
         "获取租户ID失败: AxiosError: Request failed with status code 503\n    at tB (http://127.0.0.1:8080/static/js/vendor-CDQ6uO2g.js:8:11419)\n    at XMLHttpRequest.x (http://127.0.0.1:8080/static/js/vendor-CDQ6uO2"
       ],
-      "snippet": "产品 销售 采购 仓库 发货 广告 账目 财务 设置 系统 首页 币种名称 搜索 重置 新增 修改 删除 导出 同步汇率 币种 名称 汇率 是否本位币 自动同步汇率 操作 暂无数据 服务不可用，请检查后端服务是否启动 服务不可用，请检查后端服务是否启动 服务不可用，请检查后端服务是否启动 服务不可用，请检查后端服务是否启动"
+      "snippet": "产品 销售 采购 仓库 发货 广告 账目 财务 设置 系统 首页 币种名称 搜索 重置 新增 修改 删除 导出 同步汇率 币种 名称 汇率 是否本位币 自动同步汇率 操作 暂无数据 服务不可用，请检查后端服务是否启动 服务不可用，请检查后端服务是否启动 服务不可用，请检查后端服务是否启动"
     },
     {
       "url": "/fin/ledger/balance",
@@ -1379,27 +1231,21 @@
       "expectedTitle": "差评管理",
       "status": 200,
       "finalUrl": "/report/feedback",
-      "textLen": 86,
+      "textLen": 69,
       "titleHit": false,
       "class": "OK",
-      "errors": [
-        "Failed to load resource: the server responded with a status of 503 (Service Unavailable)",
-        "PAGEERROR: Request failed with status code 503"
-      ],
-      "snippet": "产品 销售 采购 仓库 发货 广告 账目 财务 设置 系统 首页 全部店铺 全部国家 站点 订单 购买时间 评论时间 产品 评星 评论 回复 邮箱 暂无数据！ 共 0 条 10条/页 1 前往 页 服务不可用，请检查后端服务是否启动"
+      "errors": [],
+      "snippet": "产品 销售 采购 仓库 发货 广告 账目 财务 设置 系统 首页 全部店铺 全部国家 站点 订单 购买时间 评论时间 产品 评星 评论 回复 邮箱 暂无数据！ 共 0 条 10条/页 1 前往 页"
     },
     {
       "url": "/report/seller",
       "expectedTitle": "店铺绩效",
       "status": 200,
       "finalUrl": "/report/seller",
-      "textLen": 401,
+      "textLen": 384,
       "titleHit": false,
       "class": "OK",
-      "errors": [
-        "Failed to load resource: the server responded with a status of 503 (Service Unavailable)",
-        "PAGEERROR: Request failed with status code 503"
-      ],
+      "errors": [],
       "snippet": "产品 销售 采购 仓库 发货 广告 账目 财务 设置 系统 首页 全部店铺 全部国家 客户服务绩效 订单缺陷率 订单日期： - 低于 NaN% 目标 卖家自配送 % 订单总数: 存在缺陷的订单: Feedback差评 亚马逊商城交易保障索赔 信用卡拒付索赔 FBA配送 % 订单总数: 存在缺陷的订单: Feedback差评 亚马逊商城交易保障索赔 信用卡拒付索赔 发票缺陷率 订单日期： - 低于 "
     },
     {
@@ -1407,14 +1253,11 @@
       "expectedTitle": "客户管理",
       "status": 200,
       "finalUrl": "/sys/customer",
-      "textLen": 92,
+      "textLen": 75,
       "titleHit": false,
       "class": "OK",
-      "errors": [
-        "Failed to load resource: the server responded with a status of 503 (Service Unavailable)",
-        "PAGEERROR: Request failed with status code 503"
-      ],
-      "snippet": "产品 销售 采购 仓库 发货 广告 账目 财务 设置 系统 首页 全部 选择角色 查询 客户信息 公司名称 注册时间 最后登录时间 套餐类型 套餐备注 操作 暂无数据！ 共 0 条 10条/页 1 前往 页 服务不可用，请检查后端服务是否启动"
+      "errors": [],
+      "snippet": "产品 销售 采购 仓库 发货 广告 账目 财务 设置 系统 首页 全部 选择角色 查询 客户信息 公司名称 注册时间 最后登录时间 套餐类型 套餐备注 操作 暂无数据！ 共 0 条 10条/页 1 前往 页"
     },
     {
       "url": "/sys/customer/order",
@@ -1561,11 +1404,11 @@
       "expectedTitle": "在线客户",
       "status": 200,
       "finalUrl": "/sys/online",
-      "textLen": 131,
+      "textLen": 198,
       "titleHit": false,
       "class": "OK",
       "errors": [],
-      "snippet": "产品 销售 采购 仓库 发货 广告 账目 财务 设置 系统 首页 登录地址 用户名称 搜索 重置 序号 会话编号 登录名称 主机 登录时间 操作 1 e7aba3c1-9c66-411c-819f-12b3230187b5 172.18.0.1 2026-11-26 10:42:01 强退 共 1 条 10条/页 1 前往 页"
+      "snippet": "产品 销售 采购 仓库 发货 广告 账目 财务 设置 系统 首页 登录地址 用户名称 搜索 重置 序号 会话编号 登录名称 主机 登录时间 操作 1 e7aba3c1-9c66-411c-819f-12b3230187b5 172.18.0.1 2026-11-26 10:42:01 强退 2 c9c8d9ee-8e63-4f71-8f5e-d35681a2a8fb 172.18.0.1 2026"
     },
     {
       "url": "/sys/ruleAuth",
@@ -1583,14 +1426,11 @@
       "expectedTitle": "管理员号",
       "status": 200,
       "finalUrl": "/sys/subuser",
-      "textLen": 170,
+      "textLen": 153,
       "titleHit": false,
       "class": "OK",
-      "errors": [
-        "Failed to load resource: the server responded with a status of 503 (Service Unavailable)",
-        "PAGEERROR: Request failed with status code 503"
-      ],
-      "snippet": "产品 销售 采购 仓库 发货 广告 账目 财务 设置 系统 首页 å¯ç”¨ åœç”¨ è¿‡æœŸ 角色权限 用户名 重置 添加用户 启用 停用 删除 用户名 登录账号 状态 部门 角色权限 店铺权限 数据权限 创建时间 到期时间 操作 admin@wimoor.com å¯ç”¨ admin 2016-11-01 2098-12-31 编辑 共 1 条 10条/页 1 前往 页 服务不"
+      "errors": [],
+      "snippet": "产品 销售 采购 仓库 发货 广告 账目 财务 设置 系统 首页 å¯ç”¨ åœç”¨ è¿‡æœŸ 角色权限 用户名 重置 添加用户 启用 停用 删除 用户名 登录账号 状态 部门 角色权限 店铺权限 数据权限 创建时间 到期时间 操作 admin@wimoor.com å¯ç”¨ admin 2016-11-01 2098-12-31 编辑 共 1 条 10条/页 1 前往 页"
     },
     {
       "url": "/sys/tags",

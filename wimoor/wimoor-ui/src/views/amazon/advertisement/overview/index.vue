@@ -165,11 +165,11 @@
 		var param={ftype:state.waringType};
 		if(state.wardatatype=="productads"){
 			summaryApi.getProductWarningIndicator(param).then(res=>{
-				state.waringData=res.data;
+				state.waringData=res.data||{};
 			});
 		}else{
 			summaryApi.getKeywordsWarningIndicator(param).then(res=>{
-				state.waringData=res.data;
+				state.waringData=res.data||{};
 			});
 		}
 	}
