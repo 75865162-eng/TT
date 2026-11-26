@@ -5,9 +5,11 @@ import { chromium } from 'playwright';
 import fs from 'fs';
 import path from 'path';
 
-const BASE = 'http://127.0.0.1:8080';
 const args = process.argv.slice(2);
 const arg = (name, def) => { const i = args.indexOf(name); return i >= 0 ? args[i+1] : def; };
+const BASE = arg('--base', 'http://127.0.0.1:8080');
+const ACCEPT_ACCOUNT = process.env.ACCEPT_ACCOUNT || '1';
+const ACCEPT_PASSWORD = process.env.ACCEPT_PASSWORD || '1';
 const limit = parseInt(arg('--limit', '0'), 10);
 const only = arg('--only', '');
 const outFile = arg('--json', '/workspace/woker/outputs/page-acceptance-latest.json');
@@ -39,8 +41,8 @@ async function main() {
       console.log(`登录#${loginCount}:`, sid0 ? 'REUSE ' + sid0.slice(0,8) + '...' : 'FAILED', '| URL:', url0);
       return !!sid0;
     }
-    await loginPage.locator('input').nth(0).fill('admin@wimoor.com');
-    await loginPage.locator('input').nth(1).fill('123456');
+    await loginPage.locator('input').nth(0).fill(ACCEPT_ACCOUNT);
+    await loginPage.locator('input').nth(1).fill(ACCEPT_PASSWORD);
     await loginPage.locator('button').filter({ hasText: '登录' }).first().click();
     await sleep(3500);
     const sid = await loginPage.evaluate(() => localStorage.getItem('jsessionid'));
@@ -55,8 +57,33 @@ async function main() {
   async function probe(url, expectedTitle) {
     const page = await ctx.newPage();
     const errors = [];
+    const apiErrors = [];
     page.on('console', m => { if (m.type() === 'error') errors.push(m.text().slice(0, 200)); });
     page.on('pageerror', e => errors.push('PAGEERROR: ' + e.message.slice(0, 200)));
+    // 监听 API 响应，捕获 4xx/5xx 与响应体中的 SQL/运行时异常（这类错误以 toast 呈现，页面骨架仍会渲染）
+    page.on('response', async (resp) => {
+      try {
+        const u = resp.url();
+        if (!/\/(api|erp|admin|amazon|amazonadv|finance|quote)\//i.test(u)) return;
+        const st = resp.status();
+        let body = '';
+        if (st >= 400) {
+          try { body = (await resp.text()).slice(0, 300); } catch (_) {}
+          apiErrors.push(`HTTP_${st} ${u.replace(BASE,'')} :: ${body}`);
+          return;
+        }
+        // 200 但响应体含 SQL 异常（全局异常处理器包装为 200 + msg）
+        const ct = resp.headers()['content-type'] || '';
+        if (ct.includes('json')) {
+          try {
+            const txt = (await resp.text()).slice(0, 600);
+            if (/Unknown column|SQLSyntaxErrorException|SQLGrammarException|NullPointerException|bad SQL grammar/i.test(txt)) {
+              apiErrors.push(`SQLERR ${u.replace(BASE,'')} :: ${txt}`);
+            }
+          } catch (_) {}
+        }
+      } catch (_) {}
+    });
     let status = 0, finalUrl = '', textLen = 0, bodySnippet = '', cls = 'OK', titleHit = false;
     try {
       const resp = await page.goto(BASE + url, { waitUntil: 'domcontentloaded', timeout: 20000 });
@@ -74,6 +101,7 @@ async function main() {
       else if (textLen < 20) cls = 'BLANK';
       else if (/页面不存在|资源不存在|^404$/i.test(bodySnippet.slice(0,30))) cls = 'NOT_FOUND_TEXT';
       else if (/账户异常|无权限访问/i.test(bodySnippet)) cls = 'NO_PERMISSION';
+      else if (apiErrors.length > 0) cls = 'API_ERROR';
       else if (fatalErr.length > 0) cls = 'FATAL_JS_ERROR';
       else cls = 'OK';
     } catch (e) {
@@ -81,7 +109,7 @@ async function main() {
       bodySnippet = e.message.slice(0, 120);
     }
     await page.close();
-    return { url, expectedTitle, status, finalUrl, textLen, titleHit, class: cls, errors: errors.slice(0,2), snippet: bodySnippet };
+    return { url, expectedTitle, status, finalUrl, textLen, titleHit, class: cls, errors: errors.slice(0,2), apiErrors: apiErrors.slice(0,3), snippet: bodySnippet };
   }
 
   const results = [];

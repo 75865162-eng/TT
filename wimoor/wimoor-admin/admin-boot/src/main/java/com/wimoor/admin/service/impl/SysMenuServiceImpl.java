@@ -130,7 +130,7 @@ public class SysMenuServiceImpl extends ServiceImpl<SysMenuMapper, SysMenu> impl
         List<MenuVO> menuTableList = new ArrayList<>();
         Optional.ofNullable(menuList).orElse(new ArrayList<>())
                 .stream()
-                .filter(menu -> menu.getParentId().equals(parentId))
+                .filter(menu -> java.util.Objects.equals(menu.getParentId(), parentId))
                 .forEach(menu -> {
                     MenuVO menuVO = new MenuVO();
                     BeanUtil.copyProperties(menu, menuVO);
@@ -169,7 +169,7 @@ public class SysMenuServiceImpl extends ServiceImpl<SysMenuMapper, SysMenu> impl
         List<SelectVO> menuSelectList = new ArrayList<>();
         Optional.ofNullable(menuList).orElse(new ArrayList<>())
                 .stream()
-                .filter(menu -> menu.getParentId().equals(parentId))
+                .filter(menu -> java.util.Objects.equals(menu.getParentId(), parentId))
                 .forEach(menu -> {
                     SelectVO selectVO = new SelectVO(menu.getId(), menu.getName());
                     List<SelectVO> children = recursionSelectList(menu.getId(), menuList);
@@ -403,7 +403,7 @@ public class SysMenuServiceImpl extends ServiceImpl<SysMenuMapper, SysMenu> impl
         List<TreeSelectVO> menuSelectList = new ArrayList<>();
         Optional.ofNullable(menuList).orElse(new ArrayList<>())
                 .stream()
-                .filter(menu -> menu.getParentId().equals(parentId))
+                .filter(menu -> java.util.Objects.equals(menu.getParentId(), parentId))
                 .forEach(menu -> {
                     TreeSelectVO treeSelectVO = new TreeSelectVO(menu.getId(), menu.getName());
                     List<TreeSelectVO> children = recursionTreeSelectList(menu.getId(), menuList);
