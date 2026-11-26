@@ -47,7 +47,7 @@ async function getTemplateList() {
       label: item.templateName,
     }))
     state.tabs= templates
-    state.activeName=templates[0].name;
+    state.activeName=templates.length > 0 ? templates[0].name : '';
 
   })
 }

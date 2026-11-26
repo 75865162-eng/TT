@@ -5,6 +5,9 @@ function getAuthUrl(data){
 function authSeller(data){
 	return request.post('/amazonadv/api/v1/advert/bindAdvAuthData',data);
 }
+function saveByRefreshToken(data){
+	return request.post('/amazonadv/api/v1/advert/saveByRefreshToken',data);
+}
 function disableAuth(data){
 	return request.get('/amazonadv/api/v1/advert/disableAuth',{params:data });
 }
@@ -25,5 +28,5 @@ function listReport(data){
 }
 
 export default{
-	getAuthUrl,authSeller,disableAuth,getGroup,loadProfile,captureProfileById,requestReportByDate,listReport
+	getAuthUrl,authSeller,saveByRefreshToken,disableAuth,getGroup,loadProfile,captureProfileById,requestReportByDate,listReport
 }

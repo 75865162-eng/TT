@@ -1,7 +1,8 @@
-name: Build Wimoor Java+MySQL Stack
+name: Build & Deploy Wimoor Java+MySQL Stack
 
-# 拉代码后自动编译 4 个后端 jar + 构建前端 dist，打包成可下载产物。
-# 触发：push 到 java-only / main、手动触发、PR。
+# push 到 main/java-only 自动：编译全部 10 个后端 jar + 构建前端 dist → 组装部署包 → SSH 直连服务器部署。
+# 部署目标与 SSH 凭据走 GitHub Secrets（见 docs/DEPLOYMENT-REPORT-*.md 的 Secrets 清单）。
+# 仅 main/java-only 分支执行 deploy；PR 只构建不部署。
 on:
   push:
     branches: [java-only, main]
@@ -9,9 +10,14 @@ on:
     branches: [java-only, main]
   workflow_dispatch:
 
+env:
+  JAVA_VERSION: '11'
+  NODE_VERSION: '20'
+  PNPM_VERSION: '10'
+
 jobs:
   build-backend:
-    name: 编译 4 个 Java 后端 (JDK 11)
+    name: 编译全部 Java 后端 (JDK 11)
     runs-on: ubuntu-latest
     steps:
       - name: 检出代码
@@ -21,14 +27,13 @@ jobs:
         uses: actions/setup-java@v4
         with:
           distribution: temurin
-          java-version: '11'
+          java-version: ${{ env.JAVA_VERSION }}
           cache: maven
 
       - name: 安装私有 jar 到本地仓库
         working-directory: wimoor/wimoor-erp/erp-boot
         run: |
-          # 这两个 jar 不在 Maven 中央仓库，pom 的 install-plugin 绑在 clean 阶段，
-          # 这里显式安装，确保干净 runner 上也能解析依赖。
+          # 这两个 jar 不在 Maven 中央仓库，显式安装确保干净 runner 可解析。
           mvn -B -q install:install-file \
             -Dfile=src/main/resources/lib/ocean.client.java.biz.jar \
             -DgroupId=com.biz -DartifactId=biz -Dversion=1.0 -Dpackaging=jar
@@ -37,23 +42,39 @@ jobs:
             -DgroupId=alibaba.message -DartifactId=alibaba.message -Dversion=0.9.0 -Dpackaging=jar
           echo "私有 jar 安装完成"
 
-      - name: 编译全部模块（含 4 个目标服务，跳过测试）
+      - name: 编译全部模块（含 10 个目标服务）
         working-directory: wimoor
         run: |
-          mvn -B -pl wimoor-gateway,wimoor-admin/admin-boot,wimoor-erp/erp-boot,wimoor-ai -am \
-            -DskipTests -Dmaven.test.skip=true -Djava.version=11 package
+          mvn -B -pl \
+            wimoor-gateway,\
+            wimoor-admin/admin-boot,\
+            wimoor-erp/erp-boot,\
+            wimoor-amazon/amazon-boot,\
+            wimoor-finance,\
+            wimoor-data,\
+            wimoor-amazon-adv/amazon-adv-boot,\
+            wimoor-quote/quote-boot,\
+            wimoor-gen,\
+            wimoor-ai \
+            -am -DskipTests -Dmaven.test.skip=true -Djava.version=11 package
 
       - name: 汇总 jar 产物
         run: |
           mkdir -p artifacts/jars
-          cp wimoor/wimoor-gateway/target/*.jar artifacts/jars/ 2>/dev/null || true
-          cp wimoor/wimoor-admin/admin-boot/target/*.jar artifacts/jars/ 2>/dev/null || true
-          cp wimoor/wimoor-erp/erp-boot/target/*.jar artifacts/jars/ 2>/dev/null || true
+          cp wimoor/wimoor-gateway/target/wimoor-gateway.jar artifacts/jars/ 2>/dev/null || true
+          cp wimoor/wimoor-admin/admin-boot/target/admin-boot.jar artifacts/jars/ 2>/dev/null || true
+          cp wimoor/wimoor-erp/erp-boot/target/erp-boot.jar artifacts/jars/ 2>/dev/null || true
+          cp wimoor/wimoor-amazon/amazon-boot/target/amazon-boot.jar artifacts/jars/ 2>/dev/null || true
+          cp wimoor/wimoor-finance/target/wimoor-finance.jar artifacts/jars/ 2>/dev/null || true
+          cp wimoor/wimoor-data/target/wimoor-data.jar artifacts/jars/ 2>/dev/null || true
+          cp wimoor/wimoor-amazon-adv/amazon-adv-boot/target/amazon-adv-boot.jar artifacts/jars/ 2>/dev/null || true
+          cp wimoor/wimoor-quote/quote-boot/target/quote-boot.jar artifacts/jars/ 2>/dev/null || true
+          cp wimoor/wimoor-gen/target/wimoor-gen.jar artifacts/jars/ 2>/dev/null || true
           cp wimoor/wimoor-ai/target/wimoor-ai-*.jar artifacts/jars/ 2>/dev/null || true
-          # 去掉 original- 前缀的辅助 jar
           find artifacts/jars -name 'original-*' -delete
           echo "=== jar 清单 ==="
           ls -lh artifacts/jars/
+          test $(find artifacts/jars -name '*.jar' | wc -l) -ge 10 || { echo "jar 数量不足 10，终止"; exit 1; }
 
       - name: 上传 jar 产物
         uses: actions/upload-artifact@v4
@@ -69,16 +90,21 @@ jobs:
       - name: 检出代码
         uses: actions/checkout@v4
 
-      - name: 安装 Node.js 20
+      - name: 安装 Node.js
         uses: actions/setup-node@v4
         with:
-          node-version: '20'
+          node-version: ${{ env.NODE_VERSION }}
+
+      - name: 安装 pnpm
+        uses: pnpm/action-setup@v4
+        with:
+          version: ${{ env.PNPM_VERSION }}
 
       - name: 安装依赖并构建
         working-directory: wimoor/wimoor-ui
         run: |
-          npm ci --legacy-peer-deps
-          npm run build
+          pnpm install --frozen-lockfile
+          pnpm build
 
       - name: 打包 dist
         run: |
@@ -95,17 +121,18 @@ jobs:
           retention-days: 14
 
   package-release:
-    name: 合并为一键部署包
+    name: 组装一键部署包
     needs: [build-backend, build-frontend]
     runs-on: ubuntu-latest
     steps:
-      - name: 检出部署脚本
+      - name: 检出部署脚本与配置
         uses: actions/checkout@v4
         with:
           sparse-checkout: |
             deploy
             docs
             scripts
+            wimoor/init-config/nacos
           sparse-checkout-cone-mode: false
 
       - name: 下载 jar 产物
@@ -130,14 +157,107 @@ jobs:
           cp -a deploy bundle/deploy
           cp -a docs bundle/docs
           cp -a scripts bundle/scripts
+          mkdir -p bundle/nacos
+          cp -a wimoor/init-config/nacos/DEFAULT_GROUP/. bundle/nacos/
           echo "=== 部署包结构 ==="
           find bundle -maxdepth 2 -type d | sort
           echo "=== jar 清单 ==="
           ls -lh bundle/jars/
 
+      - name: 打包部署包
+        run: |
+          cd bundle
+          tar -czf ../wimoor-deploy-bundle.tar.gz .
+          cd ..
+          ls -lh wimoor-deploy-bundle.tar.gz
+
       - name: 上传一键部署包
         uses: actions/upload-artifact@v4
         with:
           name: wimoor-deploy-bundle
-          path: bundle/
+          path: wimoor-deploy-bundle.tar.gz
           retention-days: 14
+
+  deploy:
+    name: SSH 部署到 43.143.28.153
+    needs: package-release
+    if: github.event_name != 'pull_request'
+    runs-on: ubuntu-latest
+    steps:
+      - name: 下载部署包
+        uses: actions/download-artifact@v4
+        with:
+          name: wimoor-deploy-bundle
+          path: .
+
+      - name: 上传部署包到服务器
+        uses: appleboy/scp-action@v0.1.7
+        with:
+          host: ${{ secrets.SERVER_HOST }}
+          username: ${{ secrets.SERVER_USER }}
+          password: ${{ secrets.SERVER_PASSWORD }}
+          port: ${{ secrets.SERVER_PORT || 22 }}
+          source: wimoor-deploy-bundle.tar.gz
+          target: /home/${{ secrets.SERVER_USER }}/
+
+      - name: 远程部署（解压/切流/重启/探活）
+        uses: appleboy/ssh-action@v1.0.3
+        with:
+          host: ${{ secrets.SERVER_HOST }}
+          username: ${{ secrets.SERVER_USER }}
+          password: ${{ secrets.SERVER_PASSWORD }}
+          port: ${{ secrets.SERVER_PORT || 22 }}
+          script: |
+            set -e
+            DEPLOY_USER_HOME=/home/${{ secrets.SERVER_USER }}
+            ROOT=$DEPLOY_USER_HOME/tt
+            echo "=== 1. 解压部署包 ==="
+            mkdir -p $ROOT
+            tar -xzf $DEPLOY_USER_HOME/wimoor-deploy-bundle.tar.gz -C $ROOT
+            echo "=== 2. 安装 jar 到模块目录 ==="
+            for spec in \
+              "gateway:wimoor-gateway/target/wimoor-gateway.jar" \
+              "admin:wimoor-admin/admin-boot/target/admin-boot.jar" \
+              "erp:wimoor-erp/erp-boot/target/erp-boot.jar" \
+              "amazon:wimoor-amazon/amazon-boot/target/amazon-boot.jar" \
+              "finance:wimoor-finance/target/wimoor-finance.jar" \
+              "data:wimoor-data/target/wimoor-data.jar" \
+              "amazon-adv:wimoor-amazon-adv/amazon-adv-boot/target/amazon-adv-boot.jar" \
+              "quote:wimoor-quote/quote-boot/target/quote-boot.jar" \
+              "gen:wimoor-gen/target/wimoor-gen.jar"; do
+              name="${spec%%:*}"; rel="${spec#*:}"
+              mkdir -p "$ROOT/wimoor/$(dirname "$rel")"
+              cp "$ROOT/jars/$(basename "$rel")" "$ROOT/wimoor/$rel"
+            done
+            AI=$(find $ROOT/jars -name 'wimoor-ai-*.jar' | head -1)
+            mkdir -p $ROOT/wimoor/wimoor-ai/target
+            cp "$AI" $ROOT/wimoor/wimoor-ai/target/
+            echo "=== 3. 同步前端 html ==="
+            mkdir -p $ROOT/deploy/wimoor-p0/html
+            cp -a $ROOT/html/. $ROOT/deploy/wimoor-p0/html/
+            echo "=== 4. 同步 Nacos 配置源码 ==="
+            mkdir -p $ROOT/wimoor/init-config/nacos/DEFAULT_GROUP
+            cp -a $ROOT/nacos/. $ROOT/wimoor/init-config/nacos/DEFAULT_GROUP/
+            echo "=== 5. 停旧服务并重启 ==="
+            pkill -f 'java.*\.jar' || true
+            sleep 3
+            sudo mkdir -p /logs && sudo chmod -R 777 /logs
+            cd $ROOT
+            bash deploy/wimoor-p0/start-all.sh > /tmp/ci-deploy-start.log 2>&1 || true
+            # ai 服务用 8110 端口避免与 amazon 8102 冲突
+            AIJAR=$(find $ROOT/wimoor/wimoor-ai/target -name 'wimoor-ai-*.jar' ! -name original* | head -1)
+            nohup /usr/lib/jvm/java-11-openjdk-amd64/bin/java -Xmx384m -XX:+UseSerialGC \
+              -Dspring.profiles.active=dev -DNACOS_SERVER_ADDR=127.0.0.1:8848 \
+              -jar "$AIJAR" --server.port=8110 --ai.persistence=jdbc \
+              "--ai.datasource.url=jdbc:mysql://127.0.0.1:13306/db_ai?useUnicode=true&characterEncoding=utf8&serverTimezone=Asia/Shanghai" \
+              --ai.datasource.username=root --ai.datasource.password=123456 \
+              > /tmp/wimoor-p0-logs/ai.log 2>&1 &
+            echo "=== 6. 探活（等待 90s）==="
+            sleep 90
+            curl -s -o /dev/null -w "登录接口: %{http_code}\n" \
+              -X POST http://127.0.0.1:8099/admin/api/v1/auth/login \
+              -H "Content-Type: application/json" \
+              -d '{"username":"admin@wimoor.com","password":"123456"}'
+            echo "=== java 进程数 ==="
+            ps aux | grep 'java.*\.jar' | grep -v grep | wc -l
+            echo "=== CI 部署完成 ==="

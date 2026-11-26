@@ -31,9 +31,29 @@
 			 			</div>
 			 </el-form-item>    
 		   </el-form>
+		   <el-divider content-position="left">或：使用 Refresh Token 直接配置（无需登录亚马逊）</el-divider>
+		   <el-form :model="manualForm" label-width="90px" class="form-width-fill">
+		     <el-form-item label="店铺名称">
+		       <el-select v-model="manualForm.groupid" placeholder="请选择店铺" style="width:100%">
+		         <el-option v-for="(item,index) in storelist.list" :label="item.name" :value="item.id" />
+		       </el-select>
+		     </el-form-item>
+		     <el-form-item label="站点">
+		       <el-select v-model="manualForm.region" placeholder="请选择区域" style="width:100%">
+		         <el-option label="北美 (NA)" value="NA"></el-option>
+		         <el-option label="欧洲 (EU)" value="EU"></el-option>
+		         <el-option label="远东 (FE)" value="FE"></el-option>
+		       </el-select>
+		     </el-form-item>
+		     <el-form-item label="Refresh Token">
+		       <el-input v-model="manualForm.refreshToken" type="textarea" :rows="3" placeholder="粘贴广告授权 refresh token（Atzr|...）" />
+		     </el-form-item>
+		   </el-form>
+		   <el-alert v-if="manualResult" :title="manualResult" :type="manualOk ? 'success' : 'error'" show-icon />
 		   <template #footer>
 		     <span class="dialog-footer">
 		       <el-button @click="authVisible = false">取消</el-button>
+		       <el-button @click="saveRefreshToken" :loading="manualLoading">保存 Refresh Token</el-button>
 		       <el-button  type="primary" @click="getamazonUrl"  >登录亚马逊授权</el-button >
 		     </span>
 		   </template>
@@ -64,6 +84,11 @@
 		 showurl:false,
 		 region:"NA",
 	})
+	// refresh token 直配模式
+	let manualForm = reactive({ groupid: '', region: 'NA', refreshToken: '' })
+	let manualLoading = ref(false)
+	let manualResult = ref('')
+	let manualOk = ref(false)
  
 	function selectStote(val){
 		formInline.groupid = val;
@@ -106,12 +131,39 @@
 		}
 		
 	}
+	function saveRefreshToken(){
+		manualResult.value=''
+		if(!manualForm.groupid||!manualForm.region||!manualForm.refreshToken){
+			manualOk.value=false
+			manualResult.value='请选择店铺、站点并填写 Refresh Token'
+			return
+		}
+		manualLoading.value=true
+		authApi.saveByRefreshToken({
+			groupid: manualForm.groupid,
+			region: manualForm.region,
+			refreshToken: manualForm.refreshToken.trim()
+		}).then((res)=>{
+			manualLoading.value=false
+			manualOk.value = res && (res.code === 200 || res.code === 0)
+			manualResult.value = '配置已保存：'+(res&&res.msg?res.msg:(res&&res.data||''))
+			if(manualOk.value) emit('comfirm')
+		}).catch((err)=>{
+			manualLoading.value=false
+			manualOk.value=false
+			manualResult.value='保存失败：'+(err&&err.msg?err.msg:(err&&err.message?err.message:err))
+		})
+	}
 	function show(){
+		if(storelist.value&&storelist.value.list&&storelist.value.list.length>0){
+			manualForm.groupid = manualForm.groupid || storelist.value.list[0].id
+		}
 		authVisible.value =true
 	}
 	watch(props,()=>{
 		 if(props.storelist&&props.storelist.list.length>0){
 		 	formInline.groupid=props.storelist.list[0].id;
+		 	manualForm.groupid=manualForm.groupid||props.storelist.list[0].id;
 		 }else{
 		 	formInline.groupid="";
 		 }

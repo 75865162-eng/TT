@@ -32,6 +32,9 @@ public interface IAmzAdvAuthService extends IService<AmzAdvAuth>{
     public List<AmzRegion> getAllRegion();
     
 	public String captureAmzAdvAuthByCode(String code,String region,String groupid);
+
+	/** 不走 OAuth，直接用 refresh token 落库并换取 access token（refresh token 直配模式） */
+	public String saveByRefreshToken(String groupid, String region, String refreshToken);
 	
 	public List<Map<String, Object>> getProfileByGroup(String groupid);
 	

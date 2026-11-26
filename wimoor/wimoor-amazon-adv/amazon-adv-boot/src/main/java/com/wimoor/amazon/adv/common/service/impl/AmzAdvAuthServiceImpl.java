@@ -266,6 +266,50 @@ public class AmzAdvAuthServiceImpl extends BaseService<AmzAdvAuth> implements IA
 		}
 	}
 
+	/**
+	 * 不走 OAuth 交互，直接用 refresh token 绑定广告授权：
+	 * 落库 -> 调用 refreshToken 换取 access_token -> 抓取 profile。
+	 * 要求 t_amz_region 已配置对应区域的 client_id/client_secret/advpoint。
+	 */
+	@Override
+	@CacheEvict(value = { "amzAdvProfileCache", "AmzAdvAuthorityCache" }, allEntries = true)
+	public synchronized String saveByRefreshToken(String groupid, String region, String refreshToken) {
+		if (StringUtil.isEmpty(groupid) || StringUtil.isEmpty(region) || StringUtil.isEmpty(refreshToken)) {
+			throw new BizException("店铺、区域、refresh token 均不能为空");
+		}
+		AmzRegion regionObject = amzRegionMapper.selectByPrimaryKey(region);
+		if (regionObject == null) {
+			throw new BizException("区域 " + region + " 未在 t_amz_region 配置 client_id/client_secret，请先补充区域配置");
+		}
+		AmazonGroup group = amazonGroupMapper.selectByPrimaryKey(groupid);
+		if (group == null) {
+			throw new BizException("店铺组不存在: " + groupid);
+		}
+		AmzAdvAuth advauth = getAdvAuthDisable(groupid, region);
+		if (advauth == null) {
+			advauth = new AmzAdvAuth();
+			advauth.setCreatetime(new Date());
+		}
+		advauth.setRefreshToken(refreshToken);
+		advauth.setTokenType("bearer");
+		advauth.setShopid(group.getShopid());
+		advauth.setCreator(group.getCreator());
+		advauth.setGroupid(groupid);
+		advauth.setRegion(region);
+		advauth.setOpttime(new Date());
+		advauth.setDisable(false);
+		advauth.setDisableTime(null);
+		if (advauth.getId() == null) {
+			this.save(advauth);
+		} else {
+			this.updateAll(advauth);
+		}
+		// 用 refresh token 换取 access token（内部会更新 accessToken 并落库）
+		refreshToken(advauth);
+		captureProfiles(groupid, region);
+		return "绑定成功";
+	}
+
 	@CacheEvict(value = { "AmzAdvAuthorityCache" }, allEntries = true)
 	public void createProfiles(String groupid, String region, String country) {
 		AmzRegion regionObject = amzRegionMapper.selectByPrimaryKey(region);

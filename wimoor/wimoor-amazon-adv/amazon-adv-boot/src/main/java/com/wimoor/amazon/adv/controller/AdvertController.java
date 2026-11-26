@@ -392,6 +392,20 @@ public class AdvertController extends ERPBaseController<AmzAdvAuth> {
 			}
 		} 
 	}	 
+	/** refresh token 直配：不走 OAuth，直接保存 refresh token 并换取 access token、抓取 profile */
+	@PostMapping(value = "/saveByRefreshToken")
+	public Result<String> saveByRefreshTokenAction(@RequestBody Map<String, String> dto) {
+		String groupid = dto.get("groupid");
+		String region = dto.get("region");
+		String refreshToken = dto.get("refreshToken");
+		try {
+			String result = amzAdvAuthService.saveByRefreshToken(groupid, region, refreshToken);
+			return Result.success("绑定请求---------" + result);
+		} catch (Exception e) {
+			return Result.failed("绑定失败：" + e.getMessage());
+		}
+	}
+
 	@GetMapping(value = "/bindUrl")
 	public Result<String> bindUrlAction(String groupid,String region)  {
 		String prefix = null;
