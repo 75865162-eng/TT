@@ -116,3 +116,61 @@ bash deploy/wimoor-p0/start-all.sh
 - 采购请款单 `t.groupid` 的修复 main 上已由远端提交 `053ce84`（加列方案）覆盖，本轮未重复提交 mapper；生产 erp-boot.jar 为改 SQL 方案（`f.groupid`），功能已验证，与加列方案不冲突。
 - 生产部署：erp-boot.jar、admin-boot.jar 重新编译替换并 `systemctl restart`；amazon-adv-boot.jar 曾部署但 `@TableName` 修复对 tk.mybatis 无效已撤销并重启回等价状态。
 - 数据库：`04-fix-schema-gaps.sql` 幂等迁移已应用（findex 列 + help_doc 表）；groupid 列为远端 `03-fix` 脚本此前已应用。
+
+---
+
+## 九、五维深度逐页验收收口（2026-11-26 深夜，零报错达标）
+
+### 验收标准升级
+用户要求：每个页面可正常打开、数据正常落库、打开数据能正常显示、页面引用函数正常、不能报错、能正常使用。为此新增深度验收脚本 `scripts/page-acceptance-deep.mjs`，在路由检测基础上增加五维检测：
+1. 页面打开（路由命中、非跳登录/首页兜底/空白/404）
+2. 数据渲染（表格行数/明确空状态"暂无数据"，区分空库正常态与渲染失败）
+3. JS 函数（捕获 pageerror/TypeError/is not a function）
+4. 接口（捕获全部 4xx/5xx + 200 响应体 SQL 异常）
+5. 可用性（DOM 可交互元素计数）
+
+### 首轮深度验收基线（126 页）：120 OK + 5 API_ERROR + 1 FATAL_JS_ERROR
+| 页面 | 错误 | 根因 |
+|---|---|---|
+| `/amazon/a/rules` | 404 `list//sp` | 未选广告档案（profileid 空）时前端仍拼接空路径发请求 |
+| `/erp/shipment/quote` | 400 `listall/undefined` | 未选货代（token 空）时仍发请求 |
+| `/fin/ledger/balance` | 400 必填参数为空 | 超管账号未绑集团，groupid 空仍发 summary 请求 |
+| `/fin/voucher/create` | 400 必填参数为空 | 同上，getCurrentPeriod 无 groupId |
+| `/amazon/manager` | 400 无法获取表名 | 广告服务 ORM 混用：org.mybatis MapperScan 导致 tk.mybatis EntityHelper 未初始化 |
+| `/erp/purchase/paymentDetail` | FATAL JS: setting 'projectid' | `state.queryParam`（单数）拼写错误，state 实为 `queryParams` |
+
+### 修复（逐项生产验证通过）
+| # | 修复 | 文件 | 验证 |
+|---|---|---|---|
+| 1 | 未选广告档案时 API 层返回空分页，不发无效请求 | `advBudgetRuleApi.js` | `/amazon/a/rules` → OK，接口 11/11 |
+| 2 | 未选货代时 API 层返回空数组 | `transchannelApi.js` | `/erp/shipment/quote` → OK，接口 11/11 |
+| 3 | 财务 summary 加 groupid+period 空值守卫 | `balance/index.vue` | `/fin/ledger/balance` → OK，接口 15/15 |
+| 4 | 会计期间加载加 groupid 空值守卫 | `vouchers/create/index.vue` | `/fin/voucher/create` → OK，接口 20/20 |
+| 5 | JS 拼写 queryParam→queryParams（2 处） | `purchase/report/payment/index.vue` | `/erp/purchase/paymentDetail` → OK，FATAL_JS 消除 |
+| 6 | 新增 `TkEntityNameInitConfig`：ApplicationRunner 启动后注册 JPA @Table 实体表名 + 用 tk MapperHelper.processConfiguration 处理通用 Mapper 的 SqlProvider（不改 MapperScan，避免破坏启动） | `TkEntityNameInitConfig.java`（新增） | `searchHistory` 400→200；广告服务启动 129s（processConfiguration 耗时，可接受） |
+
+> 说明：广告服务问题是"tk.mybatis（134 个 @Table 实体走 Example）+ MyBatis-Plus（9 个 @TableName 实体）混用"的历史架构遗留。之前为修启动错误把 MapperScan 从 tk 换成 org.mybatis，导致 tk 实体表名/provider 失效。本方案不回退 MapperScan，而是在启动后补做 tk 的实体注册与 provider 处理，两者共存。曾尝试仅 @TableName 无效、仅 EntityHelper 不够（报 ExampleProvider 无参构造异常），最终 EntityHelper+MapperHelper 组合修复成功。
+
+### 数据落库闭环验证（真实写入，可逆，无造假）
+用系统备忘录 `t_sys_tool_notepad`（MyBatis-Plus 表）做完整写入链路验证：
+- SAVE → 200，DB 确认记录落库（id/title/operator 正确）
+- LIST → 200，标记内容正确回显（数据能显示）
+- REMOVE → 200，DB 确认记录清零（可逆，无残留）
+
+证明"数据正常落库 + 页面能显示"链路通畅。生产库当前为全新空库（业务表 0 行），各页面数据显示为 0 或"暂无数据"是空库正确态，非故障。
+
+### 最终验收结果：126/126 全通过，零报错
+| 指标 | 结果 |
+|---|---|
+| 页面 OK | 126/126 |
+| 空白页 / 无交互元素页 | 0 / 0 |
+| 接口调用总数 / 失败 | 1670 / 0 |
+| API_ERROR / FATAL_JS_ERROR | 0 / 0 |
+| 有数据行的页面 | 72（其余为明确空状态） |
+
+结果文件：`outputs/page-acceptance-deep-final.json`。
+
+### 本轮变更与部署
+- 代码（提交推送 main `ebb3ca9b`）：6 个前端修复 + 广告服务 `TkEntityNameInitConfig.java` + 深度验收脚本。
+- 生产部署：新前端 dist 全量覆盖（nginx bind mount 目录）；amazon-adv-boot.jar 重编译替换并 `systemctl restart`，接口验证通过。
+- 10 个服务全部 active，网关 8080=200，超级账号 1/1 可用。
