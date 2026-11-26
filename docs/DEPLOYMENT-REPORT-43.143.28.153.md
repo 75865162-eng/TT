@@ -205,3 +205,34 @@ SQL 源文件是干净 UTF-8（校验 0 乱码），但初始化导入时数据�
 
 ### 防复发
 重建库时务必用 `--default-character-set=utf8mb4`（或 JDBC `characterEncoding=utf8&useUnicode=true`）连接导入；迁移脚本 `05-fix-mojibake.sql` 会在 init 阶段幂等兜底修复。
+
+---
+
+## 登录会话频繁掉线修复（2026-11-26）
+
+### 现象
+登录后用着用着几十秒就退出、跳登录页；多标签页/多设备尤其明显。
+
+### 根因（决定性实验确认）
+`LoginController.setSession()` 存在**单点登录互踢**逻辑：
+```java
+// accountkey = account + "{" + apptype + "}"  =>  "1{web}"
+if (accountkey 有旧值 && 旧值 != 新 session) {
+    redis.delete(旧 session);   // 后一次登录踢掉前一次
+}
+```
+实验：账号1登录 A（正常）→ 再登录 B → A 立刻 403/401、跳登录页、sid 清空；单标签静置 141 秒不掉线。证据锁定为第二次登录踢出第一次。当前系统只有超级账号 `1`，多标签/多设备/SSO 静默重登都会互踢，表现为"几十秒掉线"。
+
+加剧因素：Nacos `config.cas-server=https://sso.wimoor.com`（官方 SaaS 域名，私有部署无法解析，日志 75+ 次 UnknownHostException）、`config.authority-server=http://localhost:8087/auth`（无效）。掉线后 CAS 静默恢复失败，只能手动重登，且每次探测产生 3s 超时异常。
+
+### 修复
+1. **代码**：`LoginController.setSession()` 去掉删除旧 session 的互踢逻辑。各 token 以自身 sessionkey 为 key 独立存放/过期，互不干扰；`accountkey` 仅保留为"最新会话"索引，供在线用户/强制下线使用（已核对 `SysUserOnlineController` 不依赖互踢）。
+2. **Nacos 配置**：`config.cas-server` 置空（关闭 CAS SSO）、`config.websit/ui-server/authority-server` 改为本机网关 `http://43.143.28.153:8080`。通过 Nacos API PUT 更新并回读确认。
+3. **部署**：重新编译 admin-boot.jar（mvn -pl wimoor-admin/admin-boot -am package），备份旧 jar 为 `.bak-pre-multilogin` 后上传替换，`systemctl restart wimoor-admin.service`。
+
+### 验证
+- 服务 17.66s 启动正常，无异常。
+- `ssologinisrun` 返回 `{"code":200,"data":"false"}`（走本地登录），调用前后 sso.wimoor.com UnknownHost 计数 133→133，**零新增**。
+- 决定性实验复跑：A/B 两次登录均 200，A 不再被踢，A 页面停留 sid 保持。
+- 稳定性探针：登录停留 122 秒，每 15s 探测 route 全 200，sid 不变，**零掉线、零 4xx**（修复前 77s 即 403）。
+- 全量页面回归：`outputs/page-acceptance-after-session-fix.json`。

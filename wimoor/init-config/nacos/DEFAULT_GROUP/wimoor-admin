@@ -51,10 +51,11 @@ sys.admin.id=26138972975759242
 eign.client.config.default.connectTimeout= 10000
 feign.client.config.default.readTimeout= 600000
 
-config.websit= https://localhost:8084
-config.ui-server= http://localhost:8084
-config.authority-server= http://localhost:8087/auth
-config.cas-server= https://sso.wimoor.com
+# 私有部署：地址指向本机网关公网入口，CAS SSO 关闭（留空），避免连接官方 sso.wimoor.com 解析失败
+config.websit= http://43.143.28.153:8080
+config.ui-server= http://43.143.28.153:8080
+config.authority-server= http://43.143.28.153:8080/auth
+config.cas-server=
 config.cas-filter-url-pattern= /shiro-cas
 
  

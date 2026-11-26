@@ -1,0 +1,3062 @@
+{
+  "total": 126,
+  "summary": {
+    "OK": 126
+  },
+  "results": [
+    {
+      "url": "/amazon/address",
+      "expectedTitle": "发货地址",
+      "status": 200,
+      "finalUrl": "/amazon/address",
+      "class": "OK",
+      "titleHit": false,
+      "dom": {
+        "textLen": 76,
+        "snippet": "产品 销售 采购 仓库 发货 广告 账目 财务 设置 系统 首页 添加地址 全部店铺 已删地址 名称 所在发货地 街道/详细地址 邮政编码 电话 操作人 操作 暂无数据！ 共 0 条 10条/页 1 前往 页",
+        "tableRows": 0,
+        "hasEmptyState": true,
+        "interactives": 19,
+        "bodyChildren": 3
+      },
+      "api": {
+        "total": 11,
+        "ok": 11,
+        "fail": 0
+      },
+      "apiErrors": [],
+      "jsErrors": [],
+      "toastErrors": []
+    },
+    {
+      "url": "/amazon/a/download",
+      "expectedTitle": "广告报表下载",
+      "status": 200,
+      "finalUrl": "/amazon/a/download",
+      "class": "OK",
+      "titleHit": true,
+      "dom": {
+        "textLen": 125,
+        "snippet": "产品 销售 采购 仓库 发货 广告 账目 财务 设置 系统 首页 广告报表下载 店铺站点 全部店铺 全部国家 日 期 至 汇总方式 Daily Total 广告类型 Sponsored Products Sponsored Brands Sponsored Display 报表类型 Campaign 下载报表",
+        "tableRows": 14,
+        "hasEmptyState": false,
+        "interactives": 24,
+        "bodyChildren": 3
+      },
+      "api": {
+        "total": 11,
+        "ok": 11,
+        "fail": 0
+      },
+      "apiErrors": [],
+      "jsErrors": [],
+      "toastErrors": []
+    },
+    {
+      "url": "/amazon/a/record",
+      "expectedTitle": "广告操作记录",
+      "status": 200,
+      "finalUrl": "/amazon/a/record",
+      "class": "OK",
+      "titleHit": false,
+      "dom": {
+        "textLen": 76,
+        "snippet": "产品 销售 采购 仓库 发货 广告 账目 财务 设置 系统 首页 全部店铺 全部国家 至 操作时间 广告活动(店铺/站点) 广告组 日志记录 操作人员 备注 暂无数据！ 共 0 条 10条/页 1 前往 页",
+        "tableRows": 14,
+        "hasEmptyState": true,
+        "interactives": 24,
+        "bodyChildren": 3
+      },
+      "api": {
+        "total": 12,
+        "ok": 12,
+        "fail": 0
+      },
+      "apiErrors": [],
+      "jsErrors": [],
+      "toastErrors": []
+    },
+    {
+      "url": "/amazon/a/rules",
+      "expectedTitle": "广告规则",
+      "status": 200,
+      "finalUrl": "/amazon/a/rules",
+      "class": "OK",
+      "titleHit": false,
+      "dom": {
+        "textLen": 91,
+        "snippet": "产品 销售 采购 仓库 发货 广告 账目 财务 设置 系统 首页 预算规则 竞价规则 全部店铺 全部国家 商品推广 品牌推广 展示推广 新建 创建时间 名称 状态 预算增加依据 区间 执行频率 指标 暂无数据！ 共 0 条 10条/页 1 前往 页",
+        "tableRows": 0,
+        "hasEmptyState": true,
+        "interactives": 17,
+        "bodyChildren": 3
+      },
+      "api": {
+        "total": 11,
+        "ok": 11,
+        "fail": 0
+      },
+      "apiErrors": [],
+      "jsErrors": [],
+      "toastErrors": []
+    },
+    {
+      "url": "/amazon/a/summary",
+      "expectedTitle": "广告统计",
+      "status": 200,
+      "finalUrl": "/amazon/a/summary",
+      "class": "OK",
+      "titleHit": false,
+      "dom": {
+        "textLen": 285,
+        "snippet": "产品 销售 采购 仓库 发货 广告 账目 财务 设置 系统 首页 运行中活动 广告活动数 广组数 商品广告数 0 关键词数 异常数据预警 商品广告 关键词 同期变动 曝光量突降 点击量突降 转化率突降 ACOS突增 最近七天广告转化数据 全部店铺 全部国家 0 曝光量 点击率:0% 0 点击次数 转化率:0% 0 订单数 ￥0 广告花费 ￥0 广告贡献销售额 0% ACOS ROAS后五名 全部店铺 全部国家 广告组 商品广告 关键词 ",
+        "tableRows": 35,
+        "hasEmptyState": true,
+        "interactives": 43,
+        "bodyChildren": 3
+      },
+      "api": {
+        "total": 19,
+        "ok": 19,
+        "fail": 0
+      },
+      "apiErrors": [],
+      "jsErrors": [
+        "PAGEERROR: Object",
+        "PAGEERROR: canceled"
+      ],
+      "toastErrors": []
+    },
+    {
+      "url": "/amazon/customs/rpt",
+      "expectedTitle": "海关申报统计",
+      "status": 200,
+      "finalUrl": "/amazon/customs/rpt",
+      "class": "OK",
+      "titleHit": false,
+      "dom": {
+        "textLen": 144,
+        "snippet": "产品 销售 采购 仓库 发货 广告 账目 财务 设置 系统 首页 电商订单 电商出口清单 出口报关单 申报信息 运输信息 数量统计 单据个数:0 申报单 SKU统计 全部店铺 全部国家 申报时间 至 导出 导入发送状态 申报状态/类型 申报类型 申报金额 申报数量 重量 申报货件 装箱重量 物流重量 返回信息 操作时间 操作 暂无数据！ 共 0 条 10条/页 1 前往 页",
+        "tableRows": 14,
+        "hasEmptyState": true,
+        "interactives": 40,
+        "bodyChildren": 3
+      },
+      "api": {
+        "total": 28,
+        "ok": 28,
+        "fail": 0
+      },
+      "apiErrors": [],
+      "jsErrors": [],
+      "toastErrors": []
+    },
+    {
+      "url": "/amazon/inbound/fbacenter",
+      "expectedTitle": "FBA中心配置",
+      "status": 200,
+      "finalUrl": "/amazon/inbound/fbacenter",
+      "class": "OK",
+      "titleHit": false,
+      "dom": {
+        "textLen": 66,
+        "snippet": "产品 销售 采购 仓库 发货 广告 账目 财务 设置 系统 首页 全部国家 添加 Code 国家 地址名称 城市 州/区 邮编 区域 操作 暂无数据！ 共 0 条 20条/页 1 前往 页",
+        "tableRows": 0,
+        "hasEmptyState": true,
+        "interactives": 18,
+        "bodyChildren": 3
+      },
+      "api": {
+        "total": 11,
+        "ok": 11,
+        "fail": 0
+      },
+      "apiErrors": [],
+      "jsErrors": [],
+      "toastErrors": []
+    },
+    {
+      "url": "/amazon/inventory/fba",
+      "expectedTitle": "FBA库存",
+      "status": 200,
+      "finalUrl": "/amazon/inventory/fba",
+      "class": "OK",
+      "titleHit": false,
+      "dom": {
+        "textLen": 119,
+        "snippet": "产品 销售 采购 仓库 发货 广告 账目 财务 设置 系统 首页 全部店铺 欧洲(不含UK) 导出 头程费用导入 欧洲 欧洲各国 上传报告 产品信息 仓库 库存 可售库存 预留库存 正在发货 待接收 正在接收 不可用 异常 安全库存周期 最小发货周期 头程运输成本 暂无数据！ 共 0 条 10条/页 1 前往 页",
+        "tableRows": 0,
+        "hasEmptyState": true,
+        "interactives": 32,
+        "bodyChildren": 3
+      },
+      "api": {
+        "total": 13,
+        "ok": 13,
+        "fail": 0
+      },
+      "apiErrors": [],
+      "jsErrors": [],
+      "toastErrors": []
+    },
+    {
+      "url": "/amazon/inventory/fba_today",
+      "expectedTitle": "FBA每日库存",
+      "status": 200,
+      "finalUrl": "/amazon/inventory/fba_today",
+      "class": "OK",
+      "titleHit": false,
+      "dom": {
+        "textLen": 360,
+        "snippet": "产品 销售 采购 仓库 发货 广告 账目 财务 设置 系统 首页 全部店铺 欧洲(不含UK) 至 导出 产品信息 仓库 2026-11-27 2026-11-26 2026-11-25 2026-11-24 2026-11-23 2026-11-22 2026-11-21 2026-11-20 2026-11-19 2026-11-18 2026-11-17 2026-11-16 2026-11-15 2026-11-14 2026-1",
+        "tableRows": 14,
+        "hasEmptyState": true,
+        "interactives": 57,
+        "bodyChildren": 3
+      },
+      "api": {
+        "total": 14,
+        "ok": 14,
+        "fail": 0
+      },
+      "apiErrors": [],
+      "jsErrors": [],
+      "toastErrors": []
+    },
+    {
+      "url": "/amazon/inventory/planning",
+      "expectedTitle": "FBA滞销",
+      "status": 200,
+      "finalUrl": "/amazon/inventory/planning",
+      "class": "OK",
+      "titleHit": false,
+      "dom": {
+        "textLen": 318,
+        "snippet": "产品 销售 采购 仓库 发货 广告 账目 财务 设置 系统 首页 全部店铺 全部国家 SKU 请选择筛选条件 重置 更新时间:无 导出 图片 商品信息 站点信息 采购成本 可用库存 持续供货 库存健康状况 历史供货天数 低库存水平量 周转数量 滞销费用 下月仓储费 库龄数量(单位:天)-季度视角 库龄数量-30(单位:天)-月度视角 销售额(站点币种) 最近发货(单位:天) 冗余库存 龄库存附加费数量 超龄库存附加费 30天 90天 0",
+        "tableRows": 0,
+        "hasEmptyState": true,
+        "interactives": 61,
+        "bodyChildren": 3
+      },
+      "api": {
+        "total": 15,
+        "ok": 15,
+        "fail": 0
+      },
+      "apiErrors": [],
+      "jsErrors": [],
+      "toastErrors": []
+    },
+    {
+      "url": "/amazon/listing/analysis",
+      "expectedTitle": "趋势分析",
+      "status": 200,
+      "finalUrl": "/amazon/listing/analysis",
+      "class": "OK",
+      "titleHit": false,
+      "dom": {
+        "textLen": 80,
+        "snippet": "产品 销售 采购 仓库 发货 广告 账目 财务 设置 系统 首页 全部店铺 全部国家 平台SKU SKU列表 ASIN: 首次上架日期: 备注 跳转 销量 历史排名 近7天 近30天 近90天 至 项目名称 汇总",
+        "tableRows": 14,
+        "hasEmptyState": false,
+        "interactives": 24,
+        "bodyChildren": 3
+      },
+      "api": {
+        "total": 13,
+        "ok": 13,
+        "fail": 0
+      },
+      "apiErrors": [],
+      "jsErrors": [],
+      "toastErrors": []
+    },
+    {
+      "url": "/amazon/listing/catalog",
+      "expectedTitle": "商品搜索",
+      "status": 200,
+      "finalUrl": "/amazon/listing/catalog",
+      "class": "OK",
+      "titleHit": false,
+      "dom": {
+        "textLen": 62,
+        "snippet": "产品 销售 采购 仓库 发货 广告 账目 财务 设置 系统 首页 全部店铺 全部国家 站点语言 搜索 导出 总计：0 条记录 暂无数据 总计：0 条记录 上一页 下一页",
+        "tableRows": 0,
+        "hasEmptyState": true,
+        "interactives": 13,
+        "bodyChildren": 3
+      },
+      "api": {
+        "total": 11,
+        "ok": 11,
+        "fail": 0
+      },
+      "apiErrors": [],
+      "jsErrors": [],
+      "toastErrors": []
+    },
+    {
+      "url": "/amazon/listing/relation",
+      "expectedTitle": "SKU配对",
+      "status": 200,
+      "finalUrl": "/amazon/listing/relation",
+      "class": "OK",
+      "titleHit": false,
+      "dom": {
+        "textLen": 89,
+        "snippet": "产品 销售 采购 仓库 发货 广告 账目 财务 设置 系统 首页 全部店铺 全部国家 导入 导出 平台商品信息 FBA库存 店铺/站点 本地产品信息 本地库存 采购价格 重量(kg) 操作 暂无数据！ 共 0 条 10条/页 1 前往 页",
+        "tableRows": 0,
+        "hasEmptyState": true,
+        "interactives": 16,
+        "bodyChildren": 3
+      },
+      "api": {
+        "total": 11,
+        "ok": 11,
+        "fail": 0
+      },
+      "apiErrors": [],
+      "jsErrors": [],
+      "toastErrors": []
+    },
+    {
+      "url": "/amazon/manager",
+      "expectedTitle": "广告管理",
+      "status": 200,
+      "finalUrl": "/amazon/manager",
+      "class": "OK",
+      "titleHit": false,
+      "dom": {
+        "textLen": 176,
+        "snippet": "产品 销售 采购 仓库 发货 广告 账目 财务 设置 系统 首页 全部店铺 全部国家 广告活动 广告组合 商品推广 品牌推广 展示推广 开启 无数据或加载中 portfolios / 广告活动 / 广告组 时间 : NaN年NaN月NaN日 NaN:NaN:NaN 周日 广告活动 广告组 商品 全部广告状态 手动及自动 按日 至 昨天 近7天 近30天 重置 筛选器 新建广告活动 批量操作 广告活动 状态 暂无数据！ 共 0 条 10条",
+        "tableRows": 63,
+        "hasEmptyState": true,
+        "interactives": 186,
+        "bodyChildren": 3
+      },
+      "api": {
+        "total": 15,
+        "ok": 15,
+        "fail": 0
+      },
+      "apiErrors": [],
+      "jsErrors": [
+        "PAGEERROR: canceled",
+        "PAGEERROR: canceled",
+        "PAGEERROR: canceled",
+        "PAGEERROR: canceled"
+      ],
+      "toastErrors": []
+    },
+    {
+      "url": "/amazon/payment/record",
+      "expectedTitle": "结算记录",
+      "status": 200,
+      "finalUrl": "/amazon/payment/record",
+      "class": "OK",
+      "titleHit": false,
+      "dom": {
+        "textLen": 134,
+        "snippet": "产品 销售 采购 仓库 发货 广告 账目 财务 设置 系统 首页 账期 汇总 图表 已结算 未结算 全部店铺 全部国家 CNY 结算日期 至 汇总 导出所有账期 未结算金额 ¥0.00 已结算金额 0 总金额 0 转账失败金额 ¥0.00 店铺 国家 结算周期 状态 存款总计 转账日期 转账状态 汇总状态 操作 暂无数据！ 共 0 条 10条/页 1 前往 页",
+        "tableRows": 14,
+        "hasEmptyState": true,
+        "interactives": 29,
+        "bodyChildren": 3
+      },
+      "api": {
+        "total": 14,
+        "ok": 14,
+        "fail": 0
+      },
+      "apiErrors": [],
+      "jsErrors": [],
+      "toastErrors": []
+    },
+    {
+      "url": "/amazon/product/customs",
+      "expectedTitle": "海关报价",
+      "status": 200,
+      "finalUrl": "/amazon/product/customs",
+      "class": "OK",
+      "titleHit": false,
+      "dom": {
+        "textLen": 105,
+        "snippet": "产品 销售 采购 仓库 发货 广告 账目 财务 设置 系统 首页 店铺 不限 产品销售状态 产品负责人 未隐藏 ASIN 父ASIN SKU 指数过滤 重置 修改申报比例 导出 此功能只支持英国 图片 产品信息 售价 申报金额 备注 暂无数据！ 共 0 条 20条/页 1 前往 页",
+        "tableRows": 0,
+        "hasEmptyState": true,
+        "interactives": 50,
+        "bodyChildren": 3
+      },
+      "api": {
+        "total": 18,
+        "ok": 18,
+        "fail": 0
+      },
+      "apiErrors": [],
+      "jsErrors": [],
+      "toastErrors": []
+    },
+    {
+      "url": "/amazon/product/label",
+      "expectedTitle": "标签打印",
+      "status": 200,
+      "finalUrl": "/amazon/product/label",
+      "class": "OK",
+      "titleHit": false,
+      "dom": {
+        "textLen": 115,
+        "snippet": "产品 销售 采购 仓库 发货 广告 账目 财务 设置 系统 首页 全部店铺 全部国家 批量添加 导入添加 产品信息 FBA库存 本地库存 操作 暂无数据！ 共 0 条 10条/页 1 前往 页 SKU0个 全部清空 产品信息 打印数量 操作 暂无数据 打印产品标签-PDF 打印产品标签-Excel",
+        "tableRows": 0,
+        "hasEmptyState": true,
+        "interactives": 21,
+        "bodyChildren": 3
+      },
+      "api": {
+        "total": 11,
+        "ok": 11,
+        "fail": 0
+      },
+      "apiErrors": [],
+      "jsErrors": [],
+      "toastErrors": []
+    },
+    {
+      "url": "/amazon/report/fbafee",
+      "expectedTitle": "FBA费用",
+      "status": 200,
+      "finalUrl": "/amazon/report/fbafee",
+      "class": "OK",
+      "titleHit": true,
+      "dom": {
+        "textLen": 198,
+        "snippet": "产品 销售 采购 仓库 发货 广告 账目 财务 设置 系统 首页 全部店铺 全部国家 自测尺寸对比FBA尺寸 SKU 超收费用的SKU 重要提示：当本地录入的产品类型与亚马逊分类不一致时，可能造成FBA费用不一样。如：Apparel/Clothing类型的产品，在美国站点每笔加收$0.4. 图片 商品信息 参数类型 尺寸(长*宽*高cm) 重量（kg） 价格 尺寸分段 FBA收费(每月预计超收费用) 更新时间 暂无数据！ 共 0 条 1",
+        "tableRows": 0,
+        "hasEmptyState": true,
+        "interactives": 20,
+        "bodyChildren": 3
+      },
+      "api": {
+        "total": 11,
+        "ok": 11,
+        "fail": 0
+      },
+      "apiErrors": [],
+      "jsErrors": [],
+      "toastErrors": []
+    },
+    {
+      "url": "/amazon/report/open",
+      "expectedTitle": "账期未结算",
+      "status": 200,
+      "finalUrl": "/amazon/report/open",
+      "class": "OK",
+      "titleHit": false,
+      "dom": {
+        "textLen": 76,
+        "snippet": "产品 销售 采购 仓库 发货 广告 账目 财务 设置 系统 首页 全部店铺 全部国家 至 导出 平台商品信息 费用时间 数量 费用 费用币种 费用类型 事件类型 暂无数据！ 共 0 条 10条/页 1 前往 页",
+        "tableRows": 14,
+        "hasEmptyState": true,
+        "interactives": 30,
+        "bodyChildren": 3
+      },
+      "api": {
+        "total": 11,
+        "ok": 11,
+        "fail": 0
+      },
+      "apiErrors": [],
+      "jsErrors": [],
+      "toastErrors": []
+    },
+    {
+      "url": "/amazon/report/pageview",
+      "expectedTitle": "流量报表",
+      "status": 200,
+      "finalUrl": "/amazon/report/pageview",
+      "class": "OK",
+      "titleHit": false,
+      "dom": {
+        "textLen": 90,
+        "snippet": "产品 销售 采购 仓库 发货 广告 账目 财务 设置 系统 首页 全部店铺 全部国家 至 图片 SKU 日期 访问次数 访问转化率 浏览次数 浏览转化率 购物车比例 销量 商品转化率 销售额 订单 暂无数据！ 共 0 条 10条/页 1 前往 页",
+        "tableRows": 14,
+        "hasEmptyState": true,
+        "interactives": 35,
+        "bodyChildren": 3
+      },
+      "api": {
+        "total": 11,
+        "ok": 11,
+        "fail": 0
+      },
+      "apiErrors": [],
+      "jsErrors": [],
+      "toastErrors": []
+    },
+    {
+      "url": "/amazon/report/performance",
+      "expectedTitle": "促销报告",
+      "status": 200,
+      "finalUrl": "/amazon/report/performance",
+      "class": "OK",
+      "titleHit": false,
+      "dom": {
+        "textLen": 87,
+        "snippet": "产品 销售 采购 仓库 发货 广告 账目 财务 设置 系统 首页 优惠券 促销 全部店铺 全部国家 站点 couponid 产品 时间区间 币种 预算 折扣 赠券 赠券抵用 销售额 更新时间 暂无数据！ 共 0 条 10条/页 1 前往 页",
+        "tableRows": 0,
+        "hasEmptyState": true,
+        "interactives": 20,
+        "bodyChildren": 3
+      },
+      "api": {
+        "total": 13,
+        "ok": 13,
+        "fail": 0
+      },
+      "apiErrors": [],
+      "jsErrors": [],
+      "toastErrors": []
+    },
+    {
+      "url": "/amazon/report/reimbursements",
+      "expectedTitle": "赔偿费用",
+      "status": 200,
+      "finalUrl": "/amazon/report/reimbursements",
+      "class": "OK",
+      "titleHit": false,
+      "dom": {
+        "textLen": 89,
+        "snippet": "产品 销售 采购 仓库 发货 广告 账目 财务 设置 系统 首页 全部店铺 全部国家 至 导出 平台商品信息 费用时间 报销原因 每个金额 总金额 币种 已偿还数量 已报销数量 已报数量总计 暂无数据！ 共 0 条 10条/页 1 前往 页",
+        "tableRows": 14,
+        "hasEmptyState": true,
+        "interactives": 33,
+        "bodyChildren": 3
+      },
+      "api": {
+        "total": 11,
+        "ok": 11,
+        "fail": 0
+      },
+      "apiErrors": [],
+      "jsErrors": [],
+      "toastErrors": []
+    },
+    {
+      "url": "/amazon/report/storage",
+      "expectedTitle": "FBA仓储费",
+      "status": 200,
+      "finalUrl": "/amazon/report/storage",
+      "class": "OK",
+      "titleHit": false,
+      "dom": {
+        "textLen": 91,
+        "snippet": "产品 销售 采购 仓库 发货 广告 账目 财务 设置 系统 首页 仓储费 超龄库存附加费 全部店铺 全部国家 导出 导入 平台商品信息 尺寸 日均 仓储利用率 仓储费 仓储费奖励 体积 附加费金额 暂无数据！ 共 0 条 10条/页 1 前往 页",
+        "tableRows": 3,
+        "hasEmptyState": true,
+        "interactives": 29,
+        "bodyChildren": 3
+      },
+      "api": {
+        "total": 13,
+        "ok": 13,
+        "fail": 0
+      },
+      "apiErrors": [],
+      "jsErrors": [],
+      "toastErrors": []
+    },
+    {
+      "url": "/amazon/sale/listing",
+      "expectedTitle": "商品分析",
+      "status": 200,
+      "finalUrl": "/amazon/sale/listing",
+      "class": "OK",
+      "titleHit": false,
+      "dom": {
+        "textLen": 160,
+        "snippet": "产品 销售 采购 仓库 发货 广告 账目 财务 设置 系统 首页 店铺 不限 站点 产品销售状态 产品负责人 未隐藏 ASIN 父ASIN SKU 指数过滤 重置 同步商品 批量同步FBA库存 批量修改负责人 批量修改商品价格 批量修改销售状态 批量同步商品 批量下载本地SKU信息 图片 产品信息 售价 销售数据 近七天广告数据 近七天成本利润 备注 操作 暂无数据！ 共 0 条 20条/页 1 前往 页",
+        "tableRows": 0,
+        "hasEmptyState": true,
+        "interactives": 57,
+        "bodyChildren": 5
+      },
+      "api": {
+        "total": 16,
+        "ok": 16,
+        "fail": 0
+      },
+      "apiErrors": [],
+      "jsErrors": [],
+      "toastErrors": []
+    },
+    {
+      "url": "/amazon/sale/order/fulfillment",
+      "expectedTitle": "手动订单",
+      "status": 200,
+      "finalUrl": "/amazon/sale/order/fulfillment",
+      "class": "OK",
+      "titleHit": false,
+      "dom": {
+        "textLen": 85,
+        "snippet": "产品 销售 采购 仓库 发货 广告 账目 财务 设置 系统 首页 全部店铺 全部国家 至 订单状态 亚马逊订单号 其它平台订单号 购买时间 订单评论 订单状态 订单联系信息 操作 暂无数据！ 共 0 条 10条/页 1 前往 页",
+        "tableRows": 14,
+        "hasEmptyState": true,
+        "interactives": 31,
+        "bodyChildren": 3
+      },
+      "api": {
+        "total": 11,
+        "ok": 11,
+        "fail": 0
+      },
+      "apiErrors": [],
+      "jsErrors": [],
+      "toastErrors": []
+    },
+    {
+      "url": "/amazon/sale/order/list",
+      "expectedTitle": "订单列表",
+      "status": 200,
+      "finalUrl": "/amazon/sale/order/list",
+      "class": "OK",
+      "titleHit": false,
+      "dom": {
+        "textLen": 112,
+        "snippet": "产品 销售 采购 仓库 发货 广告 账目 财务 设置 系统 首页 全部 已发货 未发货 进行中 已取消 全部店铺 全部国家 客户类型 至 SKU 重置 邀请评论 导出 上传报告 图片 商品信息 订单号 订单总金额 数量/单价 订购时间 邀评状态 备注 操作 暂无数据！ 共 0 条 10条/页 1 前往 页",
+        "tableRows": 14,
+        "hasEmptyState": true,
+        "interactives": 42,
+        "bodyChildren": 3
+      },
+      "api": {
+        "total": 11,
+        "ok": 11,
+        "fail": 0
+      },
+      "apiErrors": [],
+      "jsErrors": [],
+      "toastErrors": []
+    },
+    {
+      "url": "/amazon/sale/order/refund",
+      "expectedTitle": "退货订单",
+      "status": 200,
+      "finalUrl": "/amazon/sale/order/refund",
+      "class": "OK",
+      "titleHit": false,
+      "dom": {
+        "textLen": 71,
+        "snippet": "产品 销售 采购 仓库 发货 广告 账目 财务 设置 系统 首页 全部店铺 全部区域 至 SKU 高级搜索 导出 概览图表 SKU汇总 订单列表 退货数量 0 退款金额 0 退货率 0% 销量 0",
+        "tableRows": 14,
+        "hasEmptyState": false,
+        "interactives": 34,
+        "bodyChildren": 3
+      },
+      "api": {
+        "total": 11,
+        "ok": 11,
+        "fail": 0
+      },
+      "apiErrors": [],
+      "jsErrors": [],
+      "toastErrors": []
+    },
+    {
+      "url": "/amazon/sale/order/remove",
+      "expectedTitle": "移除订单",
+      "status": 200,
+      "finalUrl": "/amazon/sale/order/remove",
+      "class": "OK",
+      "titleHit": false,
+      "dom": {
+        "textLen": 94,
+        "snippet": "产品 销售 采购 仓库 发货 广告 账目 财务 设置 系统 首页 全部店铺 全部区域 订单时间 至 SKU 导出 图片 商品信息 订单号 订单类型 订单时间 更新时间 请求数量 处理数量 完成数量 费用 币种 暂无数据！ 共 0 条 10条/页 1 前往 页",
+        "tableRows": 14,
+        "hasEmptyState": true,
+        "interactives": 36,
+        "bodyChildren": 3
+      },
+      "api": {
+        "total": 11,
+        "ok": 11,
+        "fail": 0
+      },
+      "apiErrors": [],
+      "jsErrors": [],
+      "toastErrors": []
+    },
+    {
+      "url": "/amazon/sale/order/today",
+      "expectedTitle": "今日订单",
+      "status": 200,
+      "finalUrl": "/amazon/sale/order/today",
+      "class": "OK",
+      "titleHit": false,
+      "dom": {
+        "textLen": 161,
+        "snippet": "产品 销售 采购 仓库 发货 广告 账目 财务 设置 系统 首页 全部店铺 全部国家 全部状态 客户类型 发货方式 SKU 导出 : 订单数量 销量 订单金额 每单平均销量 平均单品净销售额 : 订单数量 销量 订单金额 每单平均销量 平均单品净销售额 图片 商品信息 今日 昨日 上周同日 库存 销量 净销售额 单价 销量 净销售额 单价 销量 净销售额 单价 可售 待收货 预留 暂无数据！ 共 0 条 10条/页 1 前往 页",
+        "tableRows": 0,
+        "hasEmptyState": true,
+        "interactives": 28,
+        "bodyChildren": 3
+      },
+      "api": {
+        "total": 11,
+        "ok": 11,
+        "fail": 0
+      },
+      "apiErrors": [],
+      "jsErrors": [],
+      "toastErrors": []
+    },
+    {
+      "url": "/amazon/sales/details",
+      "expectedTitle": "销量详情",
+      "status": 200,
+      "finalUrl": "/amazon/sales/details",
+      "class": "OK",
+      "titleHit": false,
+      "dom": {
+        "textLen": 122,
+        "snippet": "产品 销售 采购 仓库 发货 广告 账目 财务 设置 系统 首页 导出 按日汇总 销量 全部店铺 欧洲(不含UK) 产品负责人 至 图片 名称/MSKU 上架日期 汇总 11月26日 11月25日 11月24日 11月23日 11月22日 11月21日 11月20日 暂无数据！ 共 0 条 10条/页 1 前往 页",
+        "tableRows": 14,
+        "hasEmptyState": true,
+        "interactives": 39,
+        "bodyChildren": 3
+      },
+      "api": {
+        "total": 15,
+        "ok": 15,
+        "fail": 0
+      },
+      "apiErrors": [],
+      "jsErrors": [],
+      "toastErrors": []
+    },
+    {
+      "url": "/amazon/sales/forecast",
+      "expectedTitle": "销售计划",
+      "status": 200,
+      "finalUrl": "/amazon/sales/forecast",
+      "class": "OK",
+      "titleHit": false,
+      "dom": {
+        "textLen": 111,
+        "snippet": "产品 销售 采购 仓库 发货 广告 账目 财务 设置 系统 首页 全部店铺 全部国家 产品负责人 至 SKU 发货规划中未出现 导出 导入 图片 名称/SKU 店铺/国家 本地库存 销量 上架时间 销量预测 操作 批量保存 日均 7天 30天 月 月 月 暂无数据！ 共 0 条 10条/页 1 前往 页",
+        "tableRows": 14,
+        "hasEmptyState": true,
+        "interactives": 37,
+        "bodyChildren": 5
+      },
+      "api": {
+        "total": 12,
+        "ok": 12,
+        "fail": 0
+      },
+      "apiErrors": [],
+      "jsErrors": [],
+      "toastErrors": []
+    },
+    {
+      "url": "/amazon/sales/report",
+      "expectedTitle": "销售报表",
+      "status": 200,
+      "finalUrl": "/amazon/sales/report",
+      "class": "OK",
+      "titleHit": false,
+      "dom": {
+        "textLen": 159,
+        "snippet": "产品 销售 采购 仓库 发货 广告 账目 财务 设置 系统 首页 销售渠道: 全部渠道 配送方式: 卖家自配送 亚马逊配送 更多条件筛选 客户类型: 企业买家 个人买家 促销订单: 折扣金额占原价 订单状态: Pending Unshipped Shipped Cancelled 全部店铺 至 Units 销量:0 环比上期: + 0 Orders 订单数:0 环比上期: + 0 每日 每周 每月",
+        "tableRows": 14,
+        "hasEmptyState": false,
+        "interactives": 36,
+        "bodyChildren": 3
+      },
+      "api": {
+        "total": 15,
+        "ok": 15,
+        "fail": 0
+      },
+      "apiErrors": [],
+      "jsErrors": [],
+      "toastErrors": []
+    },
+    {
+      "url": "/amazon/shipdetail/new/report",
+      "expectedTitle": "发货详情(新)",
+      "status": 200,
+      "finalUrl": "/amazon/shipdetail/new/report",
+      "class": "OK",
+      "titleHit": false,
+      "dom": {
+        "textLen": 99,
+        "snippet": "产品 销售 采购 仓库 发货 广告 账目 财务 设置 系统 首页 按货件汇总 按SKU汇总 全部店铺 全部国家 创建日期 至 全部仓库 导出 货件信息 订单日期 收货站点 承运商 接收数量 物流总费用数量 运输重量 暂无数据！ 共 0 条 10条/页 1 前往 页",
+        "tableRows": 14,
+        "hasEmptyState": true,
+        "interactives": 42,
+        "bodyChildren": 3
+      },
+      "api": {
+        "total": 15,
+        "ok": 15,
+        "fail": 0
+      },
+      "apiErrors": [],
+      "jsErrors": [],
+      "toastErrors": []
+    },
+    {
+      "url": "/amazon/shipdetail/time",
+      "expectedTitle": "发货时效",
+      "status": 200,
+      "finalUrl": "/amazon/shipdetail/time",
+      "class": "OK",
+      "titleHit": true,
+      "dom": {
+        "textLen": 98,
+        "snippet": "产品 销售 采购 仓库 发货 广告 账目 财务 设置 系统 首页 全部店铺 全部国家 至 SKU 导出 图片 商品信息 店铺站点 发货仓库 计划时间 配货时间 出库时间 物流信息 完成时间 发货时效 收货时效 总时效 暂无数据！ 共 0 条 10条/页 1 前往 页",
+        "tableRows": 14,
+        "hasEmptyState": true,
+        "interactives": 38,
+        "bodyChildren": 3
+      },
+      "api": {
+        "total": 13,
+        "ok": 13,
+        "fail": 0
+      },
+      "apiErrors": [],
+      "jsErrors": [],
+      "toastErrors": []
+    },
+    {
+      "url": "/amazon/shipfee/report_new",
+      "expectedTitle": "费用分摊(新)",
+      "status": 200,
+      "finalUrl": "/amazon/shipfee/report_new",
+      "class": "OK",
+      "titleHit": false,
+      "dom": {
+        "textLen": 113,
+        "snippet": "产品 销售 采购 仓库 发货 广告 账目 财务 设置 系统 首页 SKU头程 SKU头程明细 全部店铺 全部国家 发货日期 至 选择承运商 选择物流渠道 导出 产品信息 产品负责人 发货数量 SKU头程费用(元) 平均单件头程费用(元) 操作 暂无数据！ 共 0 条 10条/页 1 前往 页",
+        "tableRows": 14,
+        "hasEmptyState": true,
+        "interactives": 35,
+        "bodyChildren": 3
+      },
+      "api": {
+        "total": 14,
+        "ok": 14,
+        "fail": 0
+      },
+      "apiErrors": [],
+      "jsErrors": [],
+      "toastErrors": []
+    },
+    {
+      "url": "/amazon/ship/report_new",
+      "expectedTitle": "发货统计(新)",
+      "status": 200,
+      "finalUrl": "/amazon/ship/report_new",
+      "class": "OK",
+      "titleHit": false,
+      "dom": {
+        "textLen": 250,
+        "snippet": "产品 销售 采购 仓库 发货 广告 账目 财务 设置 系统 首页 物流承运商(汇总) FBA仓库(汇总) 本地仓库(汇总) 店铺(汇总) 站点(汇总) SKU(汇总) 货件(汇总) 导出 全部店铺 全部国家 全部仓库 创建日期 至 选择承运商 选择物流渠道 汇总指标: 发货运输重量(KG) 物流承运商 物流渠道 发货信息 运输信息 货件信息 计划发货 实际发货 实际接收 接收差值 接收差值 待接收 实际发货货值 预估运输重量(KG) 发",
+        "tableRows": 14,
+        "hasEmptyState": true,
+        "interactives": 57,
+        "bodyChildren": 3
+      },
+      "api": {
+        "total": 18,
+        "ok": 18,
+        "fail": 0
+      },
+      "apiErrors": [],
+      "jsErrors": [],
+      "toastErrors": []
+    },
+    {
+      "url": "/amazon/storeAuth",
+      "expectedTitle": "店铺管理",
+      "status": 200,
+      "finalUrl": "/amazon/storeAuth",
+      "class": "OK",
+      "titleHit": false,
+      "dom": {
+        "textLen": 89,
+        "snippet": "产品 销售 采购 仓库 发货 广告 账目 财务 设置 系统 首页 店铺账号列表 用于区分店铺的名称 新增 排序 请添加要授权的店铺! 店铺授权 广告授权 店铺名称 卖家ID 区域 国家 店铺授权 广告授权 授权日期 操作 暂无数据",
+        "tableRows": 0,
+        "hasEmptyState": true,
+        "interactives": 7,
+        "bodyChildren": 3
+      },
+      "api": {
+        "total": 13,
+        "ok": 13,
+        "fail": 0
+      },
+      "apiErrors": [],
+      "jsErrors": [],
+      "toastErrors": []
+    },
+    {
+      "url": "/amazon/transparency/auth",
+      "expectedTitle": "透明计划授权",
+      "status": 200,
+      "finalUrl": "/amazon/transparency/auth",
+      "class": "OK",
+      "titleHit": false,
+      "dom": {
+        "textLen": 56,
+        "snippet": "产品 销售 采购 仓库 发货 广告 账目 财务 设置 系统 首页 新增 名称 Client Id Client Secret 创建时间 操作 暂无数据",
+        "tableRows": 0,
+        "hasEmptyState": true,
+        "interactives": 8,
+        "bodyChildren": 3
+      },
+      "api": {
+        "total": 11,
+        "ok": 11,
+        "fail": 0
+      },
+      "apiErrors": [],
+      "jsErrors": [],
+      "toastErrors": []
+    },
+    {
+      "url": "/doc/api/index",
+      "expectedTitle": "文档API",
+      "status": 200,
+      "finalUrl": "/doc/api/index",
+      "class": "OK",
+      "titleHit": false,
+      "dom": {
+        "textLen": 85,
+        "snippet": "产品 销售 采购 仓库 发货 广告 账目 财务 设置 系统 首页 文档类型： Admin 授权操作：点击“Authoriza” 按F12 ->应用->本地存储空间->jsessionid 复制 ，将值粘贴",
+        "tableRows": 0,
+        "hasEmptyState": false,
+        "interactives": 5,
+        "bodyChildren": 3
+      },
+      "api": {
+        "total": 20,
+        "ok": 20,
+        "fail": 0
+      },
+      "apiErrors": [],
+      "jsErrors": [],
+      "toastErrors": []
+    },
+    {
+      "url": "/erp/baseinfo/brand",
+      "expectedTitle": "品牌管理",
+      "status": 200,
+      "finalUrl": "/erp/baseinfo/brand",
+      "class": "OK",
+      "titleHit": false,
+      "dom": {
+        "textLen": 55,
+        "snippet": "产品 销售 采购 仓库 发货 广告 账目 财务 设置 系统 首页 添加品牌 品牌名称 备注 操作时间 操作 暂无数据！ 共 0 条 10条/页 1 前往 页",
+        "tableRows": 0,
+        "hasEmptyState": true,
+        "interactives": 17,
+        "bodyChildren": 3
+      },
+      "api": {
+        "total": 11,
+        "ok": 11,
+        "fail": 0
+      },
+      "apiErrors": [],
+      "jsErrors": [],
+      "toastErrors": []
+    },
+    {
+      "url": "/erp/baseinfo/category",
+      "expectedTitle": "品类管理",
+      "status": 200,
+      "finalUrl": "/erp/baseinfo/category",
+      "class": "OK",
+      "titleHit": false,
+      "dom": {
+        "textLen": 55,
+        "snippet": "产品 销售 采购 仓库 发货 广告 账目 财务 设置 系统 首页 添加品类 品类名称 备注 操作时间 操作 暂无数据！ 共 0 条 10条/页 1 前往 页",
+        "tableRows": 0,
+        "hasEmptyState": true,
+        "interactives": 17,
+        "bodyChildren": 3
+      },
+      "api": {
+        "total": 11,
+        "ok": 11,
+        "fail": 0
+      },
+      "apiErrors": [],
+      "jsErrors": [],
+      "toastErrors": []
+    },
+    {
+      "url": "/erp/baseinfo/quote/price",
+      "expectedTitle": "采购报价单",
+      "status": 200,
+      "finalUrl": "/erp/baseinfo/quote/price",
+      "class": "OK",
+      "titleHit": false,
+      "dom": {
+        "textLen": 86,
+        "snippet": "产品 销售 采购 仓库 发货 广告 账目 财务 设置 系统 首页 至 买家名称 买家公司 买家电话 供应商名称 供应商公司 供应商电话 供应商手机 备注 审核时间 操作 暂无数据！ 加载中... 共 0 条 10条/页 1 前往 页",
+        "tableRows": 14,
+        "hasEmptyState": true,
+        "interactives": 31,
+        "bodyChildren": 3
+      },
+      "api": {
+        "total": 11,
+        "ok": 11,
+        "fail": 0
+      },
+      "apiErrors": [],
+      "jsErrors": [],
+      "toastErrors": []
+    },
+    {
+      "url": "/erp/baseinfo/supplier",
+      "expectedTitle": "供应商",
+      "status": 200,
+      "finalUrl": "/erp/baseinfo/supplier",
+      "class": "OK",
+      "titleHit": true,
+      "dom": {
+        "textLen": 93,
+        "snippet": "产品 销售 采购 仓库 发货 广告 账目 财务 设置 系统 首页 添加供应商 导入信息 导出信息 删除 供应商名称 供应商编码 货物类型 联系人 总采购金额 联系地址 其它信息 创建人 修改时间 操作 暂无数据！ 共 0 条 10条/页 1 前往 页",
+        "tableRows": 0,
+        "hasEmptyState": true,
+        "interactives": 22,
+        "bodyChildren": 3
+      },
+      "api": {
+        "total": 11,
+        "ok": 11,
+        "fail": 0
+      },
+      "apiErrors": [],
+      "jsErrors": [],
+      "toastErrors": []
+    },
+    {
+      "url": "/erp/inventory/daily",
+      "expectedTitle": "每日库存",
+      "status": 200,
+      "finalUrl": "/erp/inventory/daily",
+      "class": "OK",
+      "titleHit": false,
+      "dom": {
+        "textLen": 48,
+        "snippet": "产品 销售 采购 仓库 发货 广告 账目 财务 设置 系统 首页 至 导出 产品信息 仓库 暂无数据！ 共 0 条 10条/页 1 前往 页",
+        "tableRows": 14,
+        "hasEmptyState": true,
+        "interactives": 27,
+        "bodyChildren": 3
+      },
+      "api": {
+        "total": 11,
+        "ok": 11,
+        "fail": 0
+      },
+      "apiErrors": [],
+      "jsErrors": [],
+      "toastErrors": []
+    },
+    {
+      "url": "/erp/inventory/record",
+      "expectedTitle": "出入库明细",
+      "status": 200,
+      "finalUrl": "/erp/inventory/record",
+      "class": "OK",
+      "titleHit": false,
+      "dom": {
+        "textLen": 112,
+        "snippet": "产品 销售 采购 仓库 发货 广告 账目 财务 设置 系统 首页 全部仓库 至 请选择单据类型 产品负责人 SKU 导出 导出耗材 精确查询 图片 名称/SKU 单据类型 单据编码 操作行为 初始库存 库存变动 结余库存 操作人 操作仓库 操作时间 暂无数据！ 共 0 条 10条/页 1 前往 页",
+        "tableRows": 14,
+        "hasEmptyState": true,
+        "interactives": 31,
+        "bodyChildren": 3
+      },
+      "api": {
+        "total": 14,
+        "ok": 14,
+        "fail": 0
+      },
+      "apiErrors": [],
+      "jsErrors": [],
+      "toastErrors": []
+    },
+    {
+      "url": "/erp/inventory/report/base",
+      "expectedTitle": "库存报表",
+      "status": 200,
+      "finalUrl": "/erp/inventory/report/base",
+      "class": "OK",
+      "titleHit": false,
+      "dom": {
+        "textLen": 79,
+        "snippet": "产品 销售 采购 仓库 发货 广告 账目 财务 设置 系统 首页 全部供应商 导出 精确查询 仅查看有库存产品 产品信息 仓库 默认供应商 待入库 可用库存 待出库 暂无数据！ 共 0 条 10条/页 1 前往 页",
+        "tableRows": 0,
+        "hasEmptyState": true,
+        "interactives": 36,
+        "bodyChildren": 3
+      },
+      "api": {
+        "total": 14,
+        "ok": 14,
+        "fail": 0
+      },
+      "apiErrors": [],
+      "jsErrors": [],
+      "toastErrors": []
+    },
+    {
+      "url": "/erp/inventory/report/turns",
+      "expectedTitle": "周转报告",
+      "status": 200,
+      "finalUrl": "/erp/inventory/report/turns",
+      "class": "OK",
+      "titleHit": false,
+      "dom": {
+        "textLen": 92,
+        "snippet": "产品 销售 采购 仓库 发货 广告 账目 财务 设置 系统 首页 本地仓 全部仓库 更新时间:无 导出 图片 产品信息 仓库 期初 期末 采购 入库 出库 发货 调库 组装 盘点 库存差异 周转个数 周转天数 暂无数据！ 共 0 条 10条/页 1 前往 页",
+        "tableRows": 3,
+        "hasEmptyState": true,
+        "interactives": 37,
+        "bodyChildren": 3
+      },
+      "api": {
+        "total": 11,
+        "ok": 11,
+        "fail": 0
+      },
+      "apiErrors": [],
+      "jsErrors": [],
+      "toastErrors": []
+    },
+    {
+      "url": "/erp/inventory/report/unsalable",
+      "expectedTitle": "本地滞销",
+      "status": 200,
+      "finalUrl": "/erp/inventory/report/unsalable",
+      "class": "OK",
+      "titleHit": false,
+      "dom": {
+        "textLen": 126,
+        "snippet": "产品 销售 采购 仓库 发货 广告 账目 财务 设置 系统 首页 本地仓 全部仓库 更新时间: 导出 导出超长库龄 图片 产品信息 当前库存 库龄 出库数量 冗余库存 0~30天 30~60天 60~90天 90~180天 180~365天 365天以上 30天 60天 90天 暂无数据！ 共 0 条 10条/页 1 前往 页",
+        "tableRows": 0,
+        "hasEmptyState": true,
+        "interactives": 30,
+        "bodyChildren": 3
+      },
+      "api": {
+        "total": 11,
+        "ok": 11,
+        "fail": 0
+      },
+      "apiErrors": [],
+      "jsErrors": [],
+      "toastErrors": []
+    },
+    {
+      "url": "/erp/inventory/shelf/operator",
+      "expectedTitle": "上下架明细",
+      "status": 200,
+      "finalUrl": "/erp/inventory/shelf/operator",
+      "class": "OK",
+      "titleHit": false,
+      "dom": {
+        "textLen": 72,
+        "snippet": "产品 销售 采购 仓库 发货 广告 账目 财务 设置 系统 首页 至 产品信息 仓库-库位 操作数量 结余数量 单据类型 操作类型 操作时间 操作人 暂无数据！ 共 0 条 10条/页 1 前往 页",
+        "tableRows": 14,
+        "hasEmptyState": true,
+        "interactives": 33,
+        "bodyChildren": 3
+      },
+      "api": {
+        "total": 12,
+        "ok": 12,
+        "fail": 0
+      },
+      "apiErrors": [],
+      "jsErrors": [],
+      "toastErrors": []
+    },
+    {
+      "url": "/erp/material/consumable",
+      "expectedTitle": "辅料管理",
+      "status": 200,
+      "finalUrl": "/erp/material/consumable",
+      "class": "OK",
+      "titleHit": false,
+      "dom": {
+        "textLen": 150,
+        "snippet": "产品 销售 采购 仓库 发货 广告 账目 财务 设置 系统 首页 全部供应商 品类 全部仓库 SKU 启用 重置 采购 库存比例配置 清空计划 添加辅料 导入数据 导出数据 批量操作 仅显示低于安全库存 显示已选 已选 0 个SKU 采购总数 0 图片 名称/SKU 品类 重量(kg) 供应商 需求量 可用库存 建议采购 采购数量 采购记录 操作 暂无数据！ 共 0 条 10条/页 1 前往 页",
+        "tableRows": 0,
+        "hasEmptyState": true,
+        "interactives": 39,
+        "bodyChildren": 3
+      },
+      "api": {
+        "total": 15,
+        "ok": 15,
+        "fail": 0
+      },
+      "apiErrors": [],
+      "jsErrors": [],
+      "toastErrors": []
+    },
+    {
+      "url": "/erp/material/package",
+      "expectedTitle": "箱子管理",
+      "status": 200,
+      "finalUrl": "/erp/material/package",
+      "class": "OK",
+      "titleHit": false,
+      "dom": {
+        "textLen": 96,
+        "snippet": "产品 销售 采购 仓库 发货 广告 账目 财务 设置 系统 首页 全部供应商 品类 SKU 启用 重置 添加箱子 导入数据 导出数据 批量操作 名称/SKU 品类 重量(kg) 供应商 可用库存 在途库存 操作 暂无数据！ 共 0 条 10条/页 1 前往 页",
+        "tableRows": 0,
+        "hasEmptyState": true,
+        "interactives": 31,
+        "bodyChildren": 3
+      },
+      "api": {
+        "total": 13,
+        "ok": 13,
+        "fail": 0
+      },
+      "apiErrors": [],
+      "jsErrors": [],
+      "toastErrors": []
+    },
+    {
+      "url": "/erp/open1688/bind",
+      "expectedTitle": "1688绑定",
+      "status": 200,
+      "finalUrl": "/erp/open1688/bind",
+      "class": "OK",
+      "titleHit": false,
+      "dom": {
+        "textLen": 86,
+        "snippet": "产品 销售 采购 仓库 发货 广告 账目 财务 设置 系统 首页 绑定账号 采购账号 采购平台 平台账户名称 到期时间 状态 操作 暂无数据 授权绑定您的阿里巴巴1688平台账号后,即可到采购单中查看物流信息!",
+        "tableRows": 0,
+        "hasEmptyState": true,
+        "interactives": 12,
+        "bodyChildren": 3
+      },
+      "api": {
+        "total": 11,
+        "ok": 11,
+        "fail": 0
+      },
+      "apiErrors": [],
+      "jsErrors": [],
+      "toastErrors": []
+    },
+    {
+      "url": "/erp/product/localproduct",
+      "expectedTitle": "产品管理",
+      "status": 200,
+      "finalUrl": "/erp/product/localproduct",
+      "class": "OK",
+      "titleHit": false,
+      "dom": {
+        "textLen": 120,
+        "snippet": "产品 销售 采购 仓库 发货 广告 账目 财务 设置 系统 首页 全部供应商 产品负责人 品类 SKU 启用 重置 添加产品 导入数据 导出数据 同步图片/尺寸 批量操作 图片 名称/SKU 生效日期 品类 重量(kg) 采购成本 供应商 可用库存 单位 标签 备注 操作 暂无数据！ 共 0 条 10条/页 1 前往 页",
+        "tableRows": 0,
+        "hasEmptyState": true,
+        "interactives": 41,
+        "bodyChildren": 3
+      },
+      "api": {
+        "total": 15,
+        "ok": 15,
+        "fail": 0
+      },
+      "apiErrors": [],
+      "jsErrors": [],
+      "toastErrors": []
+    },
+    {
+      "url": "/erp/purchase/change",
+      "expectedTitle": "采购换货单",
+      "status": 200,
+      "finalUrl": "/erp/purchase/change",
+      "class": "OK",
+      "titleHit": false,
+      "dom": {
+        "textLen": 95,
+        "snippet": "产品 销售 采购 仓库 发货 广告 账目 财务 设置 系统 首页 全部 采购待确认 仓库待收货 已完成 已取消 添加换货单 至 换货单编码 采购单编码 操作仓库 状态 SKU 数量 申请人 申请时间 备注 操作 暂无数据！ 共 0 条 10条/页 1 前往 页",
+        "tableRows": 14,
+        "hasEmptyState": true,
+        "interactives": 24,
+        "bodyChildren": 3
+      },
+      "api": {
+        "total": 11,
+        "ok": 11,
+        "fail": 0
+      },
+      "apiErrors": [],
+      "jsErrors": [],
+      "toastErrors": []
+    },
+    {
+      "url": "/erp/purchase/consumable",
+      "expectedTitle": "发货准备",
+      "status": 200,
+      "finalUrl": "/erp/purchase/consumable",
+      "class": "OK",
+      "titleHit": false,
+      "dom": {
+        "textLen": 148,
+        "snippet": "产品 销售 采购 仓库 发货 广告 账目 财务 设置 系统 首页 成品包装 批量组装 至 SKU 保存 查看已选 查看计划 结束 清空 勾选行之后必须点击“保存当前页勾选”才能加入计划 当前计划: 下架 未处理 导出配货单 未下载 辅料出库 未出库 调库 未调库 订单编号 名称/SKU 采购金额 采购数量 审核日期 预计到货日期 操作类型 入库数量 入库时间 备注 暂无数据",
+        "tableRows": 14,
+        "hasEmptyState": true,
+        "interactives": 40,
+        "bodyChildren": 3
+      },
+      "api": {
+        "total": 11,
+        "ok": 11,
+        "fail": 0
+      },
+      "apiErrors": [],
+      "jsErrors": [],
+      "toastErrors": []
+    },
+    {
+      "url": "/erp/purchase/detailinfo",
+      "expectedTitle": "采购详情",
+      "status": 200,
+      "finalUrl": "/erp/purchase/detailinfo",
+      "class": "OK",
+      "titleHit": false,
+      "dom": {
+        "textLen": 100,
+        "snippet": "产品 销售 采购 仓库 发货 广告 账目 财务 设置 系统 首页 导出 全部仓库 至 SKU 订单编号 下单日期 图片 SKU 供应商 采购单价 采购数量 采购金额 已付款金额 运费 入库数量 其它费用 预计到货时间 备注 暂无数据！ 共 0 条 10条/页 1 前往 页",
+        "tableRows": 14,
+        "hasEmptyState": true,
+        "interactives": 39,
+        "bodyChildren": 3
+      },
+      "api": {
+        "total": 12,
+        "ok": 12,
+        "fail": 0
+      },
+      "apiErrors": [],
+      "jsErrors": [
+        "PAGEERROR: canceled"
+      ],
+      "toastErrors": []
+    },
+    {
+      "url": "/erp/purchase/orders",
+      "expectedTitle": "采购单",
+      "status": 200,
+      "finalUrl": "/erp/purchase/orders",
+      "class": "OK",
+      "titleHit": true,
+      "dom": {
+        "textLen": 133,
+        "snippet": "产品 销售 采购 仓库 发货 广告 账目 财务 设置 系统 首页 全部订单 待审核 0 待付款 0 待收货 0 已完成 已作废 换货中 全部店铺 全部仓库 全部供应商 创建日期 至 SKU 重置 添加采购单 单据 SKU 导出SKU列表 自动付运费 批量修改产品备注 订单信息 / 创建日期 产品信息 供应商信息 采购信息 备注 操作 暂无匹配数据!",
+        "tableRows": 15,
+        "hasEmptyState": false,
+        "interactives": 33,
+        "bodyChildren": 3
+      },
+      "api": {
+        "total": 17,
+        "ok": 17,
+        "fail": 0
+      },
+      "apiErrors": [],
+      "jsErrors": [
+        "PAGEERROR: canceled",
+        "PAGEERROR: canceled",
+        "PAGEERROR: canceled"
+      ],
+      "toastErrors": []
+    },
+    {
+      "url": "/erp/purchase/paymentDetail",
+      "expectedTitle": "采购付款明细",
+      "status": 200,
+      "finalUrl": "/erp/purchase/paymentDetail",
+      "class": "OK",
+      "titleHit": false,
+      "dom": {
+        "textLen": 112,
+        "snippet": "产品 销售 采购 仓库 发货 广告 账目 财务 设置 系统 首页 全部店铺 全部仓库 全部供应商 付款时间 至 付款账户 费用类型 SKU 导出 付款金额总计:￥0 订单编号 图片 名称/SKU 供应商 采购数量 采购金额 费用类型 付款金额 备注 暂无数据！ 共 0 条 10条/页 1 前往 页",
+        "tableRows": 14,
+        "hasEmptyState": true,
+        "interactives": 38,
+        "bodyChildren": 3
+      },
+      "api": {
+        "total": 16,
+        "ok": 16,
+        "fail": 0
+      },
+      "apiErrors": [],
+      "jsErrors": [
+        "获取采购付款明细失败: CanceledError: canceled\n    at http://43.143.28.153:8080/static/js/vendor-CDQ6uO2g.js:16:3218\n    at http://43.143.28.153:8080/static/js/index-PFokrBnG.js:2:23401\n    at I2.request (http://43.143.28.153:8080/"
+      ],
+      "toastErrors": []
+    },
+    {
+      "url": "/erp/purchase/plan",
+      "expectedTitle": "采购规划",
+      "status": 200,
+      "finalUrl": "/erp/purchase/plan",
+      "class": "OK",
+      "titleHit": false,
+      "dom": {
+        "textLen": 140,
+        "snippet": "产品 销售 采购 仓库 发货 广告 账目 财务 设置 系统 首页 采购计划： 清空计划 全部店铺 全部国家 产品负责人 产品销售状态 排除 SKU 重置 采购 销售计划 导入SKU入库仓库 显示已选 默认展开 已选 0 个SKU采购总数 0 图片 名称/SKU 报表 公告 采购记录 可用库存 建议采购 实际采购量 操作 暂无数据！ 共 0 条 50条/页 1 前往 页",
+        "tableRows": 0,
+        "hasEmptyState": true,
+        "interactives": 64,
+        "bodyChildren": 6
+      },
+      "api": {
+        "total": 19,
+        "ok": 19,
+        "fail": 0
+      },
+      "apiErrors": [],
+      "jsErrors": [],
+      "toastErrors": []
+    },
+    {
+      "url": "/erp/purchase/process",
+      "expectedTitle": "加工单",
+      "status": 200,
+      "finalUrl": "/erp/purchase/process",
+      "class": "OK",
+      "titleHit": true,
+      "dom": {
+        "textLen": 132,
+        "snippet": "产品 销售 采购 仓库 发货 广告 账目 财务 设置 系统 首页 全部 处理中 已完成 已终止 已作废 单据类型 全部仓库 至 SKU 添加加工单 导入 导出 下架 导出配货单 调库 加工单编码 图片 名称/SKU 操作仓库 单据类型 加工数量 可处理数量 创建人 操作时间 关联货件 关联采购单 备注 操作 暂无数据 共 0 条 10条/页 1 前往 页",
+        "tableRows": 14,
+        "hasEmptyState": true,
+        "interactives": 38,
+        "bodyChildren": 3
+      },
+      "api": {
+        "total": 13,
+        "ok": 13,
+        "fail": 0
+      },
+      "apiErrors": [],
+      "jsErrors": [],
+      "toastErrors": []
+    },
+    {
+      "url": "/erp/purchase/storageDetail",
+      "expectedTitle": "采购入库明细",
+      "status": 200,
+      "finalUrl": "/erp/purchase/storageDetail",
+      "class": "OK",
+      "titleHit": false,
+      "dom": {
+        "textLen": 93,
+        "snippet": "产品 销售 采购 仓库 发货 广告 账目 财务 设置 系统 首页 导出 至 SKU 入库数量总计: 订单编号 名称/SKU 采购金额 采购数量 审核日期 预计到货日期 操作类型 入库数量 入库时间 备注 暂无数据 共 0 条 10条/页 1 前往 页",
+        "tableRows": 14,
+        "hasEmptyState": true,
+        "interactives": 36,
+        "bodyChildren": 3
+      },
+      "api": {
+        "total": 12,
+        "ok": 12,
+        "fail": 0
+      },
+      "apiErrors": [],
+      "jsErrors": [],
+      "toastErrors": []
+    },
+    {
+      "url": "/erp/purchase/summary",
+      "expectedTitle": "采购统计",
+      "status": 200,
+      "finalUrl": "/erp/purchase/summary",
+      "class": "OK",
+      "titleHit": false,
+      "dom": {
+        "textLen": 164,
+        "snippet": "产品 销售 采购 仓库 发货 广告 账目 财务 设置 系统 首页 按SKU汇总 按供应商汇总 导出 全部仓库 至 SKU 采购数量 采购金额(元) 采购单价(元) 预估重量(kg) 付款信息 入库信息 付款金额(元) 待付款金额(元) 实际单价(元) 采购运费(元) 其它费用(元) 付款差额(元) 入库(不含退货) 入库(含退货) 待入库数 退货数 入库差额 暂无数据！ 共 0 条 10条/页 1 前往 页",
+        "tableRows": 14,
+        "hasEmptyState": true,
+        "interactives": 41,
+        "bodyChildren": 3
+      },
+      "api": {
+        "total": 12,
+        "ok": 12,
+        "fail": 0
+      },
+      "apiErrors": [],
+      "jsErrors": [
+        "PAGEERROR: canceled"
+      ],
+      "toastErrors": []
+    },
+    {
+      "url": "/erp/purchase/time",
+      "expectedTitle": "采购时效",
+      "status": 200,
+      "finalUrl": "/erp/purchase/time",
+      "class": "OK",
+      "titleHit": false,
+      "dom": {
+        "textLen": 76,
+        "snippet": "产品 销售 采购 仓库 发货 广告 账目 财务 设置 系统 首页 至 全部仓库 SKU 导出 商品信息 订单号 时效 收货 换货 换货出库 盘点出库 出库 可用库存 暂无数据！ 共 0 条 10条/页 1 前往 页",
+        "tableRows": 14,
+        "hasEmptyState": true,
+        "interactives": 33,
+        "bodyChildren": 3
+      },
+      "api": {
+        "total": 13,
+        "ok": 13,
+        "fail": 0
+      },
+      "apiErrors": [],
+      "jsErrors": [
+        "PAGEERROR: canceled"
+      ],
+      "toastErrors": []
+    },
+    {
+      "url": "/erp/shipment/channel",
+      "expectedTitle": "渠道管理",
+      "status": 200,
+      "finalUrl": "/erp/shipment/channel",
+      "class": "OK",
+      "titleHit": false,
+      "dom": {
+        "textLen": 83,
+        "snippet": "产品 销售 采购 仓库 发货 广告 账目 财务 设置 系统 首页 渠道类型 新增 暂无数据！ 加载中... 共 0 条 10条/页 前往 页 物流商渠道 请选择 上传 新增 名称 渠道类型名称 物流公司 操作时间 暂无数据！",
+        "tableRows": 0,
+        "hasEmptyState": true,
+        "interactives": 24,
+        "bodyChildren": 3
+      },
+      "api": {
+        "total": 11,
+        "ok": 11,
+        "fail": 0
+      },
+      "apiErrors": [],
+      "jsErrors": [],
+      "toastErrors": []
+    },
+    {
+      "url": "/erp/shipment/quote",
+      "expectedTitle": "集中询价",
+      "status": 200,
+      "finalUrl": "/erp/shipment/quote",
+      "class": "OK",
+      "titleHit": false,
+      "dom": {
+        "textLen": 96,
+        "snippet": "产品 销售 采购 仓库 发货 广告 账目 财务 设置 系统 首页 全部 未成单 已成单 已结束 已删除 生成询价订单 删除 至 货件信息 状态 地址信息 询价人 仓库 重量 体积 SKU数量 地址 备注 操作时间 操作 暂无数据！ 共 0 条 10条/页 1 前往 页",
+        "tableRows": 14,
+        "hasEmptyState": true,
+        "interactives": 45,
+        "bodyChildren": 3
+      },
+      "api": {
+        "total": 11,
+        "ok": 11,
+        "fail": 0
+      },
+      "apiErrors": [],
+      "jsErrors": [],
+      "toastErrors": []
+    },
+    {
+      "url": "/erp/shipment/quote_order",
+      "expectedTitle": "报价单",
+      "status": 200,
+      "finalUrl": "/erp/shipment/quote_order",
+      "class": "OK",
+      "titleHit": false,
+      "dom": {
+        "textLen": 67,
+        "snippet": "产品 销售 采购 仓库 发货 广告 账目 财务 设置 系统 首页 全部状态 待询价 待报价 已有报价 已结束 已废弃 批量询价 至 地址 批次 暂无数据！ 共 0 条 1条/页 1 前往 页",
+        "tableRows": 14,
+        "hasEmptyState": true,
+        "interactives": 26,
+        "bodyChildren": 3
+      },
+      "api": {
+        "total": 11,
+        "ok": 11,
+        "fail": 0
+      },
+      "apiErrors": [],
+      "jsErrors": [
+        "PAGEERROR: canceled"
+      ],
+      "toastErrors": []
+    },
+    {
+      "url": "/erp/shipment/quote_set",
+      "expectedTitle": "关联设置",
+      "status": 200,
+      "finalUrl": "/erp/shipment/quote_set",
+      "class": "OK",
+      "titleHit": false,
+      "dom": {
+        "textLen": 64,
+        "snippet": "产品 销售 采购 仓库 发货 广告 账目 财务 设置 系统 首页 询价商管理 状态 未绑定 令牌 别名 操作 绑定 新增 物流供应商管理 名称 联系人 创建时间 操作 暂无数据",
+        "tableRows": 4,
+        "hasEmptyState": true,
+        "interactives": 10,
+        "bodyChildren": 3
+      },
+      "api": {
+        "total": 11,
+        "ok": 11,
+        "fail": 0
+      },
+      "apiErrors": [],
+      "jsErrors": [],
+      "toastErrors": []
+    },
+    {
+      "url": "/erp/ship/shipment_handing",
+      "expectedTitle": "货件跟踪",
+      "status": 200,
+      "finalUrl": "/erp/ship/shipment_handing",
+      "class": "OK",
+      "titleHit": false,
+      "dom": {
+        "textLen": 143,
+        "snippet": "产品 销售 采购 仓库 发货 广告 账目 财务 设置 系统 首页 全部货件 处理中 已发货 正在接收 已完成 已取消 异常单据 全部店铺 全部国家 全部仓库 至 SKU 重置 未下架 可拣货 同步货件 导入追踪号 货件编码/货件名称 店铺/发货仓库 配送中心 创建日期 超期 SKU个数 实际配货数量 发货渠道 状态 备注 操作 暂无数据！ 共 0 条 10条/页 1 前往 页",
+        "tableRows": 14,
+        "hasEmptyState": true,
+        "interactives": 47,
+        "bodyChildren": 3
+      },
+      "api": {
+        "total": 17,
+        "ok": 17,
+        "fail": 0
+      },
+      "apiErrors": [],
+      "jsErrors": [],
+      "toastErrors": []
+    },
+    {
+      "url": "/erp/ship/ship_plan",
+      "expectedTitle": "FBA发货规划",
+      "status": 200,
+      "finalUrl": "/erp/ship/ship_plan",
+      "class": "OK",
+      "titleHit": false,
+      "dom": {
+        "textLen": 164,
+        "snippet": "产品 销售 采购 仓库 发货 广告 账目 财务 设置 系统 首页 发货店铺： 全部店铺 发货仓库： 本地仓 全部仓库 清空计划 全部国家 产品负责人 产品销售状态 排除 SKU 重置 发货 FBA发货配置 FBA站点配货优先级 销售计划 库存报告任务 默认展开 显示已选 已选 0个SKU发货总数 0 图片 名称/SKU 报表 发货需求量 实际发货总量 可用库存 公告 操作 暂无数据！ 共 0 条 50条/页 1 前往 页",
+        "tableRows": 0,
+        "hasEmptyState": true,
+        "interactives": 65,
+        "bodyChildren": 10
+      },
+      "api": {
+        "total": 18,
+        "ok": 18,
+        "fail": 0
+      },
+      "apiErrors": [],
+      "jsErrors": [],
+      "toastErrors": []
+    },
+    {
+      "url": "/erp/shipv2/shipment_add/list",
+      "expectedTitle": "发货单",
+      "status": 200,
+      "finalUrl": "/erp/shipv2/shipment_add/list",
+      "class": "OK",
+      "titleHit": false,
+      "dom": {
+        "textLen": 151,
+        "snippet": "产品 销售 采购 仓库 发货 广告 账目 财务 设置 系统 首页 全部订单 待审核 已保持 待配货 计划装箱 配送方案确认 货件装箱 物流确认 发货出库 货件跟踪 已取消 已驳回 全部店铺 全部国家 全部仓库 至 SKU 重置 添加新版货件 同步计划 店铺 计划编码 SKU个数 发货数量 发货仓库 收货站点 申请日期 审核日期 超期 状态 备注 操作 暂无数据！ 共 0 条 10条/页 1 前往 页",
+        "tableRows": 14,
+        "hasEmptyState": true,
+        "interactives": 38,
+        "bodyChildren": 3
+      },
+      "api": {
+        "total": 14,
+        "ok": 14,
+        "fail": 0
+      },
+      "apiErrors": [],
+      "jsErrors": [],
+      "toastErrors": []
+    },
+    {
+      "url": "/erp/shipv2/shipment_handing",
+      "expectedTitle": "货件处理",
+      "status": 200,
+      "finalUrl": "/erp/shipv2/shipment_handing",
+      "class": "OK",
+      "titleHit": false,
+      "dom": {
+        "textLen": 140,
+        "snippet": "产品 销售 采购 仓库 发货 广告 账目 财务 设置 系统 首页 全部订单 待装箱 待打标 物流跟踪 海关 待接收 已完成 异常单据 已取消 全部店铺 全部国家 全部仓库 至 SKU 重置 同步计划 导入追踪号 货件编码/货件名称 店铺/发货仓库 创建日期 SKU个数 实际配货数量 发货渠道 运输方式 状态 备注 操作 暂无数据！ 共 0 条 10条/页 1 前往 页",
+        "tableRows": 14,
+        "hasEmptyState": true,
+        "interactives": 45,
+        "bodyChildren": 3
+      },
+      "api": {
+        "total": 31,
+        "ok": 31,
+        "fail": 0
+      },
+      "apiErrors": [],
+      "jsErrors": [],
+      "toastErrors": []
+    },
+    {
+      "url": "/erp/thirdparty",
+      "expectedTitle": "物流绑定",
+      "status": 200,
+      "finalUrl": "/erp/thirdparty",
+      "class": "OK",
+      "titleHit": false,
+      "dom": {
+        "textLen": 56,
+        "snippet": "产品 销售 采购 仓库 发货 广告 账目 财务 设置 系统 首页 添加API（物流商/海外仓） 名称 系统名称 授权信息 Api 操作 暂无数据！",
+        "tableRows": 0,
+        "hasEmptyState": true,
+        "interactives": 9,
+        "bodyChildren": 3
+      },
+      "api": {
+        "total": 11,
+        "ok": 11,
+        "fail": 0
+      },
+      "apiErrors": [],
+      "jsErrors": [],
+      "toastErrors": []
+    },
+    {
+      "url": "/erp/transportation",
+      "expectedTitle": "物流公司",
+      "status": 200,
+      "finalUrl": "/erp/transportation",
+      "class": "OK",
+      "titleHit": true,
+      "dom": {
+        "textLen": 89,
+        "snippet": "产品 销售 采购 仓库 发货 广告 账目 财务 设置 系统 首页 物流维护 物流比价 添加物流渠道 导入 导出 删除 启用 物流公司 物流公司 物流接口 报价单 公司简称 操作人 操作时间 操作 暂无数据！ 共 0 条 10条/页 1 前往 页",
+        "tableRows": 0,
+        "hasEmptyState": true,
+        "interactives": 41,
+        "bodyChildren": 3
+      },
+      "api": {
+        "total": 15,
+        "ok": 15,
+        "fail": 0
+      },
+      "apiErrors": [],
+      "jsErrors": [],
+      "toastErrors": []
+    },
+    {
+      "url": "/erp/warehouse/address",
+      "expectedTitle": "仓库地址",
+      "status": 200,
+      "finalUrl": "/erp/warehouse/address",
+      "class": "OK",
+      "titleHit": false,
+      "dom": {
+        "textLen": 82,
+        "snippet": "产品 销售 采购 仓库 发货 广告 账目 财务 设置 系统 首页 添加地址 删除 正常 重置 地址名称 地址编码 地址详情 对应仓库 邮编 业主电话 业主姓名 备注 到期时间 操作 暂无数据 共 0 条 10条/页 1 前往 页",
+        "tableRows": 0,
+        "hasEmptyState": true,
+        "interactives": 16,
+        "bodyChildren": 3
+      },
+      "api": {
+        "total": 12,
+        "ok": 12,
+        "fail": 0
+      },
+      "apiErrors": [],
+      "jsErrors": [],
+      "toastErrors": []
+    },
+    {
+      "url": "/erp/warehouse/base",
+      "expectedTitle": "仓库列表",
+      "status": 200,
+      "finalUrl": "/erp/warehouse/base",
+      "class": "OK",
+      "titleHit": false,
+      "dom": {
+        "textLen": 92,
+        "snippet": "产品 销售 采购 仓库 发货 广告 账目 财务 设置 系统 首页 仓库分组 添加 更多 正品仓 测试仓 废品仓 添加仓位 删除 未删除 仓位编码 仓位名称 支持负数 仓库地址 备注 操作人 操作时间 操作 暂无数据！ 共 0 条 10条/页 1 前往 页",
+        "tableRows": 0,
+        "hasEmptyState": true,
+        "interactives": 17,
+        "bodyChildren": 3
+      },
+      "api": {
+        "total": 11,
+        "ok": 11,
+        "fail": 0
+      },
+      "apiErrors": [],
+      "jsErrors": [],
+      "toastErrors": []
+    },
+    {
+      "url": "/erp/warehouse/exchange",
+      "expectedTitle": "代料单",
+      "status": 200,
+      "finalUrl": "/erp/warehouse/exchange",
+      "class": "OK",
+      "titleHit": true,
+      "dom": {
+        "textLen": 82,
+        "snippet": "产品 销售 采购 仓库 发货 广告 账目 财务 设置 系统 首页 添加代料单 导入 删除 至 单据编码 调出SKU 调入SKU 调动数量 操作仓库 创建人 创建时间 备注 操作 暂无数据！ 共 0 条 10条/页 1 前往 页",
+        "tableRows": 14,
+        "hasEmptyState": true,
+        "interactives": 27,
+        "bodyChildren": 3
+      },
+      "api": {
+        "total": 11,
+        "ok": 11,
+        "fail": 0
+      },
+      "apiErrors": [],
+      "jsErrors": [],
+      "toastErrors": []
+    },
+    {
+      "url": "/erp/warehouse/inbound",
+      "expectedTitle": "入库单",
+      "status": 200,
+      "finalUrl": "/erp/warehouse/inbound",
+      "class": "OK",
+      "titleHit": true,
+      "dom": {
+        "textLen": 75,
+        "snippet": "产品 销售 采购 仓库 发货 广告 账目 财务 设置 系统 首页 添加入库单 删除 导入 全部仓库 至 导出 入库单编码 入库仓库 申请人 备注 创建时间 操作 暂无数据！ 共 0 条 10条/页 1 前往 页",
+        "tableRows": 14,
+        "hasEmptyState": true,
+        "interactives": 29,
+        "bodyChildren": 3
+      },
+      "api": {
+        "total": 12,
+        "ok": 12,
+        "fail": 0
+      },
+      "apiErrors": [],
+      "jsErrors": [],
+      "toastErrors": []
+    },
+    {
+      "url": "/erp/warehouse/outbound",
+      "expectedTitle": "出库单",
+      "status": 200,
+      "finalUrl": "/erp/warehouse/outbound",
+      "class": "OK",
+      "titleHit": true,
+      "dom": {
+        "textLen": 86,
+        "snippet": "产品 销售 采购 仓库 发货 广告 账目 财务 设置 系统 首页 添加出库单 删除 导入 导出 全部仓库 至 出库单编码 出库仓库 收件人 物流快递 快递单号 申请人 备注 创建时间 操作 暂无数据！ 共 0 条 10条/页 1 前往 页",
+        "tableRows": 14,
+        "hasEmptyState": true,
+        "interactives": 29,
+        "bodyChildren": 3
+      },
+      "api": {
+        "total": 12,
+        "ok": 12,
+        "fail": 0
+      },
+      "apiErrors": [],
+      "jsErrors": [],
+      "toastErrors": []
+    },
+    {
+      "url": "/erp/warehouse/shelf/create",
+      "expectedTitle": "库位列表",
+      "status": 200,
+      "finalUrl": "/erp/warehouse/shelf/create",
+      "class": "OK",
+      "titleHit": false,
+      "dom": {
+        "textLen": 44,
+        "snippet": "产品 销售 采购 仓库 发货 广告 账目 财务 设置 系统 首页 添加库位 仓库列表 暂无数据 批量操作 点击添加库位",
+        "tableRows": 0,
+        "hasEmptyState": true,
+        "interactives": 7,
+        "bodyChildren": 3
+      },
+      "api": {
+        "total": 11,
+        "ok": 11,
+        "fail": 0
+      },
+      "apiErrors": [],
+      "jsErrors": [],
+      "toastErrors": []
+    },
+    {
+      "url": "/erp/warehouse/shelf/inv",
+      "expectedTitle": "库位库存",
+      "status": 200,
+      "finalUrl": "/erp/warehouse/shelf/inv",
+      "class": "OK",
+      "titleHit": true,
+      "dom": {
+        "textLen": 87,
+        "snippet": "产品 销售 采购 仓库 发货 广告 账目 财务 设置 系统 首页 仓库列表 暂无数据 - 已上架 未上架 导出 含子库位 批量下架 上架 图片 名称/SKU 库位 库位库存 最后上架时间 操作 暂无数据 共 0 条 10条/页 1 前往 页",
+        "tableRows": 0,
+        "hasEmptyState": true,
+        "interactives": 34,
+        "bodyChildren": 3
+      },
+      "api": {
+        "total": 11,
+        "ok": 11,
+        "fail": 0
+      },
+      "apiErrors": [],
+      "jsErrors": [],
+      "toastErrors": []
+    },
+    {
+      "url": "/erp/warehouse/stocktake",
+      "expectedTitle": "库存盘点",
+      "status": 200,
+      "finalUrl": "/erp/warehouse/stocktake",
+      "class": "OK",
+      "titleHit": false,
+      "dom": {
+        "textLen": 114,
+        "snippet": "产品 销售 采购 仓库 发货 广告 账目 财务 设置 系统 首页 全部订单 进行中 已完成 添加盘点单 全部仓库 至 盘点单编码 名称( 仓库 / 库位 ) SKU数量 盘点数 盘存金额(¥) 盘盈金额(¥) 盘亏金额(¥) 盘点状态 创建时间 备注 操作 暂无数据！ 共 0 条 10条/页 1 前往 页",
+        "tableRows": 14,
+        "hasEmptyState": true,
+        "interactives": 33,
+        "bodyChildren": 3
+      },
+      "api": {
+        "total": 12,
+        "ok": 12,
+        "fail": 0
+      },
+      "apiErrors": [],
+      "jsErrors": [],
+      "toastErrors": []
+    },
+    {
+      "url": "/erp/warehouse/transfer",
+      "expectedTitle": "调库单",
+      "status": 200,
+      "finalUrl": "/erp/warehouse/transfer",
+      "class": "OK",
+      "titleHit": true,
+      "dom": {
+        "textLen": 100,
+        "snippet": "产品 销售 采购 仓库 发货 广告 账目 财务 设置 系统 首页 全部 未提交 待审核 配货中 已发货 已完成 已驳回 添加调库单 导入 至 调库单编码 调出仓库 调入仓库 状态 申请人 申请时间 审核人 审核时间 备注 操作 暂无数据！ 共 0 条 10条/页 1 前往 页",
+        "tableRows": 14,
+        "hasEmptyState": true,
+        "interactives": 25,
+        "bodyChildren": 3
+      },
+      "api": {
+        "total": 11,
+        "ok": 11,
+        "fail": 0
+      },
+      "apiErrors": [],
+      "jsErrors": [],
+      "toastErrors": []
+    },
+    {
+      "url": "/fbafee/detail",
+      "expectedTitle": "FBA费设置",
+      "status": 200,
+      "finalUrl": "/fbafee/detail",
+      "class": "OK",
+      "titleHit": false,
+      "dom": {
+        "textLen": 121,
+        "snippet": "产品 销售 采购 仓库 发货 广告 账目 财务 设置 系统 首页 FBA费用公式 尺寸分段公式 分段管理 分段重量 佣金 仓储费 货件目标 货件目标费 FBA SIPP 全部国家 请选择 请选择 添加 国家 尺寸分段 泛欧 服装 媒体 重量 生效日期 失效日期 FBA费 操作 暂无数据！ 共 0 条 10条/页 1 前往 页",
+        "tableRows": 0,
+        "hasEmptyState": true,
+        "interactives": 17,
+        "bodyChildren": 3
+      },
+      "api": {
+        "total": 10,
+        "ok": 10,
+        "fail": 0
+      },
+      "apiErrors": [],
+      "jsErrors": [],
+      "toastErrors": []
+    },
+    {
+      "url": "/finance/account",
+      "expectedTitle": "采购记账",
+      "status": 200,
+      "finalUrl": "/finance/account",
+      "class": "OK",
+      "titleHit": false,
+      "dom": {
+        "textLen": 133,
+        "snippet": "产品 销售 采购 仓库 发货 广告 账目 财务 设置 系统 首页 概览 记账 转结 我的账户 查看删除列表 总账户 ￥ 0.00 添加账户 收支统计 2026 0 本月支出（元） 0 本月收入（元） 支出项 2026 0 总金额（元） 费用项管理 导出 至 请选择费用项 日期 收入(￥) 支出(￥) 结余 暂无数据！ 共 0 条 10条/页 1 前往 页",
+        "tableRows": 20,
+        "hasEmptyState": true,
+        "interactives": 44,
+        "bodyChildren": 3
+      },
+      "api": {
+        "total": 17,
+        "ok": 17,
+        "fail": 0
+      },
+      "apiErrors": [],
+      "jsErrors": [
+        "PAGEERROR: canceled"
+      ],
+      "toastErrors": []
+    },
+    {
+      "url": "/finance/costSharing",
+      "expectedTitle": "其它费用",
+      "status": 200,
+      "finalUrl": "/finance/costSharing",
+      "class": "OK",
+      "titleHit": true,
+      "dom": {
+        "textLen": 90,
+        "snippet": "产品 销售 采购 仓库 发货 广告 账目 财务 设置 系统 首页 全部店铺 全部国家 请选择其它费用项 至 SKU 重置 添加费用 费用类型管理 导入分摊费 导出 店铺 国家 费用类型 货币 金额 暂无数据！ 共 0 条 10条/页 1 前往 页",
+        "tableRows": 14,
+        "hasEmptyState": true,
+        "interactives": 32,
+        "bodyChildren": 3
+      },
+      "api": {
+        "total": 12,
+        "ok": 12,
+        "fail": 0
+      },
+      "apiErrors": [],
+      "jsErrors": [],
+      "toastErrors": []
+    },
+    {
+      "url": "/finance/exchangeRate",
+      "expectedTitle": "汇率管理",
+      "status": 200,
+      "finalUrl": "/finance/exchangeRate",
+      "class": "OK",
+      "titleHit": false,
+      "dom": {
+        "textLen": 70,
+        "snippet": "产品 销售 采购 仓库 发货 广告 账目 财务 设置 系统 首页 导出 货币 货币代码 兑换币 官方汇率 我的当前汇率 生效时间 暂无数据 未找到汇率，系统会自动使用前一天的汇率",
+        "tableRows": 7,
+        "hasEmptyState": true,
+        "interactives": 11,
+        "bodyChildren": 4
+      },
+      "api": {
+        "total": 11,
+        "ok": 11,
+        "fail": 0
+      },
+      "apiErrors": [],
+      "jsErrors": [],
+      "toastErrors": []
+    },
+    {
+      "url": "/finance/inventoryValue",
+      "expectedTitle": "库存货值",
+      "status": 200,
+      "finalUrl": "/finance/inventoryValue",
+      "class": "OK",
+      "titleHit": false,
+      "dom": {
+        "textLen": 117,
+        "snippet": "产品 销售 采购 仓库 发货 广告 账目 财务 设置 系统 首页 本地仓 FBA仓 导出 库存日期： 使用采购加权平均成本 图片 名称/SKU 库存 待入库库存 采购成本单价(￥) 总货值(￥) 在途货值(￥) 采购待付款(￥) 其它成本(￥) 备注 暂无数据！ 共 0 条 10条/页 1 前往 页",
+        "tableRows": 7,
+        "hasEmptyState": true,
+        "interactives": 28,
+        "bodyChildren": 3
+      },
+      "api": {
+        "total": 11,
+        "ok": 11,
+        "fail": 0
+      },
+      "apiErrors": [],
+      "jsErrors": [],
+      "toastErrors": []
+    },
+    {
+      "url": "/finance/jobCosting",
+      "expectedTitle": "批次成本",
+      "status": 200,
+      "finalUrl": "/finance/jobCosting",
+      "class": "OK",
+      "titleHit": false,
+      "dom": {
+        "textLen": 117,
+        "snippet": "产品 销售 采购 仓库 发货 广告 账目 财务 设置 系统 首页 全部店铺 全部国家 产品负责人 至 状态 平台SKU 重置成本 导出 修改接收日期 图片 平台SKU 发货日期 接收日期 状态 单据号 货件号 发出数量 接收数量 扣除数量 采购成本 头程成本 操作 暂无数据！ 共 0 条 10条/页 1 前往 页",
+        "tableRows": 14,
+        "hasEmptyState": true,
+        "interactives": 39,
+        "bodyChildren": 3
+      },
+      "api": {
+        "total": 14,
+        "ok": 14,
+        "fail": 0
+      },
+      "apiErrors": [],
+      "jsErrors": [],
+      "toastErrors": []
+    },
+    {
+      "url": "/finance/paymentRequest",
+      "expectedTitle": "请款单",
+      "status": 200,
+      "finalUrl": "/finance/paymentRequest",
+      "class": "OK",
+      "titleHit": true,
+      "dom": {
+        "textLen": 126,
+        "snippet": "产品 销售 采购 仓库 发货 广告 账目 财务 设置 系统 首页 全部订单 待审核 待付款 已完成 已驳回 全部供应商 全部店铺 支付方式 申请日期 至 关联单号 重置 新增请款单 店铺 请款单号 关联单号 付款方式 状态 申请总金额(￥) 申请人 申请日期 审核人 审核日期 备注 操作 暂无数据！ 共 0 条 10条/页 1 前往 页",
+        "tableRows": 14,
+        "hasEmptyState": true,
+        "interactives": 37,
+        "bodyChildren": 3
+      },
+      "api": {
+        "total": 14,
+        "ok": 14,
+        "fail": 0
+      },
+      "apiErrors": [],
+      "jsErrors": [
+        "PAGEERROR: canceled"
+      ],
+      "toastErrors": []
+    },
+    {
+      "url": "/finance/performanpce",
+      "expectedTitle": "业绩报告",
+      "status": 200,
+      "finalUrl": "/finance/performanpce",
+      "class": "OK",
+      "titleHit": false,
+      "dom": {
+        "textLen": 156,
+        "snippet": "产品 销售 采购 仓库 发货 广告 账目 财务 设置 系统 首页 店铺 不限 站点 人民币 品类 产品负责人 至 SKU 重置 导出 负责人 销售额 销量 订单 平均售价 广告销售额 广告销量 退款数量 退款金额 退款率 FBA费用 销售佣金 买家运费 促销费 其它收支 SKU结算 仓储费 其它成本 长期仓储费 运费预估 采购成本 广告费用 毛利润 毛利润率 月报表 暂无数据！ 共 0 条 10条/页 1 前往 页",
+        "tableRows": 6,
+        "hasEmptyState": true,
+        "interactives": 39,
+        "bodyChildren": 3
+      },
+      "api": {
+        "total": 16,
+        "ok": 16,
+        "fail": 0
+      },
+      "apiErrors": [],
+      "jsErrors": [],
+      "toastErrors": []
+    },
+    {
+      "url": "/finance/profitGroup",
+      "expectedTitle": "店铺利润",
+      "status": 200,
+      "finalUrl": "/finance/profitGroup",
+      "class": "OK",
+      "titleHit": true,
+      "dom": {
+        "textLen": 97,
+        "snippet": "产品 销售 采购 仓库 发货 广告 账目 财务 设置 系统 首页 店铺利润 月度结算 月度结算(简洁版) 店铺 不限 站点 结算日期 至 人民币 导出 店铺 币种 销售额 销售佣金 FBA费用 退款金额 仓储费 广告费 其它 结算收入 采购成本 利润 暂无数据",
+        "tableRows": 14,
+        "hasEmptyState": true,
+        "interactives": 21,
+        "bodyChildren": 3
+      },
+      "api": {
+        "total": 11,
+        "ok": 11,
+        "fail": 0
+      },
+      "apiErrors": [],
+      "jsErrors": [],
+      "toastErrors": []
+    },
+    {
+      "url": "/finance/profitReport",
+      "expectedTitle": "利润报表",
+      "status": 200,
+      "finalUrl": "/finance/profitReport",
+      "class": "OK",
+      "titleHit": false,
+      "dom": {
+        "textLen": 181,
+        "snippet": "产品 销售 采购 仓库 发货 广告 账目 财务 设置 系统 首页 SKU MSKU ASIN 父ASIN 品类 店铺 店铺 不限 站点 人民币 品类 产品负责人 至 SKU 重置 导出 导出（旧） 重算 商品信息 销售额 销量 订单 平均售价 广告销售额 广告销量 退款数量 退款金额 退款率 FBA费用 销售佣金 买家运费 促销费 其它收支 SKU结算 仓储费 其它成本 长期仓储费 运费预估 采购成本 广告费用 毛利润 毛利润率 暂无数",
+        "tableRows": 6,
+        "hasEmptyState": true,
+        "interactives": 50,
+        "bodyChildren": 3
+      },
+      "api": {
+        "total": 17,
+        "ok": 17,
+        "fail": 0
+      },
+      "apiErrors": [],
+      "jsErrors": [],
+      "toastErrors": []
+    },
+    {
+      "url": "/finance/settlementsku",
+      "expectedTitle": "账期SKU",
+      "status": 200,
+      "finalUrl": "/finance/settlementsku",
+      "class": "OK",
+      "titleHit": true,
+      "dom": {
+        "textLen": 134,
+        "snippet": "产品 销售 采购 仓库 发货 广告 账目 财务 设置 系统 首页 SKU详情 账期SKU 全部店铺 全部国家 导出 所有费用使用站点币种 图片 SKU/名称 销售额(含税) 销售额 销量 订单量 退货数 退货金额 FBA费 数字服务费 佣金 赔偿金 仓储费 广告花费 其他费用 采购成本 毛利润 毛利率 暂无数据！ 共 1 条 10条/页 1 前往 页",
+        "tableRows": 3,
+        "hasEmptyState": true,
+        "interactives": 37,
+        "bodyChildren": 3
+      },
+      "api": {
+        "total": 11,
+        "ok": 11,
+        "fail": 0
+      },
+      "apiErrors": [],
+      "jsErrors": [],
+      "toastErrors": []
+    },
+    {
+      "url": "/fin/auxiliary/item",
+      "expectedTitle": "辅助核算",
+      "status": 200,
+      "finalUrl": "/fin/auxiliary/item",
+      "class": "OK",
+      "titleHit": true,
+      "dom": {
+        "textLen": 112,
+        "snippet": "产品 销售 采购 仓库 发货 广告 账目 财务 设置 系统 首页 自定义类别 项目编码 项目名称 状态 请选择状态 搜索 重置 新增 修改 导出 同步数据 辅助核算项目ID 项目编码 项目名称 状态 创建时间 操作 暂无数据 安全提示 您还没有创建店铺账套，请先创建店铺账套！ 取消 确定",
+        "tableRows": 0,
+        "hasEmptyState": true,
+        "interactives": 29,
+        "bodyChildren": 7
+      },
+      "api": {
+        "total": 17,
+        "ok": 17,
+        "fail": 0
+      },
+      "apiErrors": [],
+      "jsErrors": [],
+      "toastErrors": []
+    },
+    {
+      "url": "/fin/currency",
+      "expectedTitle": "财务币别",
+      "status": 200,
+      "finalUrl": "/fin/currency",
+      "class": "OK",
+      "titleHit": false,
+      "dom": {
+        "textLen": 114,
+        "snippet": "产品 销售 采购 仓库 发货 广告 账目 财务 设置 系统 首页 币种名称 搜索 重置 新增 修改 删除 导出 同步汇率 币种 名称 汇率 是否本位币 自动同步汇率 操作 CNY 人民币 1 是 否 修改 删除 共 1 条 10条/页 1 前往 页 安全提示 您还没有创建店铺账套，请先创建店铺账套！ 取消 确定",
+        "tableRows": 1,
+        "hasEmptyState": false,
+        "interactives": 29,
+        "bodyChildren": 6
+      },
+      "api": {
+        "total": 14,
+        "ok": 14,
+        "fail": 0
+      },
+      "apiErrors": [],
+      "jsErrors": [],
+      "toastErrors": []
+    },
+    {
+      "url": "/fin/ledger/balance",
+      "expectedTitle": "科目余额表",
+      "status": 200,
+      "finalUrl": "/fin/ledger/balance",
+      "class": "OK",
+      "titleHit": false,
+      "dom": {
+        "textLen": 140,
+        "snippet": "产品 销售 采购 仓库 发货 广告 账目 财务 设置 系统 首页 会计期间范围 至 科目编码 科目名称 查询 重置 导出 科目编码 展开/折叠 科目名称 不显示为0的科目 科目级别 科目类别 期初余额 本期发生额 本年累计发生额 期末余额 借方 贷方 借方 贷方 借方 贷方 借方 贷方 暂无数据 安全提示 您还没有创建店铺账套，请先创建店铺账套！ 取消 确定",
+        "tableRows": 6,
+        "hasEmptyState": true,
+        "interactives": 24,
+        "bodyChildren": 5
+      },
+      "api": {
+        "total": 15,
+        "ok": 15,
+        "fail": 0
+      },
+      "apiErrors": [],
+      "jsErrors": [],
+      "toastErrors": []
+    },
+    {
+      "url": "/fin/ledger/detail",
+      "expectedTitle": "明细账",
+      "status": 200,
+      "finalUrl": "/fin/ledger/detail",
+      "class": "OK",
+      "titleHit": false,
+      "dom": {
+        "textLen": 105,
+        "snippet": "产品 销售 采购 仓库 发货 广告 账目 财务 设置 系统 首页 凭证期间 至 凭证编号 摘要 搜索 重置 导出 暂无数据 凭证日期 凭证编号 摘要 会计科目 借方金额 贷方金额 当前余额 余额方向 暂无数据 安全提示 您还没有创建店铺账套，请先创建店铺账套！ 取消 确定",
+        "tableRows": 6,
+        "hasEmptyState": true,
+        "interactives": 23,
+        "bodyChildren": 6
+      },
+      "api": {
+        "total": 20,
+        "ok": 20,
+        "fail": 0
+      },
+      "apiErrors": [],
+      "jsErrors": [],
+      "toastErrors": []
+    },
+    {
+      "url": "/fin/ledger/general",
+      "expectedTitle": "总账目",
+      "status": 200,
+      "finalUrl": "/fin/ledger/general",
+      "class": "OK",
+      "titleHit": false,
+      "dom": {
+        "textLen": 103,
+        "snippet": "产品 销售 采购 仓库 发货 广告 账目 财务 设置 系统 首页 会计期间 至 会计科目 选择顶级科目 搜索 重置 导出 重建总账 验证公式 科目编码 科目名称 期间 摘要 借方 贷方 方向 余额 暂无数据 安全提示 您还没有创建店铺账套，请先创建店铺账套！ 取消 确定",
+        "tableRows": 6,
+        "hasEmptyState": true,
+        "interactives": 21,
+        "bodyChildren": 5
+      },
+      "api": {
+        "total": 15,
+        "ok": 15,
+        "fail": 0
+      },
+      "apiErrors": [],
+      "jsErrors": [],
+      "toastErrors": []
+    },
+    {
+      "url": "/fin/periods",
+      "expectedTitle": "结账",
+      "status": 200,
+      "finalUrl": "/fin/periods",
+      "class": "OK",
+      "titleHit": true,
+      "dom": {
+        "textLen": 87,
+        "snippet": "产品 销售 采购 仓库 发货 广告 账目 财务 设置 系统 首页 期末处理 反结账 全选 重新测算 导出配置 导入配置 生成凭证 结账 反结账 新增自定义模版 安全提示 您还没有创建店铺账套，请先创建店铺账套！ 取消 确定",
+        "tableRows": 0,
+        "hasEmptyState": false,
+        "interactives": 17,
+        "bodyChildren": 4
+      },
+      "api": {
+        "total": 13,
+        "ok": 13,
+        "fail": 0
+      },
+      "apiErrors": [],
+      "jsErrors": [],
+      "toastErrors": []
+    },
+    {
+      "url": "/fin/report/items",
+      "expectedTitle": "报表项目",
+      "status": 200,
+      "finalUrl": "/fin/report/items",
+      "class": "OK",
+      "titleHit": false,
+      "dom": {
+        "textLen": 164,
+        "snippet": "产品 销售 采购 仓库 发货 广告 账目 财务 设置 系统 首页 2026年11月 选择对比期间 元 查询 导出 打印 资产负债表 编制单位： 2026年11月 金额单位：元 项 目 行次 期末余额 年初余额 暂无数据 安全提示 您还没有创建店铺账套，请先创建店铺账套！ 取消 确定 安全提示 您还没有创建店铺账套，请先创建店铺账套！ 取消 确定 获取资产负债表数据失败 报表生成失败: 报表模板不存在",
+        "tableRows": 0,
+        "hasEmptyState": true,
+        "interactives": 20,
+        "bodyChildren": 7
+      },
+      "api": {
+        "total": 17,
+        "ok": 17,
+        "fail": 0
+      },
+      "apiErrors": [],
+      "jsErrors": [
+        "CanceledError: canceled\n    at http://43.143.28.153:8080/static/js/vendor-CDQ6uO2g.js:16:3218\n    at http://43.143.28.153:8080/static/js/index-PFokrBnG.js:2:23401\n    at async I2.request (http://43.143.28.153:8080/static"
+      ],
+      "toastErrors": []
+    },
+    {
+      "url": "/fin/report/templates",
+      "expectedTitle": "报表模板",
+      "status": 200,
+      "finalUrl": "/fin/report/templates",
+      "class": "OK",
+      "titleHit": false,
+      "dom": {
+        "textLen": 117,
+        "snippet": "产品 销售 采购 仓库 发货 广告 账目 财务 设置 系统 首页 自动创建 新建模板 暂无数据 报表项目 映射规则 项目列表 初始化模板 同步公式 新增项目 验证 行次 项目编码 项目名称 级别 计算类型 计算规则 状态 操作 暂无数据 安全提示 您还没有创建店铺账套，请先创建店铺账套！ 取消 确定",
+        "tableRows": 0,
+        "hasEmptyState": true,
+        "interactives": 32,
+        "bodyChildren": 7
+      },
+      "api": {
+        "total": 19,
+        "ok": 19,
+        "fail": 0
+      },
+      "apiErrors": [],
+      "jsErrors": [],
+      "toastErrors": []
+    },
+    {
+      "url": "/fin/subjects",
+      "expectedTitle": "科目管理",
+      "status": 200,
+      "finalUrl": "/fin/subjects",
+      "class": "OK",
+      "titleHit": false,
+      "dom": {
+        "textLen": 135,
+        "snippet": "产品 销售 采购 仓库 发货 广告 账目 财务 设置 系统 首页 新增 导入 导出 初始化 展开/折叠 状态 1 搜索 重置 科目名称 科目编码 科目级别 父级编码 科目类别 余额方向 末级科目 状态 操作 暂无数据 安全提示 您还没有创建店铺账套，请先创建店铺账套！ 取消 确定 安全提示 您还没有创建店铺账套，请先创建店铺账套！ 取消 确定",
+        "tableRows": 0,
+        "hasEmptyState": true,
+        "interactives": 34,
+        "bodyChildren": 7
+      },
+      "api": {
+        "total": 22,
+        "ok": 22,
+        "fail": 0
+      },
+      "apiErrors": [],
+      "jsErrors": [],
+      "toastErrors": []
+    },
+    {
+      "url": "/fin/voucher/create",
+      "expectedTitle": "凭证录入",
+      "status": 200,
+      "finalUrl": "/fin/voucher/create",
+      "class": "OK",
+      "titleHit": false,
+      "dom": {
+        "textLen": 202,
+        "snippet": "产品 销售 采购 仓库 发货 广告 账目 财务 设置 系统 首页 保存并新增 保存 暂存 导入凭证 模板 快捷键 大屏 ‹ › 凭证字 记 号 日期 记账凭证 2026年第11期 附件0张 上传附件 序号 摘要 科目 借方金额 亿 千 百 十 万 千 百 十 元 角 分 贷方金额 亿 千 百 十 万 千 百 十 元 角 分 1 2 3 4 合计 制单人: 安全提示 您还没有创建店铺账套，请先创建店铺账套！ 取消 确定 安全提示 您还没有",
+        "tableRows": 11,
+        "hasEmptyState": false,
+        "interactives": 69,
+        "bodyChildren": 6
+      },
+      "api": {
+        "total": 20,
+        "ok": 20,
+        "fail": 0
+      },
+      "apiErrors": [],
+      "jsErrors": [],
+      "toastErrors": []
+    },
+    {
+      "url": "/fin/voucher/list",
+      "expectedTitle": "查凭证",
+      "status": 200,
+      "finalUrl": "/fin/voucher/list",
+      "class": "OK",
+      "titleHit": false,
+      "dom": {
+        "textLen": 120,
+        "snippet": "产品 销售 采购 仓库 发货 广告 账目 财务 设置 系统 首页 凭证期间 至 搜索 重置 审核 导出 导入凭证 操作 凭证日期 凭证字号 摘要 科目 借方金额 贷方金额 附件数量 附件上传 原单据编号 制单人 审核人 状态 备注 制单日期 暂无数据 安全提示 您还没有创建店铺账套，请先创建店铺账套！ 取消 确定",
+        "tableRows": 6,
+        "hasEmptyState": true,
+        "interactives": 36,
+        "bodyChildren": 5
+      },
+      "api": {
+        "total": 15,
+        "ok": 15,
+        "fail": 0
+      },
+      "apiErrors": [],
+      "jsErrors": [],
+      "toastErrors": []
+    },
+    {
+      "url": "/fin/vouchertype",
+      "expectedTitle": "凭证字管理",
+      "status": 200,
+      "finalUrl": "/fin/vouchertype",
+      "class": "OK",
+      "titleHit": true,
+      "dom": {
+        "textLen": 68,
+        "snippet": "产品 销售 采购 仓库 发货 广告 账目 财务 设置 系统 首页 凭证字管理 新增 凭证字名称 操作 暂无数据 安全提示 您还没有创建店铺账套，请先创建店铺账套！ 取消 确定",
+        "tableRows": 0,
+        "hasEmptyState": true,
+        "interactives": 10,
+        "bodyChildren": 4
+      },
+      "api": {
+        "total": 13,
+        "ok": 13,
+        "fail": 0
+      },
+      "apiErrors": [],
+      "jsErrors": [],
+      "toastErrors": []
+    },
+    {
+      "url": "/report/feedback",
+      "expectedTitle": "差评管理",
+      "status": 200,
+      "finalUrl": "/report/feedback",
+      "class": "OK",
+      "titleHit": false,
+      "dom": {
+        "textLen": 69,
+        "snippet": "产品 销售 采购 仓库 发货 广告 账目 财务 设置 系统 首页 全部店铺 全部国家 站点 订单 购买时间 评论时间 产品 评星 评论 回复 邮箱 暂无数据！ 共 0 条 10条/页 1 前往 页",
+        "tableRows": 0,
+        "hasEmptyState": true,
+        "interactives": 15,
+        "bodyChildren": 3
+      },
+      "api": {
+        "total": 12,
+        "ok": 12,
+        "fail": 0
+      },
+      "apiErrors": [],
+      "jsErrors": [],
+      "toastErrors": []
+    },
+    {
+      "url": "/report/seller",
+      "expectedTitle": "店铺绩效",
+      "status": 200,
+      "finalUrl": "/report/seller",
+      "class": "OK",
+      "titleHit": false,
+      "dom": {
+        "textLen": 384,
+        "snippet": "产品 销售 采购 仓库 发货 广告 账目 财务 设置 系统 首页 全部店铺 全部国家 客户服务绩效 订单缺陷率 订单日期： - 低于 NaN% 目标 卖家自配送 % 订单总数: 存在缺陷的订单: Feedback差评 亚马逊商城交易保障索赔 信用卡拒付索赔 FBA配送 % 订单总数: 存在缺陷的订单: Feedback差评 亚马逊商城交易保障索赔 信用卡拒付索赔 发票缺陷率 订单日期： - 低于 NaN% 目标 缺陷率 % 订单总数: ",
+        "tableRows": 0,
+        "hasEmptyState": false,
+        "interactives": 7,
+        "bodyChildren": 3
+      },
+      "api": {
+        "total": 10,
+        "ok": 10,
+        "fail": 0
+      },
+      "apiErrors": [],
+      "jsErrors": [],
+      "toastErrors": []
+    },
+    {
+      "url": "/sys/customer",
+      "expectedTitle": "客户管理",
+      "status": 200,
+      "finalUrl": "/sys/customer",
+      "class": "OK",
+      "titleHit": false,
+      "dom": {
+        "textLen": 75,
+        "snippet": "产品 销售 采购 仓库 发货 广告 账目 财务 设置 系统 首页 全部 选择角色 查询 客户信息 公司名称 注册时间 最后登录时间 套餐类型 套餐备注 操作 暂无数据！ 共 0 条 10条/页 1 前往 页",
+        "tableRows": 0,
+        "hasEmptyState": true,
+        "interactives": 19,
+        "bodyChildren": 3
+      },
+      "api": {
+        "total": 14,
+        "ok": 14,
+        "fail": 0
+      },
+      "apiErrors": [],
+      "jsErrors": [],
+      "toastErrors": []
+    },
+    {
+      "url": "/sys/customer/order",
+      "expectedTitle": "客户订单",
+      "status": 200,
+      "finalUrl": "/sys/customer/order",
+      "class": "OK",
+      "titleHit": false,
+      "dom": {
+        "textLen": 124,
+        "snippet": "产品 销售 采购 仓库 发货 广告 账目 财务 设置 系统 首页 支付时间 至 搜索 公司名称 请选择公司 套餐名称 请选择套餐 搜索 重置 更多筛选 添加新订单 商户订单号 公司名称 订单名称 套餐名称 订单类型 付款金额 支付方式 付款状态 开票状态 开票请求 支付时间 操作 暂无数据！ 共 0 条 10条/页 1 前往 页",
+        "tableRows": 14,
+        "hasEmptyState": true,
+        "interactives": 34,
+        "bodyChildren": 3
+      },
+      "api": {
+        "total": 11,
+        "ok": 11,
+        "fail": 0
+      },
+      "apiErrors": [],
+      "jsErrors": [],
+      "toastErrors": []
+    },
+    {
+      "url": "/sys/deepseek",
+      "expectedTitle": "AI问答",
+      "status": 200,
+      "finalUrl": "/sys/deepseek",
+      "class": "OK",
+      "titleHit": false,
+      "dom": {
+        "textLen": 114,
+        "snippet": "产品 销售 采购 仓库 发货 广告 账目 财务 设置 系统 首页 新建会话 💬 暂无会话 点击上方按钮创建新会话 AI 你好！我是AI助手，我可以帮助你查询业务数据和解答问题。请问有什么可以帮您的？ deepseek-v3.2 Agent 发送 快捷短语 💡 暂无短语",
+        "tableRows": 0,
+        "hasEmptyState": false,
+        "interactives": 8,
+        "bodyChildren": 3
+      },
+      "api": {
+        "total": 12,
+        "ok": 12,
+        "fail": 0
+      },
+      "apiErrors": [],
+      "jsErrors": [],
+      "toastErrors": []
+    },
+    {
+      "url": "/sys/dept",
+      "expectedTitle": "部门管理",
+      "status": 200,
+      "finalUrl": "/sys/dept",
+      "class": "OK",
+      "titleHit": false,
+      "dom": {
+        "textLen": 48,
+        "snippet": "产品 销售 采购 仓库 发货 广告 账目 财务 设置 系统 首页 新增 删除 正常 搜索 重置 部门名称 状态 显示排序 操作 暂无数据",
+        "tableRows": 0,
+        "hasEmptyState": true,
+        "interactives": 12,
+        "bodyChildren": 3
+      },
+      "api": {
+        "total": 10,
+        "ok": 10,
+        "fail": 0
+      },
+      "apiErrors": [],
+      "jsErrors": [],
+      "toastErrors": []
+    },
+    {
+      "url": "/sys/dict",
+      "expectedTitle": "数据字典",
+      "status": 200,
+      "finalUrl": "/sys/dict",
+      "class": "OK",
+      "titleHit": false,
+      "dom": {
+        "textLen": 329,
+        "snippet": "产品 销售 采购 仓库 发货 广告 账目 财务 设置 系统 首页 字典类型 新增 删除 搜索 重置 字典名称 字典编码 状态 操作 采购币种 currency_purchase 启用 编辑 删除 物流方式UK logistics_uk 启用 编辑 删除 物流方式US logistics_us 启用 编辑 删除 客户类型 customer 启用 编辑 删除 卖家类型 is_business_order 启用 编辑 删除 订单状态 orde",
+        "tableRows": 10,
+        "hasEmptyState": true,
+        "interactives": 53,
+        "bodyChildren": 3
+      },
+      "api": {
+        "total": 10,
+        "ok": 10,
+        "fail": 0
+      },
+      "apiErrors": [],
+      "jsErrors": [],
+      "toastErrors": []
+    },
+    {
+      "url": "/sys/feishu",
+      "expectedTitle": "飞书绑定",
+      "status": 200,
+      "finalUrl": "/sys/feishu",
+      "class": "OK",
+      "titleHit": true,
+      "dom": {
+        "textLen": 55,
+        "snippet": "产品 销售 采购 仓库 发货 广告 账目 财务 设置 系统 首页 飞书绑定 飞书应用ID 飞书应用密钥 加密密钥 验证令牌 API文档连接 保存",
+        "tableRows": 0,
+        "hasEmptyState": false,
+        "interactives": 15,
+        "bodyChildren": 3
+      },
+      "api": {
+        "total": 10,
+        "ok": 10,
+        "fail": 0
+      },
+      "apiErrors": [],
+      "jsErrors": [],
+      "toastErrors": []
+    },
+    {
+      "url": "/sys/fileuser",
+      "expectedTitle": "文件资源",
+      "status": 200,
+      "finalUrl": "/sys/fileuser",
+      "class": "OK",
+      "titleHit": false,
+      "dom": {
+        "textLen": 55,
+        "snippet": "产品 销售 采购 仓库 发货 广告 账目 财务 设置 系统 首页 我的文件 公司文件 上传我的文件 预览 文件名 上传时间 操作 暂无文件，请上传",
+        "tableRows": 0,
+        "hasEmptyState": false,
+        "interactives": 8,
+        "bodyChildren": 3
+      },
+      "api": {
+        "total": 10,
+        "ok": 10,
+        "fail": 0
+      },
+      "apiErrors": [],
+      "jsErrors": [],
+      "toastErrors": []
+    },
+    {
+      "url": "/sys/gen",
+      "expectedTitle": "代码生成",
+      "status": 200,
+      "finalUrl": "/sys/gen",
+      "class": "OK",
+      "titleHit": false,
+      "dom": {
+        "textLen": 69,
+        "snippet": "产品 销售 采购 仓库 发货 广告 账目 财务 设置 系统 首页 表名称 表描述 创建时间 - 搜索 重置 生成 导入 修改 删除 序号 表名称 表描述 实体 创建时间 更新时间 操作 暂无数据",
+        "tableRows": 14,
+        "hasEmptyState": true,
+        "interactives": 30,
+        "bodyChildren": 6
+      },
+      "api": {
+        "total": 10,
+        "ok": 10,
+        "fail": 0
+      },
+      "apiErrors": [],
+      "jsErrors": [],
+      "toastErrors": []
+    },
+    {
+      "url": "/sys/holiday",
+      "expectedTitle": "发货日历",
+      "status": 200,
+      "finalUrl": "/sys/holiday",
+      "class": "OK",
+      "titleHit": false,
+      "dom": {
+        "textLen": 203,
+        "snippet": "产品 销售 采购 仓库 发货 广告 账目 财务 设置 系统 首页 2026 生成年度日历 2026年1月 日 一 二 三 四 五 六 2026年2月 日 一 二 三 四 五 六 2026年3月 日 一 二 三 四 五 六 2026年4月 日 一 二 三 四 五 六 2026年5月 日 一 二 三 四 五 六 2026年6月 日 一 二 三 四 五 六 2026年7月 日 一 二 三 四 五 六 2026年8月 日 一 二 三 四 五 六",
+        "tableRows": 72,
+        "hasEmptyState": false,
+        "interactives": 6,
+        "bodyChildren": 3
+      },
+      "api": {
+        "total": 21,
+        "ok": 21,
+        "fail": 0
+      },
+      "apiErrors": [],
+      "jsErrors": [],
+      "toastErrors": []
+    },
+    {
+      "url": "/sys/menu",
+      "expectedTitle": "管理菜单",
+      "status": 200,
+      "finalUrl": "/sys/menu",
+      "class": "OK",
+      "titleHit": false,
+      "dom": {
+        "textLen": 294,
+        "snippet": "产品 销售 采购 仓库 发货 广告 账目 财务 设置 系统 首页 菜单列表 新增 搜索 重置 菜单名称 菜单类型 状态 排序 操作 计算器 目录 隐藏 0 新增 修改 删除 产品 目录 显示 1 新增 修改 删除 销售 目录 显示 2 新增 修改 删除 采购 目录 显示 3 新增 修改 删除 仓库 目录 显示 4 新增 修改 删除 发货 目录 显示 5 新增 修改 删除 广告 目录 显示 6 新增 修改 删除 账目 目录 显示 10 新",
+        "tableRows": 230,
+        "hasEmptyState": true,
+        "interactives": 756,
+        "bodyChildren": 3
+      },
+      "api": {
+        "total": 10,
+        "ok": 10,
+        "fail": 0
+      },
+      "apiErrors": [],
+      "jsErrors": [],
+      "toastErrors": []
+    },
+    {
+      "url": "/sys/movedata",
+      "expectedTitle": "数据迁移",
+      "status": 200,
+      "finalUrl": "/sys/movedata",
+      "class": "OK",
+      "titleHit": false,
+      "dom": {
+        "textLen": 2398,
+        "snippet": "产品 销售 采购 仓库 发货 广告 账目 财务 设置 系统 首页 备份数据库 迁移表 迁移账期数据 数据库 db_admin 添加到备份任务 名称 行数 备注 数据大小(M) 数据大小(G) t_sys_menu 229 菜单管理 0.06 0 t_sys_customer_discount 0 用户折扣表 0.02 0 t_sys_customer_invoice 0 0.02 0 t_sys_customer_order 0 0.0",
+        "tableRows": 85,
+        "hasEmptyState": true,
+        "interactives": 110,
+        "bodyChildren": 3
+      },
+      "api": {
+        "total": 11,
+        "ok": 11,
+        "fail": 0
+      },
+      "apiErrors": [],
+      "jsErrors": [
+        "PAGEERROR: canceled"
+      ],
+      "toastErrors": []
+    },
+    {
+      "url": "/sys/notepad",
+      "expectedTitle": "团队公告",
+      "status": 200,
+      "finalUrl": "/sys/notepad",
+      "class": "OK",
+      "titleHit": false,
+      "dom": {
+        "textLen": 78,
+        "snippet": "产品 销售 采购 仓库 发货 广告 账目 财务 设置 系统 首页 标题 新建笔记 📝 暂无笔记 点击上方按钮创建新笔记 共 0 条 保存笔记 ⚡️Upgrade 文件 编辑 视图 插入 格式 工具 段落 p 0 字",
+        "tableRows": 0,
+        "hasEmptyState": false,
+        "interactives": 37,
+        "bodyChildren": 4
+      },
+      "api": {
+        "total": 10,
+        "ok": 10,
+        "fail": 0
+      },
+      "apiErrors": [],
+      "jsErrors": [],
+      "toastErrors": []
+    },
+    {
+      "url": "/sys/notify",
+      "expectedTitle": "公告发布",
+      "status": 200,
+      "finalUrl": "/sys/notify",
+      "class": "OK",
+      "titleHit": false,
+      "dom": {
+        "textLen": 78,
+        "snippet": "产品 销售 采购 仓库 发货 广告 账目 财务 设置 系统 首页 消息类型： 即时消息 用户类型 全部用户 标题: 标题前缀 内容 段落 p 5 字 提交 取消 系统公告 暂无数据！ 共 0 条 10条/页 1 前往 页",
+        "tableRows": 0,
+        "hasEmptyState": true,
+        "interactives": 27,
+        "bodyChildren": 4
+      },
+      "api": {
+        "total": 10,
+        "ok": 10,
+        "fail": 0
+      },
+      "apiErrors": [],
+      "jsErrors": [],
+      "toastErrors": []
+    },
+    {
+      "url": "/sys/online",
+      "expectedTitle": "在线客户",
+      "status": 200,
+      "finalUrl": "/sys/online",
+      "class": "OK",
+      "titleHit": false,
+      "dom": {
+        "textLen": 416,
+        "snippet": "产品 销售 采购 仓库 发货 广告 账目 财务 设置 系统 首页 登录地址 用户名称 搜索 重置 序号 会话编号 登录名称 主机 登录时间 操作 1 d43585c7-011d-418c-acb7-0e677973d0d7 43.136.93.218 2026-11-27 00:02:20 强退 2 ef3d2510-3e96-4804-a968-7cadcc034093 106.52.240.29 2026-11-27 00:06:5",
+        "tableRows": 5,
+        "hasEmptyState": false,
+        "interactives": 20,
+        "bodyChildren": 3
+      },
+      "api": {
+        "total": 10,
+        "ok": 10,
+        "fail": 0
+      },
+      "apiErrors": [],
+      "jsErrors": [],
+      "toastErrors": []
+    },
+    {
+      "url": "/sys/ruleAuth",
+      "expectedTitle": "系统角色",
+      "status": 200,
+      "finalUrl": "/sys/ruleAuth",
+      "class": "OK",
+      "titleHit": false,
+      "dom": {
+        "textLen": 1030,
+        "snippet": "产品 销售 采购 仓库 发货 广告 账目 财务 设置 系统 首页 添加角色 角色列表 manager 专业版 免费版 入门版 旗舰版 标准版 1 共 6 条 菜单权限-manager 计算器 FBA计算器 利润计算 计算方案 产品 基础产品 标签管理 产品管理 产品属性 品牌管理 品类管理 辅料包材 辅料管理 箱子管理 平台配对 SKU配对 Temu商品 工具 AI问答 团队公告 文件资源 AI技能中心 选品研究 AI运行历史 销量统计",
+        "tableRows": 0,
+        "hasEmptyState": false,
+        "interactives": 237,
+        "bodyChildren": 3
+      },
+      "api": {
+        "total": 12,
+        "ok": 12,
+        "fail": 0
+      },
+      "apiErrors": [],
+      "jsErrors": [],
+      "toastErrors": []
+    },
+    {
+      "url": "/sys/subuser",
+      "expectedTitle": "管理员号",
+      "status": 200,
+      "finalUrl": "/sys/subuser",
+      "class": "OK",
+      "titleHit": false,
+      "dom": {
+        "textLen": 122,
+        "snippet": "产品 销售 采购 仓库 发货 广告 账目 财务 设置 系统 首页 启用 停用 过期 角色权限 用户名 重置 添加用户 启用 停用 删除 用户名 登录账号 状态 部门 角色权限 店铺权限 数据权限 创建时间 到期时间 操作 1 启用 admin 2016-11-01 2098-12-31 编辑 共 1 条 10条/页 1 前往 页",
+        "tableRows": 1,
+        "hasEmptyState": false,
+        "interactives": 28,
+        "bodyChildren": 3
+      },
+      "api": {
+        "total": 15,
+        "ok": 15,
+        "fail": 0
+      },
+      "apiErrors": [],
+      "jsErrors": [],
+      "toastErrors": []
+    },
+    {
+      "url": "/sys/tags",
+      "expectedTitle": "标签管理",
+      "status": 200,
+      "finalUrl": "/sys/tags",
+      "class": "OK",
+      "titleHit": false,
+      "dom": {
+        "textLen": 50,
+        "snippet": "产品 销售 采购 仓库 发货 广告 账目 财务 设置 系统 首页 标签分类 搜索 添加 新增 批量停用 标签名称 标签颜色 操作 暂无数据",
+        "tableRows": 0,
+        "hasEmptyState": true,
+        "interactives": 12,
+        "bodyChildren": 3
+      },
+      "api": {
+        "total": 10,
+        "ok": 10,
+        "fail": 0
+      },
+      "apiErrors": [],
+      "jsErrors": [],
+      "toastErrors": []
+    },
+    {
+      "url": "/sys/tariffpackages",
+      "expectedTitle": "套餐管理",
+      "status": 200,
+      "finalUrl": "/sys/tariffpackages",
+      "class": "OK",
+      "titleHit": false,
+      "dom": {
+        "textLen": 94,
+        "snippet": "产品 销售 采购 仓库 发货 广告 账目 财务 设置 系统 首页 添加新套餐 名称 数量上限 年费 月费 操作 绑定店铺 商品列表 处理订单 子用户 利润计算方案数量 站点数量 订单存储月份 广告组数量 跟卖监控数量 商品分析数量 暂无数据！",
+        "tableRows": 0,
+        "hasEmptyState": true,
+        "interactives": 18,
+        "bodyChildren": 3
+      },
+      "api": {
+        "total": 11,
+        "ok": 11,
+        "fail": 0
+      },
+      "apiErrors": [],
+      "jsErrors": [],
+      "toastErrors": []
+    },
+    {
+      "url": "/sys/task",
+      "expectedTitle": "系统任务",
+      "status": 200,
+      "finalUrl": "/sys/task",
+      "class": "OK",
+      "titleHit": false,
+      "dom": {
+        "textLen": 79,
+        "snippet": "产品 销售 采购 仓库 发货 广告 账目 财务 设置 系统 首页 添加新任务 注意：修改后必须重载任务才能生效 重载任务 运行列表 名称 执行时间 描述 操作 暂无数据！ 名称 执行时间 操作 暂无数据！",
+        "tableRows": 0,
+        "hasEmptyState": true,
+        "interactives": 11,
+        "bodyChildren": 3
+      },
+      "api": {
+        "total": 11,
+        "ok": 11,
+        "fail": 0
+      },
+      "apiErrors": [],
+      "jsErrors": [],
+      "toastErrors": []
+    }
+  ]
+}

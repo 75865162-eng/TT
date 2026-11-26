@@ -313,12 +313,10 @@ public class LoginController {
     private void setSession(String account,String apptype,String sessionkey,String jsonuser){
 		int expiresIn =3600;
 		String accountkey=account+"{"+apptype+"}";
-		if(stringRedisTemplate.opsForValue().get(accountkey)!=null){
-			String sessionkeyOld = stringRedisTemplate.opsForValue().get(accountkey);
-			if(sessionkeyOld!=null&&!sessionkeyOld.equals(sessionkey)){
-				stringRedisTemplate.delete(sessionkeyOld);
-			}
-		}
+		// 允许多点同时登录：同一账号在新标签页/新设备登录时，不再删除上一次的登录令牌。
+		// 原逻辑按 account{apptype} 找到旧 session 并 delete，导致后一次登录把前一次踢下线，
+		// 表现为"用着用着几十秒就退出"。各登录令牌以自身 sessionkey 为 key 独立存放、独立过期，
+		// 互不干扰；accountkey 仅作为"当前最新会话"索引保留，供在线用户/强制下线等管理功能使用。
 		stringRedisTemplate.opsForValue().set(CacheConstants.LOGIN_TOKEN_KEY+sessionkey,jsonuser,expiresIn,java.util.concurrent.TimeUnit.SECONDS);
 		stringRedisTemplate.opsForValue().set(accountkey,CacheConstants.LOGIN_TOKEN_KEY+sessionkey,expiresIn,java.util.concurrent.TimeUnit.SECONDS);
 	}
