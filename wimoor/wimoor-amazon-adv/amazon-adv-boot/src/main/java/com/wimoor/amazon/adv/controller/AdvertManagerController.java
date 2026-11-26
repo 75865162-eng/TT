@@ -121,6 +121,9 @@ public class AdvertManagerController {
 	@GetMapping("/getenablesumtype")
 	public Result<Map<String, Object>> getEnableTypeNumberAction() {
 		UserInfo user = UserInfoContext.get();
+		if (user == null || user.getCompanyid() == null) {
+			return Result.success(new HashMap<String, Object>());
+		}
 		return Result.success(amzAdvSumAllTypeService.getEnableNumber(user.getCompanyid()));
 	}
 

@@ -280,6 +280,7 @@ public class FinVouchersServiceImpl implements IFinVouchersService
         // 2. 获取备份数据
         VoucherBackup backup = preCheckResult.getBackup();
         UserInfo user=UserInfoContext.get();
+        String operatorName = user == null ? null : user.getUserName();
 
         try {
             // 3. 从账簿中移除原凭证的影响
@@ -287,8 +288,8 @@ public class FinVouchersServiceImpl implements IFinVouchersService
 
             // 4. 更新凭证数据
             finVouchers.setUpdatedTime(new Date());
-            finVouchers.setUpdateBy(UserInfoContext.get().getUserName());
-            finVouchers.setPreparerBy(UserInfoContext.get().getUserName());
+            finVouchers.setUpdateBy(operatorName);
+            finVouchers.setPreparerBy(operatorName);
             int result = finVouchersMapper.updateFinVouchers(finVouchers);
 
             // 5. 更新凭证分录

@@ -128,6 +128,9 @@ public class AmzProductListingController {
 		}
 		else if(StrUtil.isBlank(dto.getAmazonauthid())) {
     		if(dto.getGroupid()!=null) {
+    			if (dto.getMarketplaceids() == null || dto.getMarketplaceids().isEmpty()) {
+    				throw new BizException("缺少站点参数");
+    			}
     			AmazonAuthority auth = amazonAuthorityService.selectByGroupAndMarket(dto.getGroupid(), dto.getMarketplaceids().get(0));
     			if(auth!=null) {
     				dto.setAmazonauthid(auth.getId());

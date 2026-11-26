@@ -937,7 +937,8 @@ public class QuoteOrderServiceImpl extends ServiceImpl<QuoteOrderMapper, QuoteOr
 
         for (String keyz : resultMap.keySet()){
             List<Map<String, Object>> list = (List<Map<String, Object>>)resultMap.get(keyz);
-            String suppliername = list.get(0).get("supplier").toString();
+            Object supplierObj = list.get(0).get("supplier");
+            String suppliername = supplierObj == null ? "" : supplierObj.toString();
             //创建页签
             Sheet sheet = workbook.createSheet(suppliername);
             // 在索引0的位置创建行（最顶端的行）

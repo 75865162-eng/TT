@@ -232,7 +232,8 @@ public class PictureServiceImpl extends ServiceImpl<PictureMapper,Picture> imple
 			String[] imageNames = resourceUrl.split("/");
 			if (imageNames.length > 0) {
 				imageName = imageNames[imageNames.length - 1];
-				imageName= imageName.split("\\.")[1];
+				String[] extParts = imageName.split("\\.");
+				imageName = extParts.length > 1 ? extParts[1] : "";
 				Double rand =   (Math.random()*1000);
 				imageName=(new Date().getTime()+""+rand.intValue())+"."+imageName;
 			}

@@ -200,6 +200,9 @@ public class SysTagsController {
     	  list=new ArrayList<Map<String,Object>>();
     	  for(String tagid:tagsIdsList) {
     		  SysTags tagItem = iSysTagsService.getById(tagid);
+    		  if (tagItem == null) {
+    			  continue;
+    		  }
     		  Map<String,Object> maps=new HashMap<String, Object>();
     		  maps.put("name", tagItem.getName());
     		  maps.put("color", tagItem.getColor());

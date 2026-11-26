@@ -60,6 +60,12 @@ public class FinClosingTemplateController extends BaseController
     @Autowired
     private FinAccountingSubjectsMapper finAccountingSubjectsMapper;
 
+    // Excel模板导入可能被无登录上下文的调用链命中，统一取操作人名称并守卫，避免 NPE。
+    private String currentUserName() {
+        UserInfo u = UserInfoContext.get();
+        return u == null ? null : u.getUserName();
+    }
+
     @GetMapping("/list")
     public TableDataInfo list(FinClosingTemplate finClosingTemplate)
     {
@@ -768,9 +774,9 @@ public class FinClosingTemplateController extends BaseController
                             profitLoss.setCurrentYearProfitSubjectCode(columnMap.containsKey("本年利润科目编码") ? getCellStringValue(row.getCell(columnMap.get("本年利润科目编码"))) : null);
                             profitLoss.setPriorYearAdjustmentSubjectCode(columnMap.containsKey("以前年度损益调整科目编码") ? getCellStringValue(row.getCell(columnMap.get("以前年度损益调整科目编码"))) : null);
                             profitLoss.setPriorYearAdjustTransferSubjectCode(columnMap.containsKey("调整结转科目编码") ? getCellStringValue(row.getCell(columnMap.get("调整结转科目编码"))) : null);
-                            profitLoss.setCreateBy(UserInfoContext.get().getUserName());
+                            profitLoss.setCreateBy(currentUserName());
                             profitLoss.setCreatedTime(new Date());
-                            profitLoss.setModifyBy(UserInfoContext.get().getUserName());
+                            profitLoss.setModifyBy(currentUserName());
                             profitLoss.setUpdatedTime(new Date());
                             
                             // 检查是否已存在该模板的配置
@@ -866,9 +872,9 @@ public class FinClosingTemplateController extends BaseController
                             // 方向：借方->1，贷方->2
                             String direction = amazonColumnMap.containsKey("方向") ? getCellStringValue(row.getCell(amazonColumnMap.get("方向"))) : null;
                             amazon.setDirection("借方".equals(direction) ? 1 : "贷方".equals(direction) ? 2 : null);
-                            amazon.setCreateBy(UserInfoContext.get().getUserName());
+                            amazon.setCreateBy(currentUserName());
                             amazon.setCreatedTime(new Date());
-                            amazon.setModifyBy(UserInfoContext.get().getUserName());
+                            amazon.setModifyBy(currentUserName());
                             amazon.setUpdatedTime(new Date());
                             
                             finClosingTemplateAmazonService.insertFinClosingTemplateAmazon(amazon);
@@ -943,9 +949,9 @@ public class FinClosingTemplateController extends BaseController
                             // 方向：借方->1，贷方->2
                             String direction = otherColumnMap.containsKey("方向") ? getCellStringValue(row.getCell(otherColumnMap.get("方向"))) : null;
                             item.setDirection("借方".equals(direction) ? 1 : "贷方".equals(direction) ? 2 : null);
-                            item.setCreateBy(UserInfoContext.get().getUserName());
+                            item.setCreateBy(currentUserName());
                             item.setCreatedTime(new Date());
-                            item.setModifyBy(UserInfoContext.get().getUserName());
+                            item.setModifyBy(currentUserName());
                             item.setUpdatedTime(new Date());
                             
                             finClosingTemplateItemService.insertFinClosingTemplateItem(item);
@@ -1090,9 +1096,9 @@ public class FinClosingTemplateController extends BaseController
                                     item.setSubjectId(creditSubjectId);
                                 }
                                 item.setAmountField(contentMatch);
-                                item.setCreateBy(UserInfoContext.get().getUserName());
+                                item.setCreateBy(currentUserName());
                                 item.setCreatedTime(new Date());
-                                item.setModifyBy(UserInfoContext.get().getUserName());
+                                item.setModifyBy(currentUserName());
                                 item.setUpdatedTime(new Date());
                                 
                                 finClosingTemplateItemService.insertFinClosingTemplateItem(item);
@@ -1131,7 +1137,7 @@ public class FinClosingTemplateController extends BaseController
             FinClosingTemplate template = list.get(0);
             template.setFtype(ftype);
             template.setCountry(country);
-            template.setModifyBy(UserInfoContext.get().getUserName());
+            template.setModifyBy(currentUserName());
             template.setUpdatedTime(new Date());
             finClosingTemplateService.updateFinClosingTemplate(template);
             return template;
@@ -1146,9 +1152,9 @@ public class FinClosingTemplateController extends BaseController
         template.setCountry(country);
         template.setDisabled(0);
         template.setIssystem(0);
-        template.setCreateBy(UserInfoContext.get().getUserName());
+        template.setCreateBy(currentUserName());
         template.setCreatedTime(new Date());
-        template.setModifyBy(UserInfoContext.get().getUserName());
+        template.setModifyBy(currentUserName());
         template.setUpdatedTime(new Date());
         finClosingTemplateService.insertFinClosingTemplate(template);
         return template;

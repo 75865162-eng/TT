@@ -68,9 +68,13 @@ public class ReportAmzProductRecommendedListServiceImpl extends ReportServiceImp
 						if(line!=null&&line.contains("Sorry")) {
 							return line;
 						}
-						asin=line.split(",\"")[0];
-						name=line.split(",\"")[1];
-						if(StrUtil.isEmpty(line.split(",\"")[2])){
+						String[] parts = line.split(",\"");
+						if (parts.length < 3) {
+							return line;
+						}
+						asin=parts[0];
+						name=parts[1];
+						if(StrUtil.isEmpty(parts[2])){
 							line=line.replace(asin+",\""+name+",\""+",", "");
 						}else {
 							line=line.replace(asin+",\""+name+",", "");
@@ -93,9 +97,13 @@ public class ReportAmzProductRecommendedListServiceImpl extends ReportServiceImp
 						if(line!=null&&line.contains("Sorry")) {
 							return line;
 						}
-						asin=line.split(",\"")[0];
-						name=line.split(",\"")[1];
-						if(StrUtil.isEmpty(line.split(",\"")[2])){
+						String[] parts = line.split(",\"");
+						if (parts.length < 3) {
+							return line;
+						}
+						asin=parts[0];
+						name=parts[1];
+						if(StrUtil.isEmpty(parts[2])){
 							line=line.replace(asin+",\""+name+",\""+",", "");
 						}else {
 							line=line.replace(asin+",\""+name+",", "");

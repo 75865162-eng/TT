@@ -46,12 +46,18 @@ public class MerchantShippingGroupController {
     @PostMapping("/list")
     public Result<?> getAllGroupAction(@RequestBody ProductListingItemDTO dto) {
     	 setAuthority(dto);
+    	 if (dto.getMarketplaceids() == null || dto.getMarketplaceids().isEmpty()) {
+    		 return Result.failed("缺少站点参数");
+    	 }
     	 List<MerchantShippingGroup> list=iMerchantShippingGroupServices.listGroups(dto.getAmazonauthid(),dto.getMarketplaceids().get(0));
         return Result.success(list);
     }
     @PostMapping("/refresh")
     public Result<?> refreshAllGroupAction(@RequestBody ProductListingItemDTO dto) {
     	 setAuthority(dto);
+    	 if (dto.getMarketplaceids() == null || dto.getMarketplaceids().isEmpty()) {
+    		 return Result.failed("缺少站点参数");
+    	 }
     	 List<MerchantShippingGroup> list=iMerchantShippingGroupServices.refreshListGroups(dto.getAmazonauthid(),dto.getMarketplaceids().get(0));
         return Result.success(list);
     }

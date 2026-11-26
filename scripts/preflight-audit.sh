@@ -86,6 +86,51 @@ for m in getNameMap getIDMap; do
 done
 [ "$guard_ok" -eq 1 ] && pass "Feign接口 getNameMap/getIDMap 均有空守卫"
 
+# 8. 无登录上下文的 Feign/内部端点直接链式取 UserInfoContext（本轮审计新增类别）
+#    LedgerFeignController 已统一走 putShopid(params) 守卫；这里拦截回归：出现裸
+#    "UserInfoContext.get();" 紧接 "userinfo.getCompanyid()" 且无 null 判断的行。
+echo "[8] Feign台账端点空上下文守卫"
+lf='wimoor/wimoor-erp/erp-boot/src/main/java/com/wimoor/erp/finance/controller/LedgerFeignController.java'
+if [ -f "$lf" ]; then
+  # putShopid 助手必须存在，且不得残留未守卫的直取模式
+  grep -q 'private boolean putShopid' "$lf" || fail "LedgerFeignController 缺少 putShopid 守卫助手"
+  bare=$(grep -n -A1 'UserInfo userinfo = UserInfoContext.get();' "$lf" \
+    | grep 'params.put("shopid", userinfo.getCompanyid())' | head -3)
+  [ -n "$bare" ] && fail "LedgerFeignController 残留未守卫的直取 shopid" || pass "LedgerFeignController shopid 均经守卫"
+else
+  echo "  [WARN] LedgerFeignController 不存在（分支差异），跳过"
+fi
+
+# 9. 关键文件内联 UserInfoContext.get().getXxx() 链式调用（无局部变量守卫）
+echo "[9] 内联上下文链式取属性"
+inline_hits=$(grep -rnE 'UserInfoContext\.get\(\)\.get[A-Za-z]+\(\)' wimoor \
+  --include=*.java 2>/dev/null | grep -v '/target/' \
+  | grep -E 'FinClosingTemplateController|SysDeepSeekServiceImpl' | head -8)
+if [ -n "$inline_hits" ]; then
+  echo "  [WARN] 发现内联链式取属性（可能无登录上下文时 NPE）:"
+  echo "$inline_hits" | head -8
+else
+  pass "模板导入/AI服务无内联上下文链式调用"
+fi
+
+# 10. 外部文件解析 split()[固定下标] 无长度守卫（本轮新增：报表/文件名解析）
+echo "[10] split 固定下标长度守卫"
+check_split_guard() {
+  local f="$1" marker="$2" label="$3"
+  [ -f "$f" ] || { echo "  [WARN] $label 文件不存在，跳过"; return; }
+  if grep -q "$marker" "$f"; then
+    pass "$label 含长度守卫"
+  else
+    fail "$label 缺少 split 长度守卫"
+  fi
+}
+check_split_guard 'wimoor/wimoor-common/common-entity/src/main/java/com/wimoor/common/service/impl/PictureServiceImpl.java' \
+  'extParts.length > 1' '图片文件名扩展名解析'
+check_split_guard 'wimoor/wimoor-admin/admin-boot/src/main/java/com/wimoor/sys/tool/service/impl/LargeFileServiceImpl.java' \
+  'extParts.length > 1' '大文件名扩展名解析'
+check_split_guard 'wimoor/wimoor-amazon/amazon-boot/src/main/java/com/wimoor/amazon/report/service/impl/ReportAmzProductRecommendedListServiceImpl.java' \
+  'parts.length < 3' '推荐报表行解析'
+
 echo "===== 结果 ====="
 if [ "$FAIL" -eq 1 ]; then
   echo "发现问题，请修复后再部署。"

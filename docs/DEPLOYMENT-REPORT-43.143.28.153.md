@@ -275,3 +275,42 @@ if (accountkey 有旧值 && 旧值 != 新 session) {
 ### 部署后回归发现（审计价值印证）
 部署后全量验收出现 1 处 400：`/amazon/a/record` → `getNameMap` NPE。根因：Feign 内部调用 `getNameMap()` 时 `UserInfoContext.get()` 为 null（无上下文头），`userInfo.getCompanyid()` NPE。**这个 bug 一直存在，之前被 ThreadLocal 未清理的脏数据意外兜住**——修了串号后暴露。这正说明本次"并发/上下文"审计方向的必要性。
 修复：`UserController.getNameMap/getIDMap` 加 `userInfo==null||companyid==null` 空守卫返回空 map（账号1下本就无用户数据，功能零降级）。预检脚本新增第 7 项：Feign 接口 UserInfoContext 空守卫检测。
+
+---
+
+## 第二轮深度审计：上下文 NPE / 集合越界全面排查（2026-11-27）
+
+### 背景
+首轮审计修复后，用户要求"不要等部署好了才发现"，遂启动第二轮更深、更广的只读审计：四路并行（空上下文 NPE / ThreadLocal 会话 / 编码配置外链 / 集合越界与异常吞噬），逐条核对真实代码，只修客观 bug，产品决策项保留。
+
+### 关键根因
+`UserInfoContext.get()` 底层是 `ThreadLocal.get()`。凡从**定时任务（Quartz 走 HTTP）、内部 Feign 调用链、无登录态接口**进入的端点，调用方自身无上下文，头里 `X-USERINFO` 为空 → 被调方解析出 `user==null`。首轮只修了 `getNameMap/getIDMap`，同类端点仍大量裸取。这与首轮 `/amazon/a/record` NPE 是**完全同一类 bug**。
+
+### 已修（17 个文件，全部防御性空守卫/长度守卫，不改业务逻辑）
+| 类别 | 文件 | 问题 | 修法 |
+|---|---|---|---|
+| 空上下文NPE | `LedgerFeignController`（13处） | 台账 Feign 端点裸取 `userinfo.getCompanyid()`，财务夜间凭证定时任务经 Feign 进入无上下文 → 500 | 统一 `putShopid(params)` 守卫 + 3 处直取点判空返回 failed |
+| 空上下文NPE | `UserController` getEnable/findUserByOpenid/bindUserByOpenid | 与已修 getNameMap 紧邻的 Feign 端点同类裸取 | 判空返回空集合/失败 |
+| 空上下文NPE | `FinClosingTemplateController`（11处） | Excel 模板导入内联 `UserInfoContext.get().getUserName()` | 抽出 `currentUserName()` 守卫助手，11 处统一替换 |
+| 空上下文NPE | `FinVouchersServiceImpl:290` | 已取 user 却复用内联链式取 userName | 改用守卫后的 `operatorName` |
+| 空上下文NPE | `AdvertManagerController:123` | 汇总端点经 Quartz 无上下文 | 判空返回空 map |
+| 空上下文NPE | `CustomerController:256` | `beforeDelete` public 方法链式取 companyid | 先取局部变量判空 |
+| 实体NPE | `SendEmailController:44` | `getById` 返回 null 直接 `.getBossEmail()` | 判空返回失败 |
+| 实体NPE | `SysTagsController:202` | 标签已删除时 `tagItem.getName()` | 判空 continue |
+| 集合越界 | `AdvertPortfoliosController:52` | `selectByExample().get(0)` 空结果越界 | 判空返回 null |
+| 集合越界 | `ReportAmzProductRecommendedListServiceImpl:71,100` | 报表行 `split(",\"")[1/2]` 外部行无分隔符即崩 | 加 `parts.length<3` 守卫（非欧/欧两分支） |
+| 集合越界 | `MerchantShippingGroupController:49,55`、`AmzProductListingController:131` | 请求体 `marketplaceids.get(0)` 空列表越界 | 判空返回失败/抛业务异常 |
+| 拆箱NPE | `ErpDispatchOverseaFormController:153` | `statusList.get(0)` 元素为 null 拆箱崩 | 加 `get(0)!=null` |
+| 集合越界 | `QuoteOrderServiceImpl:940` | `get("supplier").toString()` supplier 为 null | 改 null→空串 |
+| 集合越界 | `SysDeepSeekServiceImpl:139,652` | AI 返回 `getChoices().get(0)` 空 choices 崩 | 加 choices 判空 |
+| split越界 | `PictureServiceImpl:235`、`LargeFileServiceImpl:151` | 文件名无扩展名 `split(".")[1]` 崩 | 改 `length>1?ext:""` |
+
+### 保留（产品/业务决策，未擅改）
+- `mywebsit.com`/`app.wimoor.com` OAuth 回调假域名：用户走 refresh token 模式不走 OAuth，且需在开发者后台登记真实地址，盲改会破坏对接。
+- 明文弱口令/占位密钥（MySQL/Redis 123456、邮件/短信/OSS 占位 secret）：更换属运维凭证决策。
+- `wimoor-data` `serverTimezone=UTC` 与其他服务 `Asia/Shanghai` 不一致：改动影响时间语义，且当前日期显示正常，保留待评估。
+- `DataSourceAspect` @Before/@After 嵌套调用清上下文：data 模块的 `@DataSource` 方法均为直接 JDBC 叶调用，无嵌套 service 触发路径，当前不会触发；改 @Around 属行为变更，保留。
+- `verifyWechatApp` 删 oldjsessionid：换绑语义，非普通登录互踢，保留。
+
+### 防复发机制升级
+`scripts/preflight-audit.sh` 从 7 类扩到 10 类：新增 [8] Feign 台账端点守卫、[9] 内联上下文链式调用、[10] split 固定下标长度守卫。当前自检：全部 OK，仅 OAuth 假域名 WARN（refresh-token 模式下非生效路径）。

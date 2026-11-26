@@ -136,6 +136,9 @@ public class SysDeepSeekServiceImpl implements ISysDeepSeekService {
                    .messages(messageList)
                    .build();
            GenerationResult result = gen.call(param);
+           if (result == null || result.getOutput() == null || result.getOutput().getChoices() == null || result.getOutput().getChoices().isEmpty()) {
+               throw new RuntimeException("AI未返回任何choices");
+           }
            String content = result.getOutput().getChoices().get(0).getMessage().getContent();
            String role = result.getOutput().getChoices().get(0).getMessage().getRole();
            log.info("[completions] AI返回: role={}, content长度={}, content={}", 
@@ -649,6 +652,9 @@ public class SysDeepSeekServiceImpl implements ISysDeepSeekService {
     private static StringBuilder finalContent = new StringBuilder();
     private static boolean isFirstPrint = true;
     private  void handleGenerationResult(GenerationResult message) {
+        if (message == null || message.getOutput() == null || message.getOutput().getChoices() == null || message.getOutput().getChoices().isEmpty()) {
+            return;
+        }
         String reasoning = message.getOutput().getChoices().get(0).getMessage().getReasoningContent();
         String content = message.getOutput().getChoices().get(0).getMessage().getContent();
         if (reasoning != null && !reasoning.isEmpty()) {

@@ -49,7 +49,8 @@ public class AdvertPortfoliosController {
 		Criteria cri = example.createCriteria();
 		cri.andEqualTo("id", id);
 		cri.andEqualTo("profileid", profileId);
-		return Result.success(amzAdvPortfoliosService.selectByExample(example).get(0));
+		List<AmzAdvPortfolios> list = amzAdvPortfoliosService.selectByExample(example);
+		return Result.success(list == null || list.isEmpty() ? null : list.get(0));
 	}
 	
 	@PostMapping("/createPortfolios")

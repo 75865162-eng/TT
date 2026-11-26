@@ -42,6 +42,9 @@ public class SendEmailController {
 	    @PostMapping("/sendBoss")
 	    public Result<?> sendBoss(@RequestBody SysEmailDTO dto) {
 	    	SysCompany company = iSysCompanyService.getById(dto.getToCompany());
+	    	if (company == null || company.getBossEmail() == null) {
+	    		return Result.failed("公司不存在或未配置管理员邮箱");
+	    	}
 	    	String bossEmail = company.getBossEmail();
 	    	log.debug("sendEmail");
 	    	mailService.sendHtmlMail(bossEmail,  dto.getSubject(),dto.getContent());

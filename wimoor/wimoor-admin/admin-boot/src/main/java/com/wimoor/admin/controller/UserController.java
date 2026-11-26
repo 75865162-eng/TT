@@ -385,6 +385,9 @@ public class UserController {
 		if(appType.equals("website")){
 			if(StrUtil.isBlankOrUndefined(openid)) {
 				UserInfo userInfo = UserInfoContext.get();
+				if (userInfo == null) {
+					return Result.failed(ResultCode.USER_NOT_EXIST);
+				}
 				userList = iSysUserService.findBindList(userInfo);
 			}else {
 				List<SysUserBind> bindUserList = iSysUserBindService.getBindList(openid);
@@ -468,6 +471,9 @@ public class UserController {
 		try {
 			if(appType.equals("website")){
 				UserInfo userInfo = UserInfoContext.get();
+				if (userInfo == null) {
+					return Result.failed(ResultCode.USER_NOT_EXIST);
+				}
 				openid=iSysUserBindService.getBindId(userInfo.getId());
 			}
 			SysUser user = iSysUserService.bindOpenId(openid,appType,account,password,accesstoken,refreshtoken,mfa);
@@ -754,6 +760,9 @@ public class UserController {
 	@GetMapping("/getEnable")
 	public Result<List<Map<String, Object>>> getEnable() {
 		UserInfo userInfo = UserInfoContext.get();
+		if (userInfo == null || userInfo.getCompanyid() == null) {
+			return Result.success(new ArrayList<Map<String, Object>>());
+		}
 		List<Map<String, Object>> list = iSysUserService.findEnable(userInfo.getCompanyid());
 		return Result.success(list);
 	}

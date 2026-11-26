@@ -253,7 +253,8 @@ public class CustomerController {
 	
 	
 	public void beforeDelete(String id){
-		String shopid = UserInfoContext.get().getCompanyid();
+		UserInfo cur = UserInfoContext.get();
+		String shopid = cur == null ? null : cur.getCompanyid();
 		QueryWrapper<Material> queryWrapper=new QueryWrapper<Material>();
 		queryWrapper.eq("supplier", id);
 		queryWrapper.eq("isDelete", 0);

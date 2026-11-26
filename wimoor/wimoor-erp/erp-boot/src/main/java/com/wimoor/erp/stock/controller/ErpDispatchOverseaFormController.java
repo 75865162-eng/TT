@@ -149,7 +149,7 @@ public class ErpDispatchOverseaFormController {
         	map.put("towid",dto.getTowid());
         }
 		map.put("statusList", statusList);
-		if(statusList!=null&&statusList.size()==1) {
+		if(statusList!=null&&statusList.size()==1 && statusList.get(0)!=null) {
 			Integer status=statusList.get(0);
 			if(status==3||status==2||status==1){
 				map.put("fromDate", null);

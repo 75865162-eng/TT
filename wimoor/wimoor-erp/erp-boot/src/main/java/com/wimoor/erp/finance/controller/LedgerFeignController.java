@@ -31,6 +31,17 @@ public class LedgerFeignController {
     final IPurchaseFormPaymentService purchaseFormPaymentService;
     final IShipTransCompanyService shipTransCompanyService;
 
+    // 内部Feign端点可能被无登录上下文的调用链命中(如定时任务/内部服务)，
+    // 统一在此取 shopid 并守卫，避免 UserInfoContext.get() 为 null 触发 NPE 500。
+    private boolean putShopid(Map<String, Object> params) {
+        UserInfo userinfo = UserInfoContext.get();
+        if (userinfo == null || userinfo.getCompanyid() == null) {
+            return false;
+        }
+        params.put("shopid", userinfo.getCompanyid());
+        return true;
+    }
+
     // ==================== 采购账户台账 ====================
     
     /**
@@ -38,8 +49,9 @@ public class LedgerFeignController {
      */
     @PostMapping("/purchase/list")
     public Result<?> getPurchaseLedgerList(@RequestBody Map<String, Object> params) {
-        UserInfo userinfo = UserInfoContext.get();
-        params.put("shopid", userinfo.getCompanyid());
+        if (!putShopid(params)) {
+            return Result.failed("用户上下文缺失，无法获取台账数据");
+        }
         // 复用现有的采购订单查询
         return Result.success(purchaseFormService.getLedgerList(params));
     }
@@ -49,8 +61,9 @@ public class LedgerFeignController {
      */
     @GetMapping("/purchase/statistics")
     public Result<?> getPurchaseLedgerStatistics(@RequestParam Map<String, Object> params) {
-        UserInfo userinfo = UserInfoContext.get();
-        params.put("shopid", userinfo.getCompanyid());
+        if (!putShopid(params)) {
+            return Result.failed("用户上下文缺失，无法获取台账数据");
+        }
         return Result.success(purchaseFormService.getLedgerStatistics(params));
     }
 
@@ -92,8 +105,9 @@ public class LedgerFeignController {
      */
     @GetMapping("/supplier/summary")
     public Result<?> getSupplierLedgerSummary(@RequestParam Map<String, Object> params) {
-        UserInfo userinfo = UserInfoContext.get();
-        params.put("shopid", userinfo.getCompanyid());
+        if (!putShopid(params)) {
+            return Result.failed("用户上下文缺失，无法获取台账数据");
+        }
         List<Map<String, Object>> list = purchaseFormService.getSupplierLedgerSummary(params);
         // 附带合计行数据
         if (list != null && !list.isEmpty()) {
@@ -109,8 +123,9 @@ public class LedgerFeignController {
      */
     @GetMapping("/supplier/statistics")
     public Result<?> getSupplierLedgerStatistics(@RequestParam Map<String, Object> params) {
-        UserInfo userinfo = UserInfoContext.get();
-        params.put("shopid", userinfo.getCompanyid());
+        if (!putShopid(params)) {
+            return Result.failed("用户上下文缺失，无法获取台账数据");
+        }
         return Result.success(purchaseFormService.getSupplierLedgerStatistics(params));
     }
 
@@ -120,8 +135,9 @@ public class LedgerFeignController {
      */
     @GetMapping("/supplier/orders")
     public Result<?> getSupplierLedgerOrders(@RequestParam Map<String, Object> params) {
-        UserInfo userinfo = UserInfoContext.get();
-        params.put("shopid", userinfo.getCompanyid());
+        if (!putShopid(params)) {
+            return Result.failed("用户上下文缺失，无法获取台账数据");
+        }
         parsePagingParams(params);
         List<Map<String, Object>> list = purchaseFormService.getSupplierOrders(params);
         int total = purchaseFormService.getSupplierOrdersCount(params);
@@ -136,8 +152,9 @@ public class LedgerFeignController {
      */
     @GetMapping("/supplier/payments")
     public Result<?> getSupplierLedgerPayments(@RequestParam Map<String, Object> params) {
-        UserInfo userinfo = UserInfoContext.get();
-        params.put("shopid", userinfo.getCompanyid());
+        if (!putShopid(params)) {
+            return Result.failed("用户上下文缺失，无法获取台账数据");
+        }
         parsePagingParams(params);
         List<Map<String, Object>> list = purchaseFormService.getSupplierPayments(params);
         int total = purchaseFormService.getSupplierPaymentsCount(params);
@@ -153,8 +170,9 @@ public class LedgerFeignController {
      */
     @GetMapping("/inventory/summary")
     public Result<?> getInventoryLedgerSummary(@RequestParam Map<String, Object> params) {
-        UserInfo userinfo = UserInfoContext.get();
-        params.put("shopid", userinfo.getCompanyid());
+        if (!putShopid(params)) {
+            return Result.failed("用户上下文缺失，无法获取台账数据");
+        }
         // 调用现有的库存查询
         return Result.success(faccountService.getInventoryLedgerSummary(params));
     }
@@ -164,8 +182,9 @@ public class LedgerFeignController {
      */
     @GetMapping("/inventory/detail")
     public Result<?> getInventoryLedgerDetail(@RequestParam Map<String, Object> params) {
-        UserInfo userinfo = UserInfoContext.get();
-        params.put("shopid", userinfo.getCompanyid());
+        if (!putShopid(params)) {
+            return Result.failed("用户上下文缺失，无法获取台账数据");
+        }
         // 将分页参数转为整数，避免MySQL LIMIT语法错误
         if (params.containsKey("pageSize")) {
             params.put("pageSize", Integer.parseInt(params.get("pageSize").toString()));
@@ -181,8 +200,9 @@ public class LedgerFeignController {
      */
     @GetMapping("/inventory/detail/count")
     public Result<?> getInventoryLedgerDetailCount(@RequestParam Map<String, Object> params) {
-        UserInfo userinfo = UserInfoContext.get();
-        params.put("shopid", userinfo.getCompanyid());
+        if (!putShopid(params)) {
+            return Result.failed("用户上下文缺失，无法获取台账数据");
+        }
         return Result.success(faccountService.getInventoryLedgerDetailCount(params));
     }
 
@@ -191,8 +211,9 @@ public class LedgerFeignController {
      */
     @GetMapping("/inventory/export")
     public Result<?> exportInventoryLedger(@RequestParam Map<String, Object> params) {
-        UserInfo userinfo = UserInfoContext.get();
-        params.put("shopid", userinfo.getCompanyid());
+        if (!putShopid(params)) {
+            return Result.failed("用户上下文缺失，无法获取台账数据");
+        }
         return Result.success(faccountService.getInventoryLedgerDetail(params));
     }
 
@@ -204,6 +225,9 @@ public class LedgerFeignController {
     @GetMapping("/project/list")
     public Result<?> getProject() {
         UserInfo userinfo = UserInfoContext.get();
+        if (userinfo == null || userinfo.getCompanyid() == null) {
+            return Result.failed("用户上下文缺失，无法获取费用类型");
+        }
         return Result.success(financeProjectService.findProject(userinfo.getCompanyid()));
     }
 
@@ -213,6 +237,9 @@ public class LedgerFeignController {
     @GetMapping("/account/all")
     public Result<?> getAccountAll() {
         UserInfo userinfo = UserInfoContext.get();
+        if (userinfo == null || userinfo.getCompanyid() == null) {
+            return Result.failed("用户上下文缺失，无法获取采购账户");
+        }
         return Result.success(faccountService.findAccountAll(userinfo.getCompanyid()));
     }
 
@@ -222,6 +249,9 @@ public class LedgerFeignController {
     @GetMapping("/supplier/list")
     public Result<?> getSupplierList() {
         UserInfo userinfo = UserInfoContext.get();
+        if (userinfo == null || userinfo.getCompanyid() == null) {
+            return Result.failed("用户上下文缺失，无法获取供应商列表");
+        }
         return Result.success(purchaseFormService.getSupplierList(userinfo.getCompanyid()));
     }
 

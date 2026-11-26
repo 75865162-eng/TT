@@ -148,7 +148,9 @@ public class LargeFileServiceImpl extends ServiceImpl<LargeFileMapper, LargeFile
         return  imageNames[imageNames.length - 1];
     }
     public String createRandFileName(String imageName) {
-        imageName= imageName.split("\\.")[1];
+        if (imageName == null) { imageName = ""; }
+        String[] extParts = imageName.split("\\.");
+        imageName = extParts.length > 1 ? extParts[1] : "";
         Double rand =   (Math.random()*1000);
         imageName=(new Date().getTime()+""+rand.intValue())+"."+imageName;
         return imageName;
