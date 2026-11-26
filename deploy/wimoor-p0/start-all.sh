@@ -54,7 +54,23 @@ AIJAR=$(find "$WM/wimoor-ai/target" -maxdepth 1 -name 'wimoor-ai-*.jar' ! -name 
 [ -n "$AIJAR" ] && start_jar ai "$AIJAR" --ai.persistence=jdbc \
   "--ai.datasource.url=jdbc:mysql://127.0.0.1:13306/db_ai?useUnicode=true&characterEncoding=utf8&serverTimezone=Asia/Shanghai" \
   --ai.datasource.username=root --ai.datasource.password=123456
-echo "等待服务启动(120s)..."
-sleep 90
-echo "=== 端口探活 ==="
+# 有上限轮询探活：每 2 秒探一次，就绪即返回，不做固定盲等。
+# 基础设施与 jar 已按各自实际需要等待；这里只探对外入口（前端 + 登录接口）。
+echo "探活中（最多 90s，就绪即返回）..."
+ready=0
+for i in $(seq 1 45); do
+  FE=$(curl -s -o /dev/null -w '%{http_code}' --max-time 2 http://127.0.0.1:8080/ 2>/dev/null || echo 000)
+  LG=$(curl -s -o /dev/null -w '%{http_code}' --max-time 3 \
+    -X POST http://127.0.0.1:8080/admin/api/v1/auth/login \
+    -H 'Content-Type: application/json' \
+    -d '{"account":"admin@wimoor.com","password":"123456"}' 2>/dev/null || echo 000)
+  if [ "$FE" = "200" ] && { [ "$LG" = "200" ] || [ "$LG" = "000" ]; }; then
+    ready=1; echo "入口就绪：前端=$FE 登录=$LG（第 ${i} 次探测）"; break
+  fi
+  sleep 2
+done
+if [ "$ready" -ne 1 ]; then
+  echo "警告：90s 内入口未就绪（前端=$FE 登录=$LG），请检查日志 /tmp/wimoor-p0-logs/" >&2
+fi
+echo "=== 端口探活（辅助信息）==="
 for p in 8100 8101 8102 8103 8104 8105; do printf "  %s: %s\n" "$p" "$(curl -s -o /dev/null -w '%{http_code}' --max-time 3 http://127.0.0.1:$p/actuator/health 2>/dev/null)"; done

@@ -3,3 +3,23 @@ node_modules/
 core.*
 core
 *.core
+
+# ===== 构建产物排除（CI 产出的 jar / 前端 dist / Maven target 均不入库）=====
+# Java/Maven 编译输出
+target/
+**/target/
+# 前端构建输出
+dist/
+**/dist/
+# CI 组装中间产物与打包归档
+artifacts/
+bundle/
+*.tar.gz
+*.tgz
+# 运行时日志与本地状态
+*.log
+logs/
+
+# 例外：项目运行必需的私有依赖 jar（Maven 中央仓库没有，必须随源码保留）
+!wimoor/wimoor-erp/erp-boot/src/main/resources/lib/
+!wimoor/wimoor-erp/erp-boot/src/main/resources/lib/*.jar
