@@ -280,6 +280,28 @@ jobs:
           timeout 60 scp -o ConnectTimeout=8 -o BatchMode=yes \
             -i ~/.ssh/id_ed25519 -r bundle root@"$HOST":"/tmp/wimoor-release-${{ github.sha }}"
           echo "[deploy] 远程部署"
-          timeout 120 ssh -o ConnectTimeout=8 -o BatchMode=yes \
+          timeout 180 ssh -o ConnectTimeout=8 -o BatchMode=yes \
             -i ~/.ssh/id_ed25519 root@"$HOST" \
             "bash /tmp/wimoor-release-${{ github.sha }}/deploy/wimoor-p0/server-deploy.sh /tmp/wimoor-release-${{ github.sha }} ${REMOTE_DIR:-/opt/wimoor}"
+
+      - name: 拉取部署报告并写入 Summary
+        if: always()
+        env:
+          HOST: ${{ secrets.PRODUCTION_SERVER_HOST }}
+          REMOTE_DIR: ${{ secrets.PRODUCTION_SERVER_DIR }}
+        run: |
+          set -uo pipefail
+          R="${REMOTE_DIR:-/opt/wimoor}/logs/report-last.json"
+          timeout 20 scp -o ConnectTimeout=8 -o BatchMode=yes \
+            -i ~/.ssh/id_ed25519 root@"$HOST":"$R" deployment-report.json 2>/dev/null || true
+          if [ -f deployment-report.json ]; then
+            {
+              echo "## 部署报告"
+              echo '```json'
+              cat deployment-report.json
+              echo '```'
+            } >> "$GITHUB_STEP_SUMMARY"
+            echo "报告已写入 Job Summary"
+          else
+            echo "未取到部署报告（部署可能未执行或凭证无效）" >> "$GITHUB_STEP_SUMMARY"
+          fi
