@@ -177,13 +177,8 @@
             <artifactId>shiro-spring</artifactId>
             <version>1.4.0</version>
         </dependency>
-        <dependency>
-            <groupId>sxjd</groupId>
-            <artifactId>sxjd</artifactId>
-            <version>1.3.9</version>
-            <scope>system</scope>
-            <systemPath>${project.basedir}/src/main/resources/lib/sxjd-open-platform-sdk-1.3.9-RELEASE.jar</systemPath>
-        </dependency>
+        <!-- 移除未使用的 sxjd system 依赖：源码无任何 sxjd 引用，且私有 jar 不在仓库中，
+             会导致 CI/本地构建因文件缺失而失败。报价功能不依赖此 SDK。 -->
         <dependency>
             <groupId>org.crazycake</groupId>
             <artifactId>shiro-redis</artifactId>
