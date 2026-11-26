@@ -12,6 +12,7 @@ import org.apache.shiro.web.filter.authc.LogoutFilter;
 import org.springframework.data.redis.core.StringRedisTemplate;
 
 import cn.hutool.extra.spring.SpringUtil;
+import com.wimoor.common.CacheConstants;
 
 
 public class SystemLogoutFilter extends LogoutFilter {
@@ -20,7 +21,7 @@ public class SystemLogoutFilter extends LogoutFilter {
 		    HttpSession session = ((HttpServletRequest)request).getSession();
 			String jsessionid = session.getId();
 			StringRedisTemplate stringRedisTemplate=SpringUtil.getBean("stringRedisTemplate");
-			stringRedisTemplate.delete(jsessionid);
+			stringRedisTemplate.delete(CacheConstants.LOGIN_TOKEN_KEY + jsessionid);
 	        Subject subject = getSubject(request, response);
 	        String redirectUrl = getRedirectUrl(request, response, subject);
 	        try {

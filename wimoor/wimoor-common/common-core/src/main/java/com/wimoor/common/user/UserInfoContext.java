@@ -16,4 +16,8 @@ public class UserInfoContext {
         threadLocal.set(userInfo);
     }
 
+    public static void remove() {
+        threadLocal.remove();
+    }
+
 }

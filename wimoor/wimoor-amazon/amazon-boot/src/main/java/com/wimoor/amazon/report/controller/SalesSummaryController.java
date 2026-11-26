@@ -85,7 +85,7 @@ public class SalesSummaryController {
 		String shopid = (String) parameter.get("shopid");
 		Date startdate =GeneralUtil.getDate(parameter.get("startdate"));
 		UserInfo userinfo = UserInfoContext.get();
-		if(userinfo.getUsertype().equals(UserType.support.getCode())||userinfo.getUsertype().equals(UserType.admin.getCode())){
+		if(UserType.support.getCode().equals(userinfo.getUsertype())||UserType.admin.getCode().equals(userinfo.getUsertype())){
 			//查询最近12个月的订单数据
 			Map<String, Object> result = ordersSumService.findorderSummaryTotal(shopid,GeneralUtil.fmtDate(startdate));
 			return Result.success(result);

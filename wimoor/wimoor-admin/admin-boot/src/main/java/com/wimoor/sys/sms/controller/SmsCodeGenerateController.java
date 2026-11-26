@@ -26,7 +26,7 @@ public class SmsCodeGenerateController {
 				SendSmsResponse response=null;
 				try {
 					UserInfo userinfo = UserInfoContext.get();
-					if(userinfo.getUsertype().equals(UserType.admin.getCode())) {
+					if(UserType.admin.getCode().equals(userinfo.getUsertype())) {
 						response = aliyunSmsUtils.sendSms(phone,template, messagejson);
 					}
 				} catch (ClientException e) {

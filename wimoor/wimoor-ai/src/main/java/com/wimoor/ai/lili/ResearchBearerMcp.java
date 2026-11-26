@@ -199,7 +199,8 @@ public final class ResearchBearerMcp {
                     if (!current.id.equals(identity.id) || current.revision != identity.revision) return failure(id, 403);
                     output = erp.callTool(tool, input, null);
                 } else if (metaTool) {
-                    ToolDefinition def = SkillMeta.SKILL_META_TOOLS.stream().filter(t -> t.name.equals(toolName)).findFirst().get();
+                    ToolDefinition def = SkillMeta.SKILL_META_TOOLS.stream().filter(t -> t.name.equals(toolName)).findFirst().orElse(null);
+                    if (def == null) return failure(id, 400);
                     SchemaValidator.validate(def.inputSchema, input);
                     Map<String, Object> market = "meta_get_market_access".equals(tool) ? deps.marketAccess(identity, request) : null;
                     output = market != null ? market : SkillMeta.callSkillMeta(tool, input, true);

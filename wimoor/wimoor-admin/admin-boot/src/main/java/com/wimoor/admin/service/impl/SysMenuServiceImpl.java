@@ -196,8 +196,8 @@ public class SysMenuServiceImpl extends ServiceImpl<SysMenuMapper, SysMenu> impl
     public List<RouteVO> listRoute(UserInfo user) {
         List<SysUserRole> roleList = iSysUserRoleService.findByUserId(user.getId());
         List<SysMenu> menuList = null;
-        boolean isadmin=user.getUsertype().equals(UserType.admin.getCode());
-        boolean ismanager=user.getUsertype().equals(UserType.manager.getCode());
+        boolean isadmin=UserType.admin.getCode().equals(user.getUsertype());
+        boolean ismanager=UserType.manager.getCode().equals(user.getUsertype());
         if(isadmin) {
         	menuList = this.baseMapper.listRouteAll();
         	// 超级管理员默认看全部菜单；配置 admin-scope=1010 时回退到仅系统管理子系统
@@ -505,7 +505,7 @@ public class SysMenuServiceImpl extends ServiceImpl<SysMenuMapper, SysMenu> impl
 	@Override
 	public List<MenuVO> listCompanyTreeSelect(UserInfo user) {
 		// TODO Auto-generated method stub
-        boolean isadmin=user.getUsertype().equals(UserType.admin.getCode());
+        boolean isadmin=UserType.admin.getCode().equals(user.getUsertype());
         if(isadmin) {
         	  List<SysMenu> menuList = this.list();
         	  setPermsession(menuList);

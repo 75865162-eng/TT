@@ -24,12 +24,16 @@ public class UserInfoFilter implements Filter {
     @Override
     public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain) throws IOException, ServletException {
         String userInfoJson = ((HttpServletRequest) request).getHeader(UserInfoContext.HEADER_USER_INFO);
-        if (StringUtils.isNotBlank(userInfoJson)) {
-            userInfoJson= URLDecoder.decode(userInfoJson, Charset.forName("utf-8"));
-            UserInfo userInfo = JSON.parseObject(userInfoJson, UserInfo.class);
-            UserInfoContext.set(userInfo);
+        try {
+            if (StringUtils.isNotBlank(userInfoJson)) {
+                userInfoJson= URLDecoder.decode(userInfoJson, Charset.forName("utf-8"));
+                UserInfo userInfo = JSON.parseObject(userInfoJson, UserInfo.class);
+                UserInfoContext.set(userInfo);
+            }
+            chain.doFilter(request, response);
+            log.debug("获取登录人信息");
+        } finally {
+            UserInfoContext.remove();
         }
-        chain.doFilter(request, response);
-        log.debug("获取登录人信息");
     }
 }

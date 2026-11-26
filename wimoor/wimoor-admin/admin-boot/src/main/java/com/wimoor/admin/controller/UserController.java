@@ -494,7 +494,12 @@ public class UserController {
 		String openid=request.getParameter("openid");
 		Map<String,Object> map=new HashMap<String, Object>();
 		List<SysUser> userlist = iSysUserService.findAppUserByOpenid(openid,appType);
-		SysUser user = userlist.stream().filter(muser->muser.getAccount().equals(account)).findFirst().get();
+		SysUser user = userlist.stream().filter(muser->java.util.Objects.equals(muser.getAccount(),account)).findFirst().orElse(null);
+		if(user==null) {
+			map.put("isOk", false);
+			map.put("msg", "未找到对应的解绑账号！");
+			return map;
+		}
 		UserInfo info=iSysUserService.convertToUserInfo(user);
 		int res=iSysUserService.unbindWechat(info,openid,appType);
 		if(res>0) {
@@ -715,6 +720,9 @@ public class UserController {
 	public Result<Map<String, String>> getNameMap(){
 		UserInfo userInfo = UserInfoContext.get();
 		Map<String, String> result=new HashMap<String,String>();
+		if(userInfo==null||userInfo.getCompanyid()==null) {
+			return Result.success(result);
+		}
 		List<Map<String, Object>> list = iSysUserService.findAll(userInfo.getCompanyid());
 		for(Map<String, Object> item:list) {
 			if(item.get("name")!=null) {
@@ -729,6 +737,9 @@ public class UserController {
 	public Result<Map<String, String>> getIDMap() {
 		UserInfo userInfo = UserInfoContext.get();
 		Map<String, String> result=new HashMap<String,String>();
+		if(userInfo==null||userInfo.getCompanyid()==null) {
+			return Result.success(result);
+		}
 		List<Map<String, Object>> list = iSysUserService.findAll(userInfo.getCompanyid());
 		for(Map<String, Object> item:list) {
 			if(item.get("name")!=null) {

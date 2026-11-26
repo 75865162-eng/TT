@@ -77,8 +77,8 @@ public class SecurityGlobalFilter implements GlobalFilter, Ordered {
         if (request.getMethod() == HttpMethod.OPTIONS) { // 预检请求放行
             return true;
         }
-        boolean isadmin=user.getUsertype().equals("admin");
-        boolean ismanager=user.getUsertype().equals("manager");
+        boolean isadmin="admin".equals(user.getUsertype());
+        boolean ismanager="manager".equals(user.getUsertype());
         if(isadmin||ismanager) {
         	return true;
         }

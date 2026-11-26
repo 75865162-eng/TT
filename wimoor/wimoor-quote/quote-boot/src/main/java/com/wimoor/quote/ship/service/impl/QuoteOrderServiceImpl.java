@@ -438,7 +438,10 @@ public class QuoteOrderServiceImpl extends ServiceImpl<QuoteOrderMapper, QuoteOr
             }
             List<QuoteOrderSupplier> msupplierList =supplierMap.get(order.getId());
             if(supplier!=null&&msupplierList!=null){
-                QuoteOrderSupplier orderSupplier =  msupplierList.stream().filter(itemv->itemv.getSupplierid().equals(supplier.getId())).findFirst().get();
+                QuoteOrderSupplier orderSupplier =  msupplierList.stream().filter(itemv->java.util.Objects.equals(itemv.getSupplierid(),supplier.getId())).findFirst().orElse(null);
+                if(orderSupplier==null) {
+                    continue;
+                }
                 order.setBase(orderSupplier.getBase());
                 if(omlistPrice!=null){
                     List<QuotationPrice>  supplierlistPrice=new ArrayList<QuotationPrice>();

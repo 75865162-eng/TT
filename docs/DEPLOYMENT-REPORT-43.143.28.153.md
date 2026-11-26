@@ -236,3 +236,42 @@ if (accountkey 有旧值 && 旧值 != 新 session) {
 - 决定性实验复跑：A/B 两次登录均 200，A 不再被踢，A 页面停留 sid 保持。
 - 稳定性探针：登录停留 122 秒，每 15s 探测 route 全 200，sid 不变，**零掉线、零 4xx**（修复前 77s 即 403）。
 - 全量页面回归：`outputs/page-acceptance-after-session-fix.json`。
+
+---
+
+## 主动代码审计：同类隐患提前排查（2026-11-27）
+
+### 为什么之前没提早发现
+前两轮验收是"正向功能验证"（登录一次、串行点 126 页、看报错），天然覆盖不到三类盲区：
+1. **状态/环境路径**：乱码只在"空库按字符集导入"时暴露，验收跑在已初始化好的库上。
+2. **并发/多会话**：掉线只在"第二次登录"时暴露，验收是单会话串行。
+3. **配置有效性**：只测"能打开"，不测配置指向是否真实存在、失效后能否恢复。
+结论：缺的是**部署前的边界/并发/配置审计 + 可复用预检脚本**，不是多测几页。
+
+### 审计方法
+四个方向并行只读审计（编码/会话并发/配置有效性/数据契约ORM），逐条核对真实代码，区分客观 bug 与误报/需决策项。
+
+### 已修（客观 bug，低风险防御性改动）
+| 类别 | 文件:行 | 问题 | 修法 |
+|---|---|---|---|
+| 编码 | `wimoor-data:6,11` | `useUnicode=true@characterEncoding` 分隔符写错致编码参数丢失；slave 硬编码 `127.0.0.1:3306`（生产 MySQL 在 13306） | `@`→`&`，slave 改 `${mysql.host}:${mysql.port}` 占位符 |
+| 会话 | `SystemLogoutFilter:23` | `delete(jsessionid)` 漏 `login_tokens:` 前缀，登出后 token 仍有效可重放 | 加 `CacheConstants.LOGIN_TOKEN_KEY` 前缀 |
+| 并发 | `common-mvc/UserInfoFilter`、`amazon-adv/UserInfoFilter` | `UserInfoContext.set` 后无 `remove`，线程池复用串号/越权 | `UserInfoContext` 加 `remove()`，Filter 用 try/finally 清理 |
+| NPE | `SecurityGlobalFilter:80` | `getUsertype().equals()` usertype 为 null 时 500 | 改 `"admin".equals(...)` |
+| NPE | `UserController:497` | `findFirst().get()` 无匹配抛 500 | 改 `orElse(null)`+判空返回 |
+| NPE | `SysMenuServiceImpl:199,200,508`、`SmsCodeGenerateController:29`、`SalesSummaryController:88` | 同类 `getUsertype().equals()` | 改常量 `.equals(变量)` |
+| NPE | `ResearchBearerMcp:202`、`QuoteOrderServiceImpl:441` | `findFirst().get()` 无兜底 | 改 `orElse(null)`+判空 |
+
+### 需决策（未擅改）
+- **回调假域名**：`wimoor-amazon:9` `mywebsit.com/authresult`、`wimoor-amazon-adv:6` `app.wimoor.com/advresult`、`wimoor-commom-ext:2` `mywebsit.com`（图片服务）——需真实公网回调地址/图片反代路径，且 Amazon 回调需在开发者后台登记，不能盲改。
+- **弱口令/占位凭证**：MySQL/Redis `123456`、DeepSeek `sk-EXAMPLE_PLACEHOLDER`、区域表广告 appKey 占位符——改强密码/填真实凭证属运维与产品决策。
+- **StockTakingServiceImpl:258/464** 空 catch 吞 `BizException`（静默跳过错误行）——可能是"容错继续导入"的业务设计，改动会改变导入行为。
+- **LoginController.verifyWechatApp:366** 删 oldjsessionid——第三方授权"换绑"语义，非普通登录互踢，保留。
+- **TTL 不一致**：token 写 1h、网关续期 3h、账号索引 1h——改动影响在线时长语义。
+
+### 防复发机制
+新增 `scripts/preflight-audit.sh`（部署前自检）：静态扫描以上 6 类模式（编码分隔符、ThreadLocal 清理、登出前缀、登录互踢、无效域名、常见 NPE），FAIL 阻断、WARN 人工确认。当前跑结果：4 个硬 bug 全 OK、NPE 清零、仅剩需决策假配置 WARN。今后每次部署前先跑此脚本。
+
+### 部署后回归发现（审计价值印证）
+部署后全量验收出现 1 处 400：`/amazon/a/record` → `getNameMap` NPE。根因：Feign 内部调用 `getNameMap()` 时 `UserInfoContext.get()` 为 null（无上下文头），`userInfo.getCompanyid()` NPE。**这个 bug 一直存在，之前被 ThreadLocal 未清理的脏数据意外兜住**——修了串号后暴露。这正说明本次"并发/上下文"审计方向的必要性。
+修复：`UserController.getNameMap/getIDMap` 加 `userInfo==null||companyid==null` 空守卫返回空 map（账号1下本就无用户数据，功能零降级）。预检脚本新增第 7 项：Feign 接口 UserInfoContext 空守卫检测。

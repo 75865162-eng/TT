@@ -3,14 +3,14 @@ spring:
     type: com.alibaba.druid.pool.DruidDataSource
     druid:
       master:
-        url: jdbc:mysql://${mysql.host}:${mysql.port}/db_admin?serverTimezone=UTC&useUnicode=true@characterEncoding=utf-8
+        url: jdbc:mysql://${mysql.host}:${mysql.port}/db_admin?serverTimezone=UTC&useUnicode=true&characterEncoding=utf8
         username: ${mysql.username}
         password: ${mysql.password}
         driver-class-name: com.mysql.cj.jdbc.Driver
       slave:
-        url: jdbc:mysql://127.0.0.1:3306/db_datamove?serverTimezone=UTC&useUnicode=true@characterEncoding=utf-8
-        username: root
-        password: 123456
+        url: jdbc:mysql://${mysql.host}:${mysql.port}/db_datamove?serverTimezone=UTC&useUnicode=true&characterEncoding=utf8
+        username: ${mysql.username}
+        password: ${mysql.password}
         driver-class-name: com.mysql.cj.jdbc.Driver
   servlet:
       multipart:
