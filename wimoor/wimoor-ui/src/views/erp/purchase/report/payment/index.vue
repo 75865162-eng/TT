@@ -266,7 +266,7 @@
 	 	faccountApi.getProject().then((res)=>{
 		    if(!Array.isArray(res.data)){
 		        state.finlist=[];
-		        state.queryParam.projectid="";
+		        state.queryParams.projectid="";
 		        return;
 		    }
 		    res.data.push({"id":"","name":"全部费用类型"});
@@ -274,7 +274,7 @@
 	 			state.finlist=res.data;
 	 		}else{
 				state.finlist=[];
-				state.queryParam.projectid="";
+				state.queryParams.projectid="";
 			}
 	 	});
 	 }

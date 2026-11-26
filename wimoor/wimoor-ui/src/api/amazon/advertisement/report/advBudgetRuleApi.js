@@ -12,6 +12,7 @@ function initialBudgetRecommendation(profileid,type,data){
 	return request.post('/amazonadv/api/v1/advCampaignManager/initialBudgetRecommendation/'+profileid+"/"+type,data);
 }
 function list(profileid,type,data){
+	if(!profileid) return Promise.resolve({code:200,data:{records:[],total:0}}); // 未选广告档案时不发无效请求
 	return request.post('/amazonadv/api/v1/campaign/budgetRules/list/'+profileid+"/"+type,data);
 }
 function amzPostBudgetRulesByCampaign(profileid,type,data){

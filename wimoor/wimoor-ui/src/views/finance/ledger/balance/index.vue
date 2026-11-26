@@ -251,8 +251,13 @@ async function handleSearch() {
     const response = await querySubjectBalanceTree(params)
     treeData.value = response.data
 
-    const summaryResponse = await getBalanceSummary({ groupid, period: beginPeriod || endPeriod })
-    summary.value = summaryResponse.data
+    const summaryPeriod = beginPeriod || endPeriod
+    if (groupid && summaryPeriod) {
+      const summaryResponse = await getBalanceSummary({ groupid, period: summaryPeriod })
+      summary.value = summaryResponse.data
+    } else {
+      summary.value = null
+    }
   } catch (error) {
     console.error('查询科目余额失败:', error)
     proxy.$message.error('查询失败')

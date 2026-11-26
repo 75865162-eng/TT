@@ -17,6 +17,7 @@
  	return request.post('/quote/api/v1/transchannel/list/'+token,data);
  }
  function listall(token,data){
+ 	if(!token) return Promise.resolve({code:200,data:[]}); // 无token（未选货代）时不发无效请求
  	return request.post('/quote/api/v1/transchannel/listall/'+token,data);
  }
  

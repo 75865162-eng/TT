@@ -587,6 +587,7 @@ async function loadVoucherTypes() {
 async function loadCurrentPeriod() {
   try {
     let groupid = await finStore.getCurrentTenantId();
+    if (!groupid) return; // 未绑定租户（如超管账号）时不发无效请求
     const res = await getCurrentPeriod(groupid);
     if (res && res.data) {
       data.currentPeriod = res.data;
