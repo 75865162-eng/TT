@@ -11,8 +11,8 @@ import org.springframework.scheduling.annotation.EnableScheduling;
 
 import com.wimoor.util.SpringUtil;
 
-import tk.mybatis.spring.annotation.MapperScan;
- 
+import org.mybatis.spring.annotation.MapperScan;
+
 
 @SpringBootApplication(scanBasePackages ={"com.wimoor.amazon.adv.*"})
 @EnableFeignClients
