@@ -1,6 +1,7 @@
 name: Build Wimoor Java+MySQL Stack
 
-# 拉代码后自动编译 4 个后端 jar + 构建前端 dist，打包成可下载产物。
+# 一次构建：10 个后端 jar + 前端 dist，打成可下载的一键部署包。
+# 产物带 SHA256 清单与发布元数据；生产端只部署产物，不在服务器上重新编译。
 # 触发：push 到 java-only / main、手动触发、PR。
 on:
   push:
@@ -8,10 +9,46 @@ on:
   pull_request:
     branches: [java-only, main]
   workflow_dispatch:
+    inputs:
+      deploy_production:
+        description: 构建成功后把同一产物部署到生产（需配置 SSH Secrets）
+        required: false
+        type: boolean
+        default: false
+
+# 同一分支的发布互斥：不取消进行中的构建（避免半途产物被覆盖），但后续排队。
+concurrency:
+  group: release-${{ github.ref }}
+  cancel-in-progress: false
 
 jobs:
+  # 变更识别：与其他 job 并行，输出变更档位与类型（观察模式，不阻断构建）。
+  # 后续把 change-tier 的规则验证稳定后，可升级为强制门禁。
+  change-plan:
+    name: 识别变更类型与档位
+    runs-on: ubuntu-latest
+    outputs:
+      tier: ${{ steps.tier.outputs.tier }}
+      types: ${{ steps.tier.outputs.types }}
+    steps:
+      - name: 检出代码
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: 运行变更识别
+        id: tier
+        env:
+          BASE_SHA: ${{ github.event.pull_request.base.sha || github.event.before }}
+        run: |
+          node scripts/change-tier.mjs || {
+            echo "变更识别失败，按安全原则回退 full 档"
+            echo "tier=full" >> "$GITHUB_OUTPUT"
+            echo "types=unknown" >> "$GITHUB_OUTPUT"
+          }
+
   build-backend:
-    name: 编译 4 个 Java 后端 (JDK 11)
+    name: 编译 10 个 Java 后端 (JDK 11)
     runs-on: ubuntu-latest
     steps:
       - name: 检出代码
@@ -27,8 +64,7 @@ jobs:
       - name: 安装私有 jar 到本地仓库
         working-directory: wimoor/wimoor-erp/erp-boot
         run: |
-          # 这两个 jar 不在 Maven 中央仓库，pom 的 install-plugin 绑在 clean 阶段，
-          # 这里显式安装，确保干净 runner 上也能解析依赖。
+          # 这两个 jar 不在中央仓库；显式安装保证干净 runner 上也能解析。
           mvn -B -q install:install-file \
             -Dfile=src/main/resources/lib/ocean.client.java.biz.jar \
             -DgroupId=com.biz -DartifactId=biz -Dversion=1.0 -Dpackaging=jar
@@ -37,23 +73,45 @@ jobs:
             -DgroupId=alibaba.message -DartifactId=alibaba.message -Dversion=0.9.0 -Dpackaging=jar
           echo "私有 jar 安装完成"
 
-      - name: 编译全部模块（含 4 个目标服务，跳过测试）
+      - name: 编译全部 10 个目标服务
         working-directory: wimoor
         run: |
-          mvn -B -pl wimoor-gateway,wimoor-admin/admin-boot,wimoor-erp/erp-boot,wimoor-ai -am \
-            -DskipTests -Dmaven.test.skip=true -Djava.version=11 package
+          mvn -B -pl \
+            wimoor-gateway,\
+            wimoor-admin/admin-boot,\
+            wimoor-erp/erp-boot,\
+            wimoor-amazon/amazon-boot,\
+            wimoor-amazon-adv/amazon-adv-boot,\
+            wimoor-finance,\
+            wimoor-data,\
+            wimoor-gen,\
+            wimoor-quote/quote-boot,\
+            wimoor-ai \
+            -am -DskipTests -Dmaven.test.skip=true -Djava.version=11 package
 
-      - name: 汇总 jar 产物
+      - name: 汇总 jar 产物（显式路径，逐个校验存在）
         run: |
+          set -euo pipefail
           mkdir -p artifacts/jars
-          cp wimoor/wimoor-gateway/target/*.jar artifacts/jars/ 2>/dev/null || true
-          cp wimoor/wimoor-admin/admin-boot/target/*.jar artifacts/jars/ 2>/dev/null || true
-          cp wimoor/wimoor-erp/erp-boot/target/*.jar artifacts/jars/ 2>/dev/null || true
-          cp wimoor/wimoor-ai/target/wimoor-ai-*.jar artifacts/jars/ 2>/dev/null || true
-          # 去掉 original- 前缀的辅助 jar
-          find artifacts/jars -name 'original-*' -delete
-          echo "=== jar 清单 ==="
+          copy_jar() {
+            local src="$1" name="$2"
+            [ -f "$src" ] || { echo "缺少产物: $src" >&2; exit 1; }
+            cp "$src" "artifacts/jars/$name"
+          }
+          copy_jar wimoor/wimoor-gateway/target/wimoor-gateway.jar          wimoor-gateway.jar
+          copy_jar wimoor/wimoor-admin/admin-boot/target/admin-boot.jar      admin-boot.jar
+          copy_jar wimoor/wimoor-erp/erp-boot/target/erp-boot.jar            erp-boot.jar
+          copy_jar wimoor/wimoor-amazon/amazon-boot/target/amazon-boot.jar   amazon-boot.jar
+          copy_jar wimoor/wimoor-amazon-adv/amazon-adv-boot/target/amazon-adv-boot.jar amazon-adv-boot.jar
+          copy_jar wimoor/wimoor-finance/target/wimoor-finance.jar           wimoor-finance.jar
+          copy_jar wimoor/wimoor-data/target/wimoor-data.jar                 wimoor-data.jar
+          copy_jar wimoor/wimoor-gen/target/wimoor-gen.jar                   wimoor-gen.jar
+          copy_jar wimoor/wimoor-quote/quote-boot/target/quote-boot.jar      quote-boot.jar
+          copy_jar wimoor/wimoor-ai/target/wimoor-ai-2.0.0.jar               wimoor-ai.jar
+          echo "=== jar 清单（应为 10 个） ==="
           ls -lh artifacts/jars/
+          COUNT=$(find artifacts/jars -name '*.jar' | wc -l)
+          [ "$COUNT" -eq 10 ] || { echo "jar 数量 $COUNT != 10" >&2; exit 1; }
 
       - name: 上传 jar 产物
         uses: actions/upload-artifact@v4
@@ -63,7 +121,7 @@ jobs:
           retention-days: 14
 
   build-frontend:
-    name: 构建 Vue 前端 dist
+    name: 构建 Vue 前端 dist (Node 20)
     runs-on: ubuntu-latest
     steps:
       - name: 检出代码
@@ -73,6 +131,8 @@ jobs:
         uses: actions/setup-node@v4
         with:
           node-version: '20'
+          cache: npm
+          cache-dependency-path: wimoor/wimoor-ui/package-lock.json
 
       - name: 安装依赖并构建
         working-directory: wimoor/wimoor-ui
@@ -82,8 +142,10 @@ jobs:
 
       - name: 打包 dist
         run: |
+          set -euo pipefail
           mkdir -p artifacts
           cd wimoor/wimoor-ui
+          [ -d dist ] || { echo "前端 dist 未生成" >&2; exit 1; }
           tar -czf ../../artifacts/wimoor-ui-dist.tar.gz dist
           ls -lh ../../artifacts/wimoor-ui-dist.tar.gz
 
@@ -95,8 +157,8 @@ jobs:
           retention-days: 14
 
   package-release:
-    name: 合并为一键部署包
-    needs: [build-backend, build-frontend]
+    name: 合并为一键部署包 + SHA256 校验清单
+    needs: [build-backend, build-frontend, change-plan]
     runs-on: ubuntu-latest
     steps:
       - name: 检出部署脚本
@@ -122,6 +184,7 @@ jobs:
 
       - name: 解包前端并组装部署包
         run: |
+          set -euo pipefail
           tar -xzf bundle/wimoor-ui-dist.tar.gz -C bundle
           rm -f bundle/wimoor-ui-dist.tar.gz
           mkdir -p bundle/html
@@ -130,10 +193,35 @@ jobs:
           cp -a deploy bundle/deploy
           cp -a docs bundle/docs
           cp -a scripts bundle/scripts
+
+      - name: 生成 SHA256 清单与发布元数据
+        env:
+          SOURCE_COMMIT: ${{ github.sha }}
+          SOURCE_BRANCH: ${{ github.ref_name }}
+          CHANGE_TIER: ${{ needs.change-plan.outputs.tier }}
+          CHANGE_TYPES: ${{ needs.change-plan.outputs.types }}
+        run: |
+          set -euo pipefail
+          cd bundle
+          # 对部署包内所有文件生成校验清单（排除清单自身），生产端 sha256sum -c 校验。
+          find . -type f ! -name 'SHA256SUMS' -print0 | sort -z | xargs -0 sha256sum > SHA256SUMS
+          cat > release.json <<EOF
+          {
+            "commit": "$SOURCE_COMMIT",
+            "branch": "$SOURCE_BRANCH",
+            "built_at": "$(date -u +%Y-%m-%dT%H:%M:%SZ)",
+            "change_tier": "$CHANGE_TIER",
+            "change_types": "$CHANGE_TYPES",
+            "jar_count": $(find jars -name '*.jar' | wc -l),
+            "files": $(find . -type f ! -name 'SHA256SUMS' | wc -l)
+          }
+          EOF
           echo "=== 部署包结构 ==="
-          find bundle -maxdepth 2 -type d | sort
-          echo "=== jar 清单 ==="
-          ls -lh bundle/jars/
+          find . -maxdepth 2 -type d | sort
+          echo "=== 发布元数据 ==="
+          cat release.json
+          echo "=== SHA256 清单行数 ==="
+          wc -l SHA256SUMS
 
       - name: 上传一键部署包
         uses: actions/upload-artifact@v4
@@ -141,3 +229,57 @@ jobs:
           name: wimoor-deploy-bundle
           path: bundle/
           retention-days: 14
+
+  # 生产部署：默认不启用。需配置 Secrets 后，用 workflow_dispatch 勾选 deploy_production 触发。
+  # 生产端校验 SHA256 后部署同一产物，不在服务器重新构建。
+  deploy-production:
+    name: 部署同一产物到生产
+    needs: [package-release]
+    if: ${{ github.event_name == 'workflow_dispatch' && inputs.deploy_production }}
+    runs-on: ubuntu-latest
+    environment: production
+    steps:
+      - name: 检查部署凭证
+        env:
+          HOST: ${{ secrets.PRODUCTION_SERVER_HOST }}
+          KEY: ${{ secrets.PRODUCTION_SSH_PRIVATE_KEY }}
+        run: |
+          [ -n "$HOST" ] || { echo "缺少 Secret: PRODUCTION_SERVER_HOST" >&2; exit 1; }
+          [ -n "$KEY" ] || { echo "缺少 Secret: PRODUCTION_SSH_PRIVATE_KEY" >&2; exit 1; }
+          echo "凭证已配置，目标: $HOST"
+
+      - name: 下载部署包
+        uses: actions/download-artifact@v4
+        with:
+          name: wimoor-deploy-bundle
+          path: bundle
+
+      - name: 配置 SSH（有限超时）
+        env:
+          KEY: ${{ secrets.PRODUCTION_SSH_PRIVATE_KEY }}
+          HOST: ${{ secrets.PRODUCTION_SERVER_HOST }}
+        run: |
+          set -euo pipefail
+          mkdir -p ~/.ssh
+          printf '%s\n' "$KEY" > ~/.ssh/id_ed25519
+          chmod 600 ~/.ssh/id_ed25519
+          timeout 10 ssh-keyscan -H "$HOST" >> ~/.ssh/known_hosts 2>/dev/null || true
+          # 30 秒内必须明确连接结果，失败快速退出
+          timeout 30 ssh -o BatchMode=yes -o ConnectTimeout=8 \
+            -o ConnectionAttempts=2 -o StrictHostKeyChecking=yes \
+            -i ~/.ssh/id_ed25519 root@"$HOST" 'echo "[ssh] 连接成功"' \
+            || { echo "[ssh] 连接失败（30秒内）" >&2; exit 1; }
+
+      - name: 部署（互斥 + 校验 + 原子切换 + 验收）
+        env:
+          HOST: ${{ secrets.PRODUCTION_SERVER_HOST }}
+          REMOTE_DIR: ${{ secrets.PRODUCTION_SERVER_DIR }}
+        run: |
+          set -euo pipefail
+          echo "[upload] 上传部署包"
+          timeout 60 scp -o ConnectTimeout=8 -o BatchMode=yes \
+            -i ~/.ssh/id_ed25519 -r bundle root@"$HOST":"/tmp/wimoor-release-${{ github.sha }}"
+          echo "[deploy] 远程部署"
+          timeout 120 ssh -o ConnectTimeout=8 -o BatchMode=yes \
+            -i ~/.ssh/id_ed25519 root@"$HOST" \
+            "bash /tmp/wimoor-release-${{ github.sha }}/deploy/wimoor-p0/server-deploy.sh /tmp/wimoor-release-${{ github.sha }} ${REMOTE_DIR:-/opt/wimoor}"
