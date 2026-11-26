@@ -314,3 +314,9 @@ if (accountkey 有旧值 && 旧值 != 新 session) {
 
 ### 防复发机制升级
 `scripts/preflight-audit.sh` 从 7 类扩到 10 类：新增 [8] Feign 台账端点守卫、[9] 内联上下文链式调用、[10] split 固定下标长度守卫。当前自检：全部 OK，仅 OAuth 假域名 WARN（refresh-token 模式下非生效路径）。
+
+### 第二轮审计修复：部署与验收（2026-11-27 02:04）
+- **GitHub**：合并远端 HTTPS/port80 提交（`9bc4794d`）与本地 4 个审计提交，文档冲突保留双方章节；推送 `origin/main` 成功（`29d83b00`，远端 HEAD 已回读确认一致）。
+- **部署**：仅 6 个改动 jar 增量替换（admin/erp/finance/amazon/amazon-adv/quote），每个旧 jar 备份为 `.bak-pre-audit2`，SFTP 上传逐字节校验 size 一致，逐服务 `systemctl restart`。6 服务 Spring 上下文全部 `Started`，无 BeanCreationException/NPE/端口冲突；10 服务全 active，网关 8080=200。
+- **全量验收**：`outputs/page-acceptance-after-deep-audit.json` **126/126 OK**，1654 次接口调用零失败，API 错误 0、toast 错误 0；19 条 JS 错误均为 `CanceledError: canceled`（验收翻页时的 axios 取消，属良性噪声，历史基线 18~20 条同量级，无回归）。此前报错的 `/amazon/a/record`、`/amazon/manager`、`/fin/voucher/create`、`/sys/tags` 等页面全部正常。
+- **回滚点**：6 个 `.bak-pre-audit2` 旧 jar 保留在服务器，如需回滚直接换回并重启对应服务。
