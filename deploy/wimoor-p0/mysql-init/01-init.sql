@@ -23184,6 +23184,7 @@ CREATE TABLE IF NOT EXISTS `t_erp_purchase_fin_form` (
   `id` bigint unsigned NOT NULL,
   `entryid` bigint unsigned DEFAULT NULL,
   `shopid` bigint unsigned DEFAULT NULL,
+  `groupid` bigint unsigned DEFAULT NULL COMMENT '亚马逊店铺组ID：官方Mapper/实体类引用但建表脚本缺失，补此列避免 Unknown column t.groupid',
   `auditstatus` int unsigned DEFAULT '0' COMMENT '0,待审核 1已审核待付款 2已完成 3.已退回',
   `payment_method` int unsigned DEFAULT NULL,
   `number` char(36) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci DEFAULT NULL,
