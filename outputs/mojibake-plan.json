@@ -1,0 +1,686 @@
+[
+  {
+    "schema": "db_admin",
+    "table": "t_role",
+    "col": "name",
+    "pk": "id",
+    "id": "26138972975989575",
+    "old_hex": "C3A4C2B8E2809CC3A4C2B8C5A1C3A7E280B0CB86",
+    "new": "专业版"
+  },
+  {
+    "schema": "db_admin",
+    "table": "t_role",
+    "col": "name",
+    "pk": "id",
+    "id": "26138972975989607",
+    "old_hex": "C3A5E280A6C28DC3A8C2B4C2B9C3A7E280B0CB86",
+    "new": "免费版"
+  },
+  {
+    "schema": "db_admin",
+    "table": "t_role",
+    "col": "name",
+    "pk": "id",
+    "id": "26138972975989587",
+    "old_hex": "C3A5E280A6C2A5C3A9E28094C2A8C3A7E280B0CB86",
+    "new": "入门版"
+  },
+  {
+    "schema": "db_admin",
+    "table": "t_role",
+    "col": "name",
+    "pk": "id",
+    "id": "26138972975989571",
+    "old_hex": "C3A6C2A0E280A1C3A5E280A1E280A0C3A7E280B0CB86",
+    "new": "标准版"
+  },
+  {
+    "schema": "db_admin",
+    "table": "t_role",
+    "col": "name",
+    "pk": "id",
+    "id": "26138972975989596",
+    "old_hex": "C3A6E28094E28094C3A8CB86C2B0C3A7E280B0CB86",
+    "new": "旗舰版"
+  },
+  {
+    "schema": "db_admin",
+    "table": "t_sys_agent_learning",
+    "col": "remark",
+    "pk": "id",
+    "id": "1",
+    "old_hex": "455250C3A5C5B8C5B8C3A4C2B8C5BD416D617A6F6EC3A5C5B8C5B8C3A5C2B7C2A5C3A5E280A6C2B7C3A9E282ACE280B0C3A6E280B9C2A9C3A8C2A7E2809EC3A5CB86E284A2C3AFC2BCC592C3A7C2AEC2A1C3A7C290E280A0C3A5E28098CB9CC3A9C2AAC592C3A8C2AFC281C3A9E282ACC5A1C3A8C2BFE280A1",
+    "new": "ERP域与Amazon域工具选择规则，管理员验证通过"
+  },
+  {
+    "schema": "db_admin",
+    "table": "t_sys_agent_learning",
+    "col": "remark",
+    "pk": "id",
+    "id": "2",
+    "old_hex": "6D6174657269616C5F6C697374C3A7C5A1E2809E697344656C657465C3A5C28FE2809AC3A6E280A2C2B0C3A9C2BBCB9CC3A8C2AEC2A4C3A5E282ACC2BCC3A9E28094C2AEC3A9C2A2CB9C",
+    "new": "material_list的isDelete参数默认值问题"
+  },
+  {
+    "schema": "db_admin",
+    "table": "t_sys_agent_learning",
+    "col": "remark",
+    "pk": "id",
+    "id": "3",
+    "old_hex": "455250C3A5C2BAE2809CC3A5C2ADCB9CC3A4C2B8C5BD464241C3A5C2BAE2809CC3A5C2ADCB9CC3A5C2B7C2A5C3A5E280A6C2B7C3A9E282ACE280B0C3A6E280B9C2A9C3A8C2A7E2809EC3A5CB86E284A2",
+    "new": "ERP库存与FBA库存工具选择规则"
+  },
+  {
+    "schema": "db_admin",
+    "table": "t_sys_agent_learning",
+    "col": "remark",
+    "pk": "id",
+    "id": "4",
+    "old_hex": "455250C3A9E280A1E280A1C3A8C2B4C2ADC3A5C5B8C5B8C3A5C2B7C2A5C3A5E280A6C2B7C3A9E282ACE280B0C3A6E280B9C2A9C3A8C2A7E2809EC3A5CB86E284A2",
+    "new": "ERP采购域工具选择规则"
+  },
+  {
+    "schema": "db_admin",
+    "table": "t_sys_dict",
+    "col": "name",
+    "pk": "id",
+    "id": "1",
+    "old_hex": "C3A6E282ACC2A7C3A5CB86C2AB",
+    "new": "性别"
+  },
+  {
+    "schema": "db_admin",
+    "table": "t_sys_dict",
+    "col": "name",
+    "pk": "id",
+    "id": "2",
+    "old_hex": "C3A6C5BDCB86C3A6C29DC692C3A6E28093C2B9C3A5C2BCC28F",
+    "new": "授权方式"
+  },
+  {
+    "schema": "db_admin",
+    "table": "t_sys_dict",
+    "col": "name",
+    "pk": "id",
+    "id": "3",
+    "old_hex": "C3A5C2BEC2AEC3A6C593C28DC3A5C5A0C2A1C3A5CB86E28094C3A8C2A1C2A8",
+    "new": "微服务列表"
+  },
+  {
+    "schema": "db_admin",
+    "table": "t_sys_dict",
+    "col": "name",
+    "pk": "id",
+    "id": "4",
+    "old_hex": "C3A8C2AFC2B7C3A6C2B1E2809AC3A6E28093C2B9C3A5C2BCC28F",
+    "new": "请求方式"
+  },
+  {
+    "schema": "db_admin",
+    "table": "t_sys_dict",
+    "col": "name",
+    "pk": "id",
+    "id": "1575330968132694017",
+    "old_hex": "C3A7E2809DC2A8C3A6CB86C2B7C3A7C5A0C2B6C3A6E282ACC281",
+    "new": "用户状态"
+  },
+  {
+    "schema": "db_admin",
+    "table": "t_sys_dict",
+    "col": "name",
+    "pk": "id",
+    "id": "1580461846135635969",
+    "old_hex": "C3A6E280A2C2B0C3A6C28DC2AEC3A6C29DC692C3A9E284A2C290",
+    "new": "数据权限"
+  },
+  {
+    "schema": "db_admin",
+    "table": "t_sys_dict",
+    "col": "name",
+    "pk": "id",
+    "id": "1581888127234539522",
+    "old_hex": "C3A9E2809DE282ACC3A5E2809DC2AEC3A6C2B8C2A0C3A9C281E2809CC3A5C28FC5A0C3A5C28FE28098C3A8C2B4C2A7C3A6E28093C2B9C3A5C2BCC28F",
+    "new": "销售渠道及发货方式"
+  },
+  {
+    "schema": "db_admin",
+    "table": "t_sys_dict",
+    "col": "name",
+    "pk": "id",
+    "id": "1581888461944193026",
+    "old_hex": "C3A5C28DE28093C3A5C2AEC2B6C3A9E2809DE282ACC3A5E2809DC2AEC3A8C2AEC2A1C3A5CB86E28099",
+    "new": "卖家销售计划"
+  },
+  {
+    "schema": "db_admin",
+    "table": "t_sys_dict",
+    "col": "name",
+    "pk": "id",
+    "id": "1581888764215099394",
+    "old_hex": "C3A8C2BFC290C3A8C2B4C2B9C3A8C2AEC2A1C3A7C2AEE28094",
+    "new": "运费计算"
+  },
+  {
+    "schema": "db_admin",
+    "table": "t_sys_dict",
+    "col": "name",
+    "pk": "id",
+    "id": "1581889181447684098",
+    "old_hex": "C3A9E280A6C28DC3A9E282ACC281C3A6E28093C2B9C3A5C2BCC28F",
+    "new": "配送方式"
+  },
+  {
+    "schema": "db_admin",
+    "table": "t_sys_dict",
+    "col": "name",
+    "pk": "id",
+    "id": "1581889888674447362",
+    "old_hex": "C3A8C2AEC2A2C3A5C28DE280A2C3A7C5A0C2B6C3A6E282ACC281",
+    "new": "订单状态"
+  },
+  {
+    "schema": "db_admin",
+    "table": "t_sys_dict",
+    "col": "name",
+    "pk": "id",
+    "id": "1581890253167853570",
+    "old_hex": "C3A5C28DE28093C3A5C2AEC2B6C3A7C2B1C2BBC3A5C5BEE280B9",
+    "new": "卖家类型"
+  },
+  {
+    "schema": "db_admin",
+    "table": "t_sys_dict",
+    "col": "name",
+    "pk": "id",
+    "id": "1581890529090142210",
+    "old_hex": "C3A5C2AEC2A2C3A6CB86C2B7C3A7C2B1C2BBC3A5C5BEE280B9",
+    "new": "客户类型"
+  },
+  {
+    "schema": "db_admin",
+    "table": "t_sys_dict",
+    "col": "name",
+    "pk": "id",
+    "id": "1581907412451393537",
+    "old_hex": "C3A7E280B0C2A9C3A6C2B5C281C3A6E28093C2B9C3A5C2BCC28F5553",
+    "new": "物流方式US"
+  },
+  {
+    "schema": "db_admin",
+    "table": "t_sys_dict",
+    "col": "name",
+    "pk": "id",
+    "id": "1581907799845699586",
+    "old_hex": "C3A7E280B0C2A9C3A6C2B5C281C3A6E28093C2B9C3A5C2BCC28F554B",
+    "new": "物流方式UK"
+  },
+  {
+    "schema": "db_admin",
+    "table": "t_sys_dict",
+    "col": "name",
+    "pk": "id",
+    "id": "1593091333478154241",
+    "old_hex": "C3A9E280A1E280A1C3A8C2B4C2ADC3A5C2B8C281C3A7C2A7C28D",
+    "new": "采购币种"
+  },
+  {
+    "schema": "db_admin",
+    "table": "t_sys_dict_item",
+    "col": "name",
+    "pk": "id",
+    "id": "16",
+    "old_hex": "C3A4C2B8C28DC3A9E284A2C290",
+    "new": "不限"
+  },
+  {
+    "schema": "db_admin",
+    "table": "t_sys_dict_item",
+    "col": "name",
+    "pk": "id",
+    "id": "1581890392456495106",
+    "old_hex": "C3A4C2B8C2AAC3A4C2BAC2BAC3A4C2B9C2B0C3A5C2AEC2B6",
+    "new": "个人买家"
+  },
+  {
+    "schema": "db_admin",
+    "table": "t_sys_dict_item",
+    "col": "name",
+    "pk": "id",
+    "id": "1581888617208938498",
+    "old_hex": "C3A4C2B8C2AAC3A4C2BAC2BAC3A5C28DE28093C3A5C2AEC2B6",
+    "new": "个人卖家"
+  },
+  {
+    "schema": "db_admin",
+    "table": "t_sys_dict_item",
+    "col": "name",
+    "pk": "id",
+    "id": "1581888538905477122",
+    "old_hex": "C3A4C2B8E2809CC3A4C2B8C5A1C3A5C28DE28093C3A5C2AEC2B6C3AFC2BCCB86C3A5E280A6C2A8C3A7C290C692C3A5C2BCE282ACC3A5C2BAE28094C3AFC2BCE280B0",
+    "new": "专业卖家（全球开店）"
+  },
+  {
+    "schema": "db_admin",
+    "table": "t_sys_dict_item",
+    "col": "name",
+    "pk": "id",
+    "id": "1593091447772938242",
+    "old_hex": "C3A4C2BAC2BAC3A6C2B0E28098C3A5C2B8C281",
+    "new": "人民币"
+  },
+  {
+    "schema": "db_admin",
+    "table": "t_sys_dict_item",
+    "col": "name",
+    "pk": "id",
+    "id": "1593092822900740097",
+    "old_hex": "C3A4C2BAC2BAC3A6C2B0E28098C3A5C2B8C281",
+    "new": "人民币"
+  },
+  {
+    "schema": "db_admin",
+    "table": "t_sys_dict_item",
+    "col": "name",
+    "pk": "id",
+    "id": "12",
+    "old_hex": "C3A4C2BAC5A1C3A9C2A9C2ACC3A9E282ACC5A0",
+    "new": "亚马逊"
+  },
+  {
+    "schema": "db_admin",
+    "table": "t_sys_dict_item",
+    "col": "name",
+    "pk": "id",
+    "id": "1581888203172413441",
+    "old_hex": "C3A4C2BAC5A1C3A9C2A9C2ACC3A9E282ACC5A0C3A8C2AEC2A2C3A5C28DE280A2C3A3E282ACC281C3A4C2BAC5A1C3A9C2A9C2ACC3A9E282ACC5A0C3A9E280A6C28DC3A9E282ACC281",
+    "new": "亚马逊订单、亚马逊配送"
+  },
+  {
+    "schema": "db_admin",
+    "table": "t_sys_dict_item",
+    "col": "name",
+    "pk": "id",
+    "id": "1581888260445634561",
+    "old_hex": "C3A4C2BAC5A1C3A9C2A9C2ACC3A9E282ACC5A0C3A8C2AEC2A2C3A5C28DE280A2C3A3E282ACC281C3A5C28DE28093C3A5C2AEC2B6C3A8E280A1C2AAC3A9E280A6C28DC3A9E282ACC281",
+    "new": "亚马逊订单、卖家自配送"
+  },
+  {
+    "schema": "db_admin",
+    "table": "t_sys_dict_item",
+    "col": "name",
+    "pk": "id",
+    "id": "1581889240427986946",
+    "old_hex": "C3A4C2BAC5A1C3A9C2A9C2ACC3A9E282ACC5A0C3A9E280A6C28DC3A9E282ACC281",
+    "new": "亚马逊配送"
+  },
+  {
+    "schema": "db_admin",
+    "table": "t_sys_dict_item",
+    "col": "name",
+    "pk": "id",
+    "id": "1581890341944492033",
+    "old_hex": "C3A4C2BCC281C3A4C2B8C5A1C3A4C2B9C2B0C3A5C2AEC2B6",
+    "new": "企业买家"
+  },
+  {
+    "schema": "db_admin",
+    "table": "t_sys_dict_item",
+    "col": "name",
+    "pk": "id",
+    "id": "1581890576955539458",
+    "old_hex": "C3A4C2BEE280BAC3A5C2BAE2809DC3A5E280A2E280A0",
+    "new": "供应商"
+  },
+  {
+    "schema": "db_admin",
+    "table": "t_sys_dict_item",
+    "col": "name",
+    "pk": "id",
+    "id": "23",
+    "old_hex": "C3A5C281C593C3A7E2809DC2A8",
+    "new": "停用"
+  },
+  {
+    "schema": "db_admin",
+    "table": "t_sys_dict_item",
+    "col": "name",
+    "pk": "id",
+    "id": "1581889289572646913",
+    "old_hex": "C3A5C28DE28093C3A5C2AEC2B6C3A8E280A1C2AAC3A9E280A6C28DC3A9E282ACC281",
+    "new": "卖家自配送"
+  },
+  {
+    "schema": "db_admin",
+    "table": "t_sys_dict_item",
+    "col": "name",
+    "pk": "id",
+    "id": "25",
+    "old_hex": "C3A5C28FC2AAC3A8C692C2BDC3A6C5B8C2A5C3A7C593E280B9C3A8E280A1C2AAC3A5C2B7C2B1C3A5C2BCE282ACC3A5C28FE28098C3A7C5A1E2809EC3A4C2BAC2A7C3A5E2809CC281",
+    "new": "只能查看自己开发的产品"
+  },
+  {
+    "schema": "db_admin",
+    "table": "t_sys_dict_item",
+    "col": "name",
+    "pk": "id",
+    "id": "26",
+    "old_hex": "C3A5C28FC2AAC3A8C692C2BDC3A6C5B8C2A5C3A7C593E280B9C3A8E280A1C2AAC3A5C2B7C2B1C3A8C2BFC290C3A8C290C2A5C3A7C5A1E2809EC3A4C2BAC2A7C3A5E2809CC281",
+    "new": "只能查看自己运营的产品"
+  },
+  {
+    "schema": "db_admin",
+    "table": "t_sys_dict_item",
+    "col": "name",
+    "pk": "id",
+    "id": "22",
+    "old_hex": "C3A5C290C2AFC3A7E2809DC2A8",
+    "new": "启用"
+  },
+  {
+    "schema": "db_admin",
+    "table": "t_sys_dict_item",
+    "col": "name",
+    "pk": "id",
+    "id": "2",
+    "old_hex": "C3A5C2A5C2B3",
+    "new": "女"
+  },
+  {
+    "schema": "db_admin",
+    "table": "t_sys_dict_item",
+    "col": "name",
+    "pk": "id",
+    "id": "8",
+    "old_hex": "C3A5C2AEC2A2C3A6CB86C2B7C3A7C2ABC2AFC3A6C2A8C2A1C3A5C2BCC28F",
+    "new": "客户端模式"
+  },
+  {
+    "schema": "db_admin",
+    "table": "t_sys_dict_item",
+    "col": "name",
+    "pk": "id",
+    "id": "6",
+    "old_hex": "C3A5C2AFE280A0C3A7C2A0C281C3A6C2A8C2A1C3A5C2BCC28F",
+    "new": "密码模式"
+  },
+  {
+    "schema": "db_admin",
+    "table": "t_sys_dict_item",
+    "col": "name",
+    "pk": "id",
+    "id": "9",
+    "old_hex": "C3A5CB86C2B7C3A6E28093C2B0C3A6C2A8C2A1C3A5C2BCC28F",
+    "new": "刷新模式"
+  },
+  {
+    "schema": "db_admin",
+    "table": "t_sys_dict_item",
+    "col": "name",
+    "pk": "id",
+    "id": "1581890814340562946",
+    "old_hex": "C3A6C2A0C2B9C3A6C28DC2AEC3A4C2BAC2A7C3A5E2809CC281C3A4C2BDE2809CC3A7C2A7C2AFC3A8C2AEC2A1C3A7C2AEE28094",
+    "new": "根据产品体积计算"
+  },
+  {
+    "schema": "db_admin",
+    "table": "t_sys_dict_item",
+    "col": "name",
+    "pk": "id",
+    "id": "1581888956754624513",
+    "old_hex": "C3A6C2A0C2B9C3A6C28DC2AEC3A4C2BAC2A7C3A5E2809CC281C3A9E280A1C28DC3A9E280A1C28FC3A4C2B8C5BDC3A6C29DC290C3A7C2A7C2AFC3A9E280A1C28DC3A9E280A1C28FC3A5C2A4C2A7C3A8E282ACE280A6C3A8C2AEC2A1C3A7C2AEE28094",
+    "new": "根据产品重量与材积重量大者计算"
+  },
+  {
+    "schema": "db_admin",
+    "table": "t_sys_dict_item",
+    "col": "name",
+    "pk": "id",
+    "id": "1581888899045195777",
+    "old_hex": "C3A6C2A0C2B9C3A6C28DC2AEC3A4C2BAC2A7C3A5E2809CC281C3A9E280A1C28DC3A9E280A1C28FC3A8C2AEC2A1C3A7C2AEE28094",
+    "new": "根据产品重量计算"
+  },
+  {
+    "schema": "db_admin",
+    "table": "t_sys_dict_item",
+    "col": "name",
+    "pk": "id",
+    "id": "3",
+    "old_hex": "C3A6C593C2AAC3A7C5B8C2A5",
+    "new": "未知"
+  },
+  {
+    "schema": "db_admin",
+    "table": "t_sys_dict_item",
+    "col": "name",
+    "pk": "id",
+    "id": "7",
+    "old_hex": "C3A6C5BDCB86C3A6C29DC692C3A7C2A0C281C3A6C2A8C2A1C3A5C2BCC28F",
+    "new": "授权码模式"
+  },
+  {
+    "schema": "db_admin",
+    "table": "t_sys_dict_item",
+    "col": "name",
+    "pk": "id",
+    "id": "1581888830808064001",
+    "old_hex": "C3A6E280B0E280B9C3A5C5A0C2A8C3A8C2BEE2809CC3A5E280A6C2A5",
+    "new": "手动输入"
+  },
+  {
+    "schema": "db_admin",
+    "table": "t_sys_dict_item",
+    "col": "name",
+    "pk": "id",
+    "id": "1628336451638321154",
+    "old_hex": "C3A7C2A6C281C3A6C2ADC2A2C3A6C5B8C2A5C3A7C593E280B9C3A4C2B8C2BBC3A9C2A1C2B5C3A9E2809DE282ACC3A5E2809DC2AEC3A6E280A2C2B0C3A6C28DC2AE",
+    "new": "禁止查看主页销售数据"
+  },
+  {
+    "schema": "db_admin",
+    "table": "t_sys_dict_item",
+    "col": "name",
+    "pk": "id",
+    "id": "10",
+    "old_hex": "C3A7C2AEE282ACC3A5C592E28093C3A6C2A8C2A1C3A5C2BCC28F",
+    "new": "简化模式"
+  },
+  {
+    "schema": "db_admin",
+    "table": "t_sys_dict_item",
+    "col": "name",
+    "pk": "id",
+    "id": "13",
+    "old_hex": "C3A7C2B3C2BBC3A7C2BBC5B8C3A7C2AEC2A1C3A7C290E280A0",
+    "new": "系统管理"
+  },
+  {
+    "schema": "db_admin",
+    "table": "t_sys_dict_item",
+    "col": "name",
+    "pk": "id",
+    "id": "15",
+    "old_hex": "C3A7C2BDE28098C3A5E280A6C2B3",
+    "new": "网关"
+  },
+  {
+    "schema": "db_admin",
+    "table": "t_sys_dict_item",
+    "col": "name",
+    "pk": "id",
+    "id": "1593091513082445826",
+    "old_hex": "C3A7C2BEC5BDC3A5E280A6C692",
+    "new": "美元"
+  },
+  {
+    "schema": "db_admin",
+    "table": "t_sys_dict_item",
+    "col": "name",
+    "pk": "id",
+    "id": "1593092896791793666",
+    "old_hex": "C3A7C2BEC5BDC3A5E280A6C692",
+    "new": "美元"
+  },
+  {
+    "schema": "db_admin",
+    "table": "t_sys_dict_item",
+    "col": "name",
+    "pk": "id",
+    "id": "1",
+    "old_hex": "C3A7E2809DC2B7",
+    "new": "男"
+  },
+  {
+    "schema": "db_admin",
+    "table": "t_sys_dict_item",
+    "col": "name",
+    "pk": "id",
+    "id": "14",
+    "old_hex": "C3A7E284A2C2BBC3A5C2BDE280A2C3A7C2AEC2A1C3A7C290E280A0",
+    "new": "登录管理"
+  },
+  {
+    "schema": "db_admin",
+    "table": "t_sys_dict_item",
+    "col": "name",
+    "pk": "id",
+    "id": "24",
+    "old_hex": "C3A8C2BFE280A1C3A6C593C5B8",
+    "new": "过期"
+  },
+  {
+    "schema": "db_admin",
+    "table": "t_sys_dict_item",
+    "col": "name",
+    "pk": "id",
+    "id": "11",
+    "old_hex": "C3A8C2BFE280BAC3A9E2809DE282ACC3A5C2ADCB9C",
+    "new": "进销存"
+  },
+  {
+    "schema": "db_admin",
+    "table": "t_sys_dict_item",
+    "col": "name",
+    "pk": "id",
+    "id": "1581888320076054529",
+    "old_hex": "C3A9C29DC5BEC3A4C2BAC5A1C3A9C2A9C2ACC3A9E282ACC5A0C3A8C2AEC2A2C3A5C28DE280A2C3A3E282ACC281C3A4C2BAC5A1C3A9C2A9C2ACC3A9E282ACC5A0464241C3A9E280A6C28DC3A9E282ACC281",
+    "new": "非亚马逊订单、亚马逊FBA配送"
+  },
+  {
+    "schema": "db_admin",
+    "table": "t_sys_dict_item",
+    "col": "name",
+    "pk": "id",
+    "id": "1581890632278409218",
+    "old_hex": "C3A9E280A1E280A1C3A8C2B4C2ADC3A5E280A2E280A0",
+    "new": "采购商"
+  },
+  {
+    "schema": "db_admin",
+    "table": "t_sys_tool_agent_context",
+    "col": "context_key",
+    "pk": "id",
+    "id": "4",
+    "old_hex": "67726F7570C3A2E280A0E280996D61726B6574706C616365",
+    "new": "group→marketplace"
+  },
+  {
+    "schema": "db_admin",
+    "table": "t_sys_tool_agent_context",
+    "col": "context_key",
+    "pk": "id",
+    "id": "5",
+    "old_hex": "6D61726B6574706C616365C3A2E280A0E28099636F756E747279",
+    "new": "marketplace→country"
+  },
+  {
+    "schema": "db_admin",
+    "table": "t_sys_tool_agent_context",
+    "col": "context_key",
+    "pk": "id",
+    "id": "6",
+    "old_hex": "70726F64756374C3A2E280A0E280996C697374696E67",
+    "new": "product→listing"
+  },
+  {
+    "schema": "db_admin",
+    "table": "t_sys_tool_agent_context",
+    "col": "context_key",
+    "pk": "id",
+    "id": "7",
+    "old_hex": "70726F64756374C3A2E280A0E28099696E76656E746F7279",
+    "new": "product→inventory"
+  },
+  {
+    "schema": "db_admin",
+    "table": "t_sys_tool_agent_context",
+    "col": "context_key",
+    "pk": "id",
+    "id": "8",
+    "old_hex": "70726F64756374C3A2E280A0E2809970726F666974",
+    "new": "product→profit"
+  },
+  {
+    "schema": "db_admin",
+    "table": "t_sys_tool_agent_context",
+    "col": "context_key",
+    "pk": "id",
+    "id": "9",
+    "old_hex": "77617265686F757365C3A2E280A0E280996572705F696E76656E746F7279",
+    "new": "warehouse→erp_inventory"
+  },
+  {
+    "schema": "db_admin",
+    "table": "t_sys_tool_agent_context",
+    "col": "context_key",
+    "pk": "id",
+    "id": "10",
+    "old_hex": "737570706C696572C3A2E280A0E280997075726368617365",
+    "new": "supplier→purchase"
+  },
+  {
+    "schema": "db_admin",
+    "table": "t_sys_tool_agent_context",
+    "col": "context_key",
+    "pk": "id",
+    "id": "11",
+    "old_hex": "7075726368617365C3A2E280A0E28099696E626F756E64",
+    "new": "purchase→inbound"
+  },
+  {
+    "schema": "db_admin",
+    "table": "t_sys_tool_agent_context",
+    "col": "context_key",
+    "pk": "id",
+    "id": "12",
+    "old_hex": "6D6174657269616CC3A2E280A0E28099616C6C5F657270",
+    "new": "material→all_erp"
+  },
+  {
+    "schema": "db_admin",
+    "table": "t_sys_tool_agent_context",
+    "col": "remark",
+    "pk": "id",
+    "id": "1",
+    "old_hex": "416D617A6F6EC3A4C2B8C5A1C3A5C5A0C2A1C3A5C5B8C5B8C3A8C2A7E2809EC3A5CB86E284A2",
+    "new": "Amazon业务域规则"
+  },
+  {
+    "schema": "db_admin",
+    "table": "t_sys_tool_agent_context",
+    "col": "remark",
+    "pk": "id",
+    "id": "2",
+    "old_hex": "455250C3A4C2B8C5A1C3A5C5A0C2A1C3A5C5B8C5B8C3A8C2A7E2809EC3A5CB86E284A2",
+    "new": "ERP业务域规则"
+  },
+  {
+    "schema": "db_admin",
+    "table": "t_sys_tool_agent_context",
+    "col": "remark",
+    "pk": "id",
+    "id": "3",
+    "old_hex": "C3A8C2B7C2A8C3A5C5B8C5B8C3A5E280A6C2B3C3A8C281E2809DC3A8C2A7E2809EC3A5CB86E284A2",
+    "new": "跨域关联规则"
+  }
+]

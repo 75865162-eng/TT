@@ -1,0 +1,68 @@
+[
+  {
+    "url": "/sys/ruleAuth",
+    "name": "系统角色",
+    "len": 1284,
+    "mojiCount": 0,
+    "moji": [],
+    "qm": [],
+    "badLines": [],
+    "badHttp": [],
+    "sample": "产品\n销售\n采购\n仓库\n发货\n广告\n账目\n财务\n设置\n系统\n首页\n添加角色\n角色列表\nmanager\n专业版\n免费版\n入门版\n旗舰版\n标准版\n1\n共 6 条\n菜单权限-manager\n计算器\nFBA计算器\n利润计算\n计算方案\n产品\n基础产品\n标签管理\n产品管理\n产品属性\n品牌管理\n品类管理\n辅料包材\n辅料管理\n箱子管理\n平台配对\nSKU配对\nTemu商品\n工具\nAI问答\n团队公告\n文件资源\nAI技能中心\n选品研究\nAI运行历史\n销量统计\n销售\nlisting\n趋势分析\n销售报表\n商品分析\n销售计划\n销量详情\n调价队列\n商品搜索\n促销报告\n透明计划\n订单管理\n今日订单\n订单列表\n退货订单\n移除订单\n手动订单\nFBA报表\nFBA滞销\nFBA费用\n流量报表\n评论&绩效\n评论跟踪\n差评管理\n店铺绩效\n采购\n采购报表\n采购付款明细\n采购统计\n采购详情\n采购入库明细\n采购时效\n采购管理\n采购规划\n采购"
+  },
+  {
+    "url": "/sys/subuser",
+    "name": "管理员号",
+    "len": 205,
+    "mojiCount": 0,
+    "moji": [],
+    "qm": [],
+    "badLines": [],
+    "badHttp": [],
+    "sample": "产品\n销售\n采购\n仓库\n发货\n广告\n账目\n财务\n设置\n系统\n首页\n启用\n停用\n过期\n角色权限\n用户名\n重置\n添加用户\n启用\n停用\n删除\n\t\n用户名\n\t\n登录账号\n\t\n状态\n\t\n部门\n\t\n角色权限\n\t\n店铺权限\n\t\n数据权限\n\t\n创建时间\n\t\n到期时间\n\t\n操作\n\t\n\t\n1\n\t\n启用\n\t\n\t\nadmin\n\t\n\t\n\t\n2016-11-01\n\t\n2098-12-31\n\t\n编辑\n共 1 条\n10条/页\n1\n前往\n页"
+  },
+  {
+    "url": "/sys/dept",
+    "name": "部门管理",
+    "len": 76,
+    "mojiCount": 0,
+    "moji": [],
+    "qm": [],
+    "badLines": [],
+    "badHttp": [],
+    "sample": "产品\n销售\n采购\n仓库\n发货\n广告\n账目\n财务\n设置\n系统\n首页\n新增\n删除\n正常\n搜索\n重置\n\t\n部门名称\n\t\n状态\n\t\n显示排序\n\t\n操作\n暂无数据"
+  },
+  {
+    "url": "/sys/menu",
+    "name": "管理菜单",
+    "len": 614,
+    "mojiCount": 0,
+    "moji": [],
+    "qm": [],
+    "badLines": [],
+    "badHttp": [],
+    "sample": "产品\n销售\n采购\n仓库\n发货\n广告\n账目\n财务\n设置\n系统\n首页\n 菜单列表\n新增\n搜索\n重置\n菜单名称\n\t\n菜单类型\n\t\n状态\n\t\n排序\n\t\n操作\n 计算器\n\t\n目录\n\t\n隐藏\n\t\n0\n\t\n新增\n修改\n删除\n\n\n 产品\n\t\n目录\n\t\n显示\n\t\n1\n\t\n新增\n修改\n删除\n\n\n 销售\n\t\n目录\n\t\n显示\n\t\n2\n\t\n新增\n修改\n删除\n\n\n 采购\n\t\n目录\n\t\n显示\n\t\n3\n\t\n新增\n修改\n删除\n\n\n 仓库\n\t\n目录\n\t\n显示\n\t\n4\n\t\n新增\n修改\n删除\n\n\n 发货\n\t\n目录\n\t\n显示\n\t\n5\n\t\n新增\n修改\n删除\n\n\n 广告\n\t\n目录\n\t\n显示\n\t\n6\n\t\n新增\n修改\n删除\n\n\n 账目\n\t\n目录\n\t\n显示\n\t\n10\n\t\n新增\n修改\n删除\n\n\n 财务\n\t\n目录\n\t\n显示\n\t\n11\n\t\n新增\n修改\n删除\n\n\n 设置\n\t\n目录\n\t\n显示\n\t\n12\n\t\n新增\n修改\n删除\n\n\n 订制\n\t\n目录\n\t\n"
+  },
+  {
+    "url": "/sys/dict",
+    "name": "数据字典",
+    "len": 538,
+    "mojiCount": 0,
+    "moji": [],
+    "qm": [],
+    "badLines": [],
+    "badHttp": [],
+    "sample": "产品\n销售\n采购\n仓库\n发货\n广告\n账目\n财务\n设置\n系统\n首页\n 字典类型\n新增\n删除\n搜索\n重置\n\t\n字典名称\n\t\n字典编码\n\t\n状态\n\t\n操作\n\t\n采购币种\n\t\ncurrency_purchase\n\t\n启用\n\t\n编辑\n删除\n\n\n\t\n物流方式UK\n\t\nlogistics_uk\n\t\n启用\n\t\n编辑\n删除\n\n\n\t\n物流方式US\n\t\nlogistics_us\n\t\n启用\n\t\n编辑\n删除\n\n\n\t\n客户类型\n\t\ncustomer\n\t\n启用\n\t\n编辑\n删除\n\n\n\t\n卖家类型\n\t\nis_business_order\n\t\n启用\n\t\n编辑\n删除\n\n\n\t\n订单状态\n\t\norder_status\n\t\n启用\n\t\n编辑\n删除\n\n\n\t\n配送方式\n\t\nisfba\n\t\n启用\n\t\n编辑\n删除\n\n\n\t\n运费计算\n\t\nshipmentstyle\n\t\n启用\n\t\n编辑\n删除\n\n\n\t\n卖家销售计划\n\t\nsellerplan\n\t\n启"
+  },
+  {
+    "url": "/sys/fileuser",
+    "name": "文件资源",
+    "len": 80,
+    "mojiCount": 0,
+    "moji": [],
+    "qm": [],
+    "badLines": [],
+    "badHttp": [],
+    "sample": "产品\n销售\n采购\n仓库\n发货\n广告\n账目\n财务\n设置\n系统\n首页\n我的文件\n公司文件\n上传我的文件\n预览\n\t\n文件名\n\t\n上传时间\n\t\n操作\n\n暂无文件，请上传"
+  }
+]
