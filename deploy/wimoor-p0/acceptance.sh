@@ -22,9 +22,12 @@ code=$(curl -s -o /dev/null -w '%{http_code}' --max-time 5 "$BASE/" 2>/dev/null 
 
 # 2) 核心 API（登录 + 菜单路由）——本项目认证用 data.session 作为 jsessionid 请求头。
 # 注意：POST /admin/api/v1/menus 是「新增菜单」写接口，验收绝不能调用；只读路由用 GET /menus/route。
+# 登录凭证用环境变量注入：ACCEPT_ACCOUNT / ACCEPT_PASSWORD；默认取生产实际账号 1/1。
+ACCEPT_ACCOUNT="${ACCEPT_ACCOUNT:-1}"
+ACCEPT_PASSWORD="${ACCEPT_PASSWORD:-1}"
 LOGIN_JSON=$(curl -s --max-time 8 -X POST "$BASE/admin/api/v1/auth/login" \
   -H 'Content-Type: application/json' \
-  -d '{"account":"admin@wimoor.com","password":"123456"}' 2>/dev/null)
+  -d "{\"account\":\"$ACCEPT_ACCOUNT\",\"password\":\"$ACCEPT_PASSWORD\"}" 2>/dev/null)
 SESSION=$(echo "$LOGIN_JSON" | python3.11 -c "import sys,json; d=json.load(sys.stdin); print((d.get('data') or {}).get('session') or '')" 2>/dev/null)
 [ -n "$SESSION" ] && result "api_login" PASS "取得 session" || result "api_login" FAIL "未取得 session"
 if [ -n "$SESSION" ]; then
