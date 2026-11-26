@@ -27,7 +27,7 @@ import { reactive, toRefs,ref } from 'vue';
 	  const { typeCode,  } = toRefs(state);
 	  
 	  const handleClick = (row) => {
-		childrenListRef.value.handleQuery(row.id);
+		childrenListRef.value.handleQuery(row && row.id);
 	  };
  
 </script>

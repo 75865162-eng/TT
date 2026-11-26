@@ -264,8 +264,13 @@
 	 }
 	 function loadFacProject(){
 	 	faccountApi.getProject().then((res)=>{
+		    if(!Array.isArray(res.data)){
+		        state.finlist=[];
+		        state.queryParam.projectid="";
+		        return;
+		    }
 		    res.data.push({"id":"","name":"全部费用类型"});
-	 		if(res.data && res.data.length>0){
+	 		if(res.data.length>0){
 	 			state.finlist=res.data;
 	 		}else{
 				state.finlist=[];

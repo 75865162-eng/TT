@@ -11,6 +11,24 @@ cd "$P0" && docker compose up -d >/dev/null 2>&1
 for i in $(seq 1 40); do docker exec wm-p0-mysql mysql -uroot -p123456 -e "SELECT 1" >/dev/null 2>&1 && break; sleep 1; done
 for i in $(seq 1 40); do curl -s -o /dev/null http://127.0.0.1:8848/nacos/v1/console/health/readiness 2>/dev/null && break; sleep 1; done
 
+# 导入 Nacos 配置（原脚本缺失此步，导致 config.* 占位符与数据源 jdbcUrl 无法解析、服务启动即崩）
+# 与 deploy.sh step_start 一致：数据源指向宿主映射端口 13306 / Redis 16379
+for f in "$WM"/init-config/nacos/DEFAULT_GROUP/wimoor-*; do
+  [ -f "$f" ] || continue
+  id="$(basename "$f")"
+  sed -e 's|mysql.host=localhost|mysql.host=127.0.0.1|' \
+      -e 's|mysql.port=3306|mysql.port=13306|' \
+      "$f" > "/tmp/nacos-$id.yaml"
+  if [ "$id" = "wimoor-common" ]; then
+    sed -i -e '/^redis.password=/a redis.port=16379' \
+           -e '/^spring.redis.host=/a spring.redis.port= ${redis.port}' "/tmp/nacos-$id.yaml"
+  fi
+  curl -s -o /dev/null -X POST "http://127.0.0.1:8848/nacos/v1/cs/configs" \
+    --data-urlencode "dataId=$id" --data-urlencode "group=DEFAULT_GROUP" \
+    --data-urlencode "type=yaml" --data-urlencode "content@/tmp/nacos-$id.yaml"
+done
+echo "Nacos 配置已导入"
+
 start_jar() {
   local name="$1" jar="$2"; shift 2
   [ ! -f "$jar" ] && { echo "SKIP $name (无jar)"; return; }

@@ -73,7 +73,7 @@ import { ElMessage ,ElMessageBox} from 'element-plus';
 import dataMoveApi from "@/api/sys/tool/dataMoveApi.js";
 const state = reactive({
 	loading: false, databaseOptions: [], tableSearchName: "",
-	database: "", tableOptions: "", tableList: [], tasklist: [], selectItems: [],
+	database: "", tableOptions: [], tableList: [], tasklist: [], selectItems: [],
 	dialogVisible: false,
 });
 const { databaseOptions, database, tableOptions, tableList, tasklist, selectItems, loading, tableSearchName, dialogVisible,dialogLogs } = toRefs(state);
