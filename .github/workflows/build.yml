@@ -45,18 +45,7 @@ jobs:
       - name: 编译全部模块（含 10 个目标服务）
         working-directory: wimoor
         run: |
-          mvn -B -pl \
-            wimoor-gateway,\
-            wimoor-admin/admin-boot,\
-            wimoor-erp/erp-boot,\
-            wimoor-amazon/amazon-boot,\
-            wimoor-finance,\
-            wimoor-data,\
-            wimoor-amazon-adv/amazon-adv-boot,\
-            wimoor-quote/quote-boot,\
-            wimoor-gen,\
-            wimoor-ai \
-            -am -DskipTests -Dmaven.test.skip=true -Djava.version=11 package
+          mvn -B -pl wimoor-gateway,wimoor-admin/admin-boot,wimoor-erp/erp-boot,wimoor-amazon/amazon-boot,wimoor-finance,wimoor-data,wimoor-amazon-adv/amazon-adv-boot,wimoor-quote/quote-boot,wimoor-gen,wimoor-ai -am -DskipTests -Dmaven.test.skip=true -Djava.version=11 package
 
       - name: 汇总 jar 产物
         run: |
@@ -215,16 +204,7 @@ jobs:
             mkdir -p $ROOT
             tar -xzf $DEPLOY_USER_HOME/wimoor-deploy-bundle.tar.gz -C $ROOT
             echo "=== 2. 安装 jar 到模块目录 ==="
-            for spec in \
-              "gateway:wimoor-gateway/target/wimoor-gateway.jar" \
-              "admin:wimoor-admin/admin-boot/target/admin-boot.jar" \
-              "erp:wimoor-erp/erp-boot/target/erp-boot.jar" \
-              "amazon:wimoor-amazon/amazon-boot/target/amazon-boot.jar" \
-              "finance:wimoor-finance/target/wimoor-finance.jar" \
-              "data:wimoor-data/target/wimoor-data.jar" \
-              "amazon-adv:wimoor-amazon-adv/amazon-adv-boot/target/amazon-adv-boot.jar" \
-              "quote:wimoor-quote/quote-boot/target/quote-boot.jar" \
-              "gen:wimoor-gen/target/wimoor-gen.jar"; do
+            for spec in "gateway:wimoor-gateway/target/wimoor-gateway.jar" "admin:wimoor-admin/admin-boot/target/admin-boot.jar" "erp:wimoor-erp/erp-boot/target/erp-boot.jar" "amazon:wimoor-amazon/amazon-boot/target/amazon-boot.jar" "finance:wimoor-finance/target/wimoor-finance.jar" "data:wimoor-data/target/wimoor-data.jar" "amazon-adv:wimoor-amazon-adv/amazon-adv-boot/target/amazon-adv-boot.jar" "quote:wimoor-quote/quote-boot/target/quote-boot.jar" "gen:wimoor-gen/target/wimoor-gen.jar"; do
               name="${spec%%:*}"; rel="${spec#*:}"
               mkdir -p "$ROOT/wimoor/$(dirname "$rel")"
               cp "$ROOT/jars/$(basename "$rel")" "$ROOT/wimoor/$rel"
