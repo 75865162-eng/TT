@@ -50,3 +50,20 @@ cd /home/ubuntu/tt
 bash deploy/wimoor-p0/start-all.sh
 # ai 服务需单独用 8110 端口（避免与 amazon 的 8102 冲突）
 ```
+
+## 七、四项诉求复核（2026-11-26 晚，重启后新鲜验证）
+
+| 诉求 | 结论 | 证据 / 边界 |
+|---|---|---|
+| ① SP-API 能拉真实数据回来 | **代码链路真实可用，但当前环境无真实凭证，未做真实数据验收** | 源码核实为官方 `amazon-sp-api` SDK：`ApiBuildService` 用 `LWAAuthorizationCredentials.builder().refreshToken(...)` 换 token，订单链路 Controller→`executTask`→`runApi`→`getOrdersV0Api`→`getOrdersAsync`→`ApiClient.httpClient.newCall` 全通、无 stub；远程 `curl sellingpartnerapi-na.amazon.com` = 200（网络可达）。但 `db_amazon.t_amazon_auth` / `t_amazon_group` / `t_amz_region` / `t_amz_adv_auth` **均为 0 行**，Nacos clientId/Secret 为 `a123bcd...` 占位串——无任何真实 Amazon 凭证，故无法拉回真实订单。这是 Amazon 授权前提，非系统缺陷。 |
+| ② 每页不空白 | **126/126 通过（重启后复验）** | `outputs/page-acceptance-reverify.json`：`{"OK":126}`，无空白、无跳登录、无首页兜底、无致命 JS 错误。新增测试授权已删除，环境无残留。 |
+| ③ 有页面可配置保存 API | **已完成并部署** | SP：`authstore.vue` 开发者模式填 sellerid/clientId/clientSecret/refreshToken 保存；ADS：`authadv.vue`「Refresh Token 直接配置」表单 + 后端 `POST /amazonadv/api/v1/advert/saveByRefreshToken`（落库→换 token→抓 profile 全链路）。打包产物 JS 已确认含该端点。 |
+| ④ 完善到上线即配即用 | **代码侧就绪；剩余两项需真实凭证/网页配置，无法代做** | 构建链路（前端 dist + 10 jar + 部署包）在 main 上实测 success。阻塞：(a) CI deploy 需 4 个 GitHub Secrets（当前 fine-grained token 无 Administration 权限，API 403，须网页配）；(b) 真实 Amazon 凭证需你提供并在配置页填入。详见 `docs/CI-CD-SETUP.md` 与 `docs/refresh-token-full-pull.md`。 |
+
+### 本轮修复（工作区，未提交）
+- `scripts/page-acceptance.mjs`：会话仍有效时访问 `/login` 被重定向到 `/home` 导致 `locator.fill` 超时——改为检测到非登录页即复用现有 session，不强制登录。修复前第 14 页崩溃，修复后 126/126。
+- `.github/workflows/build.yml`：部署后探活登录参数 `username` → `account`（与 `LoginController.loginAction` 实际取值一致），避免探活误判登录失败。
+
+### 需要你决策的两个阻塞项
+1. **GitHub Secrets**（CI 自动部署必需）：网页打开 `https://github.com/75865162-eng/tt/settings/secrets/actions` 配 `SERVER_HOST=43.143.28.153`、`SERVER_USER=ubuntu`、`SERVER_PASSWORD=<密码>`、`SERVER_PORT=22`。当前 token 权限不足无法代配。
+2. **真实 Amazon 凭证**（真实拉数必需）：LWA clientId/Secret、AWS AK/SK、appid（填 Nacos `wimoor-amazon`），每店 sellerid+refresh_token+region（配置页或 `saveAuth`），广告 refresh_token（`authadv.vue` 直配），`t_amz_region` 区域行。拿到后按 `docs/refresh-token-full-pull.md` §6 清单逐项注入并冒烟。

@@ -237,7 +237,7 @@ jobs:
             curl -s -o /dev/null -w "登录接口: %{http_code}\n" \
               -X POST http://127.0.0.1:8099/admin/api/v1/auth/login \
               -H "Content-Type: application/json" \
-              -d '{"username":"admin@wimoor.com","password":"123456"}'
+              -d '{"account":"admin@wimoor.com","password":"123456"}'
             echo "=== java 进程数 ==="
             ps aux | grep 'java.*\.jar' | grep -v grep | wc -l
             echo "=== CI 部署完成 ==="

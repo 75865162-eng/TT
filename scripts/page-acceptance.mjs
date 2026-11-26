@@ -31,6 +31,14 @@ async function main() {
     const loginPage = await ctx.newPage();
     await loginPage.goto(BASE + '/login', { waitUntil: 'domcontentloaded', timeout: 25000 });
     await sleep(1200);
+    // 会话仍有效时访问 /login 会被重定向到 /home，此时无输入框：直接复用现有会话，不再强制登录
+    if (!/\/login/.test(loginPage.url())) {
+      const sid0 = await loginPage.evaluate(() => localStorage.getItem('jsessionid'));
+      const url0 = loginPage.url().replace(BASE, '');
+      await loginPage.close();
+      console.log(`登录#${loginCount}:`, sid0 ? 'REUSE ' + sid0.slice(0,8) + '...' : 'FAILED', '| URL:', url0);
+      return !!sid0;
+    }
     await loginPage.locator('input').nth(0).fill('admin@wimoor.com');
     await loginPage.locator('input').nth(1).fill('123456');
     await loginPage.locator('button').filter({ hasText: '登录' }).first().click();
