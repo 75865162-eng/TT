@@ -17,18 +17,21 @@ mkdir -p "$LOGS"
 
 # 服务清单：名称 | jar 相对路径 | 额外 JVM/应用参数
 # 端口由各服务自身配置决定；actuator 非全量可用，健康检查用网关 8080 入口。
-read -r -a SERVICES <<'EOF'
-gateway|wimoor-gateway/target/wimoor-gateway.jar|
-admin|wimoor-admin/admin-boot/target/admin-boot.jar|
-erp|wimoor-erp/erp-boot/target/erp-boot.jar|
-amazon|wimoor-amazon/amazon-boot/target/amazon-boot.jar|
-amazon-adv|wimoor-amazon-adv/amazon-adv-boot/target/amazon-adv-boot.jar|
-finance|wimoor-finance/target/wimoor-finance.jar|
-data|wimoor-data/target/wimoor-data.jar|
-gen|wimoor-gen/target/wimoor-gen.jar|
-quote|wimoor-quote/quote-boot/target/quote-boot.jar|
-ai|wimoor-ai/target/wimoor-ai.jar|--ai.persistence=jdbc --ai.datasource.url=jdbc:mysql://127.0.0.1:13306/db_ai?useUnicode=true\&characterEncoding=utf8\&serverTimezone=Asia/Shanghai --ai.datasource.username=root --ai.datasource.password=123456
-EOF
+# 注意：必须用数组逐行声明；`read -r -a SERVICES <<EOF` 只读第一行，曾导致只生成 gateway 一个 unit。
+SERVICES=(
+"gateway|wimoor-gateway/target/wimoor-gateway.jar|"
+"admin|wimoor-admin/admin-boot/target/admin-boot.jar|"
+"erp|wimoor-erp/erp-boot/target/erp-boot.jar|"
+"amazon|wimoor-amazon/amazon-boot/target/amazon-boot.jar|"
+"amazon-adv|wimoor-amazon-adv/amazon-adv-boot/target/amazon-adv-boot.jar|"
+"finance|wimoor-finance/target/wimoor-finance.jar|"
+"data|wimoor-data/target/wimoor-data.jar|"
+"gen|wimoor-gen/target/wimoor-gen.jar|"
+"quote|wimoor-quote/quote-boot/target/quote-boot.jar|"
+# AI 服务：jar 版本名为 wimoor-ai-2.0.0.jar；端口 8110 需显式指定；
+# jdbc url 含 & 必须用单引号包裹整个参数，不能用反斜杠转义（systemd 会把 \ 当字面量传入导致 utf8\ 编码错误）。
+"ai|wimoor-ai/target/wimoor-ai-2.0.0.jar|--server.port=8110 --ai.persistence=jdbc '--ai.datasource.url=jdbc:mysql://127.0.0.1:13306/db_ai?useUnicode=true&characterEncoding=utf8&serverTimezone=Asia/Shanghai' --ai.datasource.username=root --ai.datasource.password=123456"
+)
 
 JAVA_HOME_BIN=/usr/lib/jvm/java-11-openjdk-amd64/bin/java
 [ -x "$JAVA_HOME_BIN" ] || JAVA_HOME_BIN="$(command -v java)"

@@ -51,7 +51,8 @@ else
 fi
 
 # 4) Redis（容器内 ping）
-RPONG=$(docker exec wm-p0-redis redis-cli ping 2>/dev/null | tr -d '\r' || true)
+# redis 容器设置了密码(123456)，ping 必须带 -a，否则 NOAUTH 导致误判 FAIL。
+RPONG=$(docker exec wm-p0-redis redis-cli -a 123456 ping 2>/dev/null | tr -d '\r' || true)
 [ "$RPONG" = "PONG" ] && result "redis" PASS "PONG" || result "redis" FAIL "无 PONG（容器名或状态异常）"
 
 # 5) Nacos（ready + 关键服务实例数）
