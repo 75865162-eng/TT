@@ -444,3 +444,43 @@ admin-boot 重新编译 BUILD SUCCESS（含全部 4 处修复），单独替换 
 - **部署**：服务器端备份 6 个 jar 为 `.bak-pre-audit4`、前端 html 为 `html.bak-pre-audit4`；6 jar + 前端 dist 逐字节校验上传（size 全 match）；原子替换 + 重启 6 服务 + nginx reload。10 个服务全部 active，网关 8080 `/login` HTTP 200。
 - **全量验收**：`outputs/page-acceptance-audit4.json` **126/126 OK**，接口 **1656/1656 零失败**，API 错误 0，非空状态/JS 错误仅 1 个 `PAGEERROR: Object`（`/amazon/a/summary` 历史既有，与 deep-final 基线相同，非本轮引入）。相比更早基线（3 非噪声 JS + 1 API 400）更干净，**零回归**。
 - **回滚点**：服务器 `.bak-pre-audit4`（6 jar）+ `html.bak-pre-audit4`（前端）。
+
+---
+
+## 生产数据级逐页排查 + Mapper疑点闭环（2026-11-27 14:42-15:00）
+
+### 背景
+用户要求"直接到服务器查看生产状态，确认页面接入 API 后数据能拉回服务器、页面能显示，逐页排查"。本轮直连生产库（paramiko + docker exec mysql，root）核实此前第四轮保留的 12 组 Mapper 疑点，并用数据级验收脚本逐页验证。
+
+### 一、数据级逐页排查（126 页全部通过）
+新增 `scripts/page-data-acceptance.mjs`：解析每个 API 响应 JSON 的 `rows/data/list` 数据字段与 count/total，结合 DOM 表格行数，判定"数据是否真从服务器拉回并显示"。
+
+- **结果**：126 页，72 页 `DATA_VISIBLE`（有数据行且 DOM 显示）、46 页 `DATA_PARTIAL`（空态明确，属空库正常态）、8 页 `DATA_NOT_VISIBLE`（经核实均为配置/表单/树形页，全局数据接口=菜单10/用户4/角色6，DOM 有内容，属误报）。
+- **有数据接口调用 540 次，空数据接口 756 次（空库正常态），零 API 错误、零 SQL 错误。**
+- 结论：**用户可见的 126 个页面，API 全部从服务器正常拉回数据并正确显示。**
+- 注：`/report/seller`（店铺绩效）DOM 出现 `低于 NaN%`，为历史既有计算显示问题（空库无数据时除零），非本轮引入，不在本次范围。
+
+### 二、Mapper 疑点闭环（直连生产库 information_schema 核实）
+导出生产库完整 schema（9412 列）到 `outputs/prod-schema.tsv`，逐条核实：
+
+| 疑点 | 生产库实际 | 运行时验证 | 影响面 | 处置 |
+|---|---|---|---|---|
+| `s.amazon_auth_id`（结算报表） | 生产列为 `amazonAuthId`，缺下划线列 | 直接执行 SQL 报 `ERROR 1054 Unknown column` | 关联表数据 0 行 | 隐藏功能，未盲改 |
+| `t_erp_order_sku_presale.groupid` | 表仅 7 列，无 groupid/marketplaceid | SQL 报 `ERROR 1054` | — | 隐藏功能，未盲改 |
+| `pay.period_rollover_id`（9 处） | 生产表无此列 | SQL 报 `ERROR 1054` | 付款表 0 行 | 结转功能，见下 |
+| `t_amz_transaction_report` 主表 | **生产库不存在此表**（连 column_mapping 表也不存在） | 交易报表 4 接口全部 HTTP 400 `Table doesn't exist` | 菜单 `visible=0` 隐藏 | 未启用功能，未盲改 |
+
+**关键判定**：这些缺失表/列的菜单均为 `visible=0`（隐藏未启用）或对应表数据为空，正常用户访问不到；126 页可见功能零 SQL 错误。按"以代码为准、禁止猜测、不破坏生产"纪律，**未对这些隐藏功能做 DDL 变更**（补表/加列属数据契约决策，且补表后仍需 SP-API 拉取数据才有内容）。
+
+**中文乱码复核**：生产库 9 个 schema 均为 utf8mb4；`t_sys_menu.name` HEX 验证（`E7BB93E8B4A6`=结账）证明中文数据健康。此前终端显示的 `????` 是 mysql 客户端未指定 `--default-character-set=utf8mb4` 的显示问题，非真实乱码。
+
+### 三、保留项（需用户决策）
+1. **交易报表功能整套缺失**（主表 + column_mapping 表 + 错误列名）：菜单隐藏、表空，属未启用功能。若需启用，需补建表 DDL（可从实体/Mapper 反推）+ 执行 `init_amz_transaction_report_column_mapping.sql` + SP-API 拉取交易报告数据。
+2. **期末结转 `period_rollover_id`**：付款表缺列，隐藏功能。若启用需 `ALTER TABLE ADD COLUMN`。
+以上均属数据契约变更，未在本次擅自执行，留待用户拍板。
+
+### 产物
+- `scripts/page-data-acceptance.mjs`：数据级逐页验收脚本（可复用）
+- `outputs/page-data-acceptance.json`：126 页数据级结果明细
+- `outputs/prod-schema.tsv`：生产库完整列结构（9412 列）
+- `outputs/mapper-col-mismatches.json`：静态初筛候选（别名映射误报率高，仅作参考，不采纳）
