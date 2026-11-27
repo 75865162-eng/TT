@@ -104,6 +104,9 @@
 							<template #default="scope">
 								<div style="padding-left:20px">
 								<div style="padding-bottom:20px">
+									<el-button v-if="scope.row.authid" link type="primary" @click="editCredential(scope.row,item.gname)">编辑凭证</el-button>
+								</div>
+								<div style="padding-bottom:20px">
 									<el-button v-if="scope.row.sellerauth!='2'" @click="deleteByLogic(scope.row.sellerid)" type="danger">停用店铺授权</el-button>
 								</div>
 								<el-button v-if="scope.row.advid"  @click="disableAuth(scope.row.advid)" type="danger">停用广告授权</el-button>
@@ -120,6 +123,7 @@
 	<AuthAdv ref="authAdvRef" :storelist="storelist"></AuthAdv>
 	<TaskData ref="taskDataRef" ></TaskData>
 	<AdvReport ref="advReportRef"></AdvReport>
+	<EditCredential ref="editCredentialRef" @done="loadauthData"></EditCredential>
 </template>
 
 <script setup>
@@ -133,6 +137,7 @@ import {dateFormat} from '@/utils/index.js';
 import AuthStore from "./authstore.vue"
 import AdvReport from "./advReport.vue"
 import AuthAdv from "./authadv.vue"
+import EditCredential from "./editCredential.vue"
 import $require from '@/utils/system/require.js';
 import TaskData from "./taskData.vue"
 import Helper from '@/components/header/helper.vue'
@@ -145,6 +150,7 @@ import Helper from '@/components/header/helper.vue'
 			const authStoreRef=ref();
 			const authAdvRef=ref();
 			const taskDataRef=ref();
+			const editCredentialRef=ref();
 			let tableData =reactive({list:[]})
 			onMounted(()=>{
 				loadauthData()
@@ -184,6 +190,9 @@ import Helper from '@/components/header/helper.vue'
 			}
 			function advAuth(){
 				authAdvRef.value.show();
+			}
+			function editCredential(row,groupName){
+				editCredentialRef.value.show(row,groupName);
 			}
 function getExpireTime(date) {
   const inputDate = new Date(date);

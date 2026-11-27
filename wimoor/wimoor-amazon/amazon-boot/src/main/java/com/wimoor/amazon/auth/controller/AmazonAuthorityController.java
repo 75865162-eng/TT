@@ -188,6 +188,21 @@ public class AmazonAuthorityController {
 	    	}
 	    }
 	    
+	    @ApiOperation(value = "编辑已有授权的凭证（只改 ClientId/ClientSecret/RefreshToken）")
+	    @PostMapping("/updateCredentials")
+	    public Result<AmazonAuthority> updateCredentialsAction(@RequestBody AmazonAuthority auth) {
+	    	AmazonAuthority result = iAmazonAuthorityService.updateCredentials(
+	    			auth.getId(), auth.getClientId(), auth.getClientSecret(), auth.getRefreshToken());
+	    	if(result!=null) {
+	    		result.setMwsauthtoken("****");
+	    		result.setRefreshToken("****");
+	    		result.setClientSecret("****");
+	    		return Result.success(result);
+	    	}else {
+	    		return Result.failed("更新凭证失败请重试");
+	    	}
+	    }
+
 	    @ApiOperation(value = "获取已经授权的店铺")
 	    @GetMapping("/getBindSeller")
 	    public Result<List<AmazonGroupVO>> getBindSellerAction() {

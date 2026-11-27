@@ -376,6 +376,46 @@ public class AmazonAuthorityServiceImpl extends ServiceImpl<AmazonAuthorityMappe
 	}
 
 	/**
+	 * 编辑已有授权的凭证：只更新 ClientId/ClientSecret/RefreshToken 三个字段。
+	 * 按主键 id 定位，绝不动 sellerid / groupid / region / awsRegion，避免生成重复授权或区域错配。
+	 * 留空的字段保持原值（例如只换 Refresh Token 时无需重填 ClientId/Secret）。
+	 * 保存后复用同一套容错逻辑重新拉站点，验证新凭证是否可用。
+	 */
+	@Override
+	@CacheEvict(value = { "AmazonAuthorityCache" }, allEntries = true)
+	public AmazonAuthority updateCredentials(String id, String clientId, String clientSecret, String refreshToken) {
+		if (StrUtil.isBlank(id)) {
+			throw new BizException("授权ID不能为空");
+		}
+		AmazonAuthority auth = this.getById(id);
+		if (auth == null) {
+			throw new BizException("未找到对应授权记录");
+		}
+		boolean changed = false;
+		if (StrUtil.isNotBlank(clientId)) {
+			auth.setClientId(clientId.trim());
+			changed = true;
+		}
+		if (StrUtil.isNotBlank(clientSecret)) {
+			auth.setClientSecret(clientSecret.trim());
+			changed = true;
+		}
+		if (StrUtil.isNotBlank(refreshToken)) {
+			auth.setRefreshToken(refreshToken.trim());
+			changed = true;
+		}
+		if (!changed) {
+			throw new BizException("请至少填写一项要更新的凭证（Client Id / Client Secret / Refresh Token）");
+		}
+		auth.setRefreshTokenTime(new Date());
+		auth.setOpttime(new Date());
+		this.updateById(auth);
+		AmazonAuthority newauth = this.getById(id);
+		safeRefreshMarketAndReport(auth, newauth, false);
+		return auth;
+	}
+
+	/**
 	 * 授权落库后拉取站点/报告的容错处理：
 	 * 保存本身已成功，拉取失败只回传警告，不再抛异常中断保存（避免误判为授权失败）。
 	 */

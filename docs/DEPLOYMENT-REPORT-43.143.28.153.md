@@ -698,3 +698,45 @@ admin-boot 重新编译 BUILD SUCCESS（含全部 4 处修复），单独替换 
 - **端到端验证**：网关调 `refreshMarketByAuth?authid=2126331287773880322` 返回 `{"code":200,"msg":"一切ok"}`；`db_amazon.t_amazonseller_market` 落库 `ATVPDKIKX0DER / Amazon.com / US / USD`，opttime `2026-11-28 00:44:10`。**证明无需 Seller ID 即可拉回数据**。
 
 **运维提示**：sandbox 由凭证类型决定——沙箱应用 Create Token 生成的 refreshToken 配 `auth.sandbox: true`；生产卖家授权的 refreshToken 配 `false`。换凭证时必须同步改此开关。上条"补 Sellers 角色"的待办对沙箱凭证不适用（沙箱已验证可拉），仅当切换到生产凭证且确实缺角色时才需要。
+
+---
+
+### 【最终定论】推翻"沙箱凭证"结论：token 是生产签发的，403 根因是卖家授权层（2026-11-28 01:00-01:25）
+
+用户指出"我提交的 API 是正常生产的 API、LWA 有权限"，要求按官方文档重新排查。本轮用 10+ 组对照实验 + tokeninfo 取证，**推翻上面"沙箱凭证"的错误结论**：
+
+**决定性证据（可复现）**：
+1. **token 是生产签发、有效**：`GET https://api.amazon.com/auth/o2/tokeninfo?access_token=...` 返回 `iss=https://www.amazon.com`（北美生产）、`aud`=库里 clientId、`app_id=amzn1.application.a6e122a...`。沙箱 token 不会是这个 issuer。
+2. **应用有权限（用户说得对）**：`client_credentials + scope=sellingpartnerapi::notifications` 换的 token 打**生产** `/notifications/v1/destinations` = 200。
+3. **卖家 token 全线 403**：同一应用用 `refresh_token` 换的 token，打生产 Sellers/Orders/Catalog + 连 grantless destinations 都 403；打沙箱 marketplace = 200（返回 `BestSellerStore` 假数据）。
+4. **排除 header/签名/SellerId/区域**：官方 curl 模板（含 x-amz-date + 合规 User-Agent）、Swagger 默认头、最小头三种组合全 403；NA/EU/FE 三端点全 403；加 AWS SigV4 签名仍 403（官方文档 8.3：2023-10-02 起已不要求 SigV4，本就无需）。
+5. **关键认知纠正**：沙箱端点对**任何有效 LWA token**都放行并返回模拟数据（BestSellerStore 是沙箱固定假数据），所以"沙箱 200"**不能**证明 token 是沙箱凭证——上次据此下的结论是错的。
+
+**最终根因**：token 有效、应用有 grantless 权限，但用 refresh_token 换的卖家级 token 在所有 seller-scoped 操作上被生产端点拒绝。按官方文档 12.2/12.4，403 = 角色缺失 / 卖家账号与 API 类型不符 / 卖家授权关系问题。这是**卖家授权层**（SPP 应用角色 + 卖家重新授权），与代码、配置、签名、SellerId 均无关，后台配置我无法代劳。
+
+**系统侧设计缺陷（本轮已修正配置层）**：
+- 缺陷1：Nacos `auth.sandbox` 被设为 `true`（上次误判为沙箱凭证时改的），导致生产 token 打沙箱端点拿假数据、系统显示"一切ok"的**假成功**。
+- 修复：Nacos `wimoor-amazon` 的 `auth.sandbox` 改回 `false` 并回读确认（备份 `/tmp/wimoor-amazon.bak`）；重启 wimoor-amazon（新 PID 1444018）；服务注册 Nacos 后端到端验证。
+- 验证：`refreshMarketByAuth?authid=2126331287773880322` 返回 `{"code":400,"msg":"API调用错误：Unauthorized"}`——**假成功已消除**，生产 403 被真实暴露到前端。`saveAuth` 路径则该回传黄色警告（授权仍先落库）。
+
+**用户必须完成的后台操作（我无法代劳）**：
+1. 登录 Seller Central → Selling Partner Appstore → 确认该 LWA 应用已发布（非 Draft）、角色已批准。
+2. 确认应用已勾选 Sellers / Orders / Reports / Products / Feeds 等所需角色（无角色 → 卖家级操作必 403）。
+3. 用**卖家账号**对该应用重新授权（OAuth 或 SPP 自助授权），生成**新的生产 refresh token**。
+4. 新 token 回填授权页，`sandbox` 保持 `false`，再验证 `refreshMarketByAuth` 应返回真实店铺数据（非 BestSellerStore）。
+5. 若已确认角色齐全仍 403，检查 refresh token 是否来自沙箱 Create Token（沙箱 token 打生产必 403）——必须是卖家 OAuth 授权回调产生的生产 token。
+
+---
+
+### 新增：店铺授权凭证 UI 编辑入口（2026-11-28 02:00）
+
+用户诉求：换新的生产 refresh token 时，UI 上需要能编辑/替换 LWA 凭证与 Refresh Token。
+
+**定位**：后端 `saveAuth` 本身已按 sellerid 幂等更新，但缺前端入口；且直接复用 `saveAuth` 会按 sellerid 定位并覆盖 region/awsRegion，有生成重复授权、区域错配风险。
+
+**改动（6 个代码文件 + 版本号 + 本文档）**：
+- 后端新增 `POST /api/v1/amzauthority/updateCredentials`：按**主键 id** 定位，只更新非空的 clientId/clientSecret/refreshToken，不动 sellerid/groupid/region/awsRegion；保存后复用 `safeRefreshMarketAndReport` 重拉站点验证；凭证脱敏返回，saveWarnMsg 保留回传。
+- 前端新增 `editCredential.vue` 弹窗：Seller ID/店铺/区域只读，三个凭证框留空=不修改；`table.vue` 操作列加"编辑凭证"入口；`authApi.js` 加接口。
+- 设计要点：按主键定位不产生重复授权；凭证留空保持原值（可只换 Refresh Token）；不明文回显凭证；拉站点失败仅黄色警告不中断保存。
+
+**验证**：后端 amazon-boot jar 编译成功；前端 `npm run build` 成功，`editCredential-BizuBlqB.js` 已打包进 dist。
