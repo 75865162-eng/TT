@@ -1,0 +1,72 @@
+-- ============================================================
+-- 07-seed-report-types-and-regions.sql
+-- 目的：补种报告类型与广告区域(NA/EU/FE/TT)，供 SP-API 报告类调度使用
+-- 幂等：全部 INSERT ... ON DUPLICATE KEY UPDATE，可重复执行
+-- 说明：广告区域 client_id/client_secret 留空，需用户在广告授权时填真实 LWA 凭证
+--       端点 advpoint 全部为亚马逊官方域名，数据直连亚马逊、不经任何中转
+-- ============================================================
+
+USE db_amazon;
+
+-- 1) 报告类型（来自仓库原始数据，原样移植）
+INSERT INTO `t_amz_report_request_type`
+  (`id`,`cname`,`ename`,`code`,`description`,`bean`,`day`,`disabled`,`reportOptions`) VALUES
+(1, '所有产品报表', 'ProductListings', 'GET_MERCHANT_LISTINGS_ALL_DATA', '用于获取所有产品里列表', 'reportAmzProductAllListService', 10, b'0', ''),
+(2, '可售品报表', 'ProductOpenListings', 'GET_FLAT_FILE_OPEN_LISTINGS_DATA', '用于排除掉不可售产品', 'reportAmzProductOpenListService', 0, b'0', ''),
+(3, '在售品报表', 'ProductActiveListings', 'GET_MERCHANT_LISTINGS_DATA', '用于计算在售产品的广告比例', 'reportAmzProductActiveListService', 0, b'0', ''),
+(4, '产品推荐报表', 'ProductRecommendedListings', 'MBOP_RECOMMENDED_PRODUCTS_REPORT', '推荐给卖家并给出利润分析', 'reportAmzProductRecommendedListService', 0, b'1', ''),
+(5, '订单购买报表', 'OrdersByOrderDateReport', 'GET_FLAT_FILE_ALL_ORDERS_DATA_BY_ORDER_DATE_GENERAL', '销售订单统计', 'reportAmzOrderByOrderDateService', 2, b'0', ''),
+(6, '订单更新报表', 'OrdersByLastUpdateReport', 'GET_FLAT_FILE_ALL_ORDERS_DATA_BY_LAST_UPDATE_GENERAL', '销售订单统计', 'reportAmzOrderByLastUpdateService', 1, b'0', ''),
+(7, '库存报表', 'InventoryReport', 'GET_FBA_MYI_UNSUPPRESSED_INVENTORY_DATA', 'FBA库存', 'reportAmzInventoryService', 0, b'0', ''),
+(8, '预留库存报表', 'ReservedInventoryReport', 'GET_RESERVED_INVENTORY_DATA', 'FBA库存预留情况', 'reportAmzReservedInventoryService', 0, b'0', ''),
+(9, '轻小产品库存报表', 'FBAUNOInventoryReport', 'GET_FBA_UNO_INVENTORY_DATA', '轻小产品标记', 'reportFBAUNOInventoryService', 0, b'0', ''),
+(10, '预估FBA费用报表', 'FbaFeeReport', 'GET_FBA_ESTIMATED_FBA_FEES_TXT_DATA', 'FBA费用与本地计算比对', 'reportAmzFBAFeeService', 7, b'0', ''),
+(11, '仓储费报表', 'FbaStorageFeeReport', 'GET_FBA_STORAGE_FEE_CHARGES_DATA', '仓储费用报表', 'reportAmzFBAStorageFeeService', 31, b'0', ''),
+(12, '长期仓储费报表', 'FbaLongTermStorageFeeReport', 'GET_FBA_FULFILLMENT_LONGTERM_STORAGE_FEE_CHARGES_DATA', '长期仓储费用报表', 'reportAmzfBALongTermStorageFeeService', 30, b'0', ''),
+(14, '账期报表', 'SettlementReport', 'GET_V2_SETTLEMENT_REPORT_DATA_FLAT_FILE_V2', '账期报告', 'reportAmzSettlementListService', 30, b'0', ''),
+(15, '库存滞销报表', 'FBAInventoryHealthReport', 'GET_FBA_FULFILLMENT_INVENTORY_HEALTH_DATA', '库存滞销情况', 'reportInventoryHealthListService', 5, b'1', ''),
+(16, '退货单报表', 'FBAReturnsReport', 'GET_FBA_FULFILLMENT_CUSTOMER_RETURNS_DATA', '退货单用于订单管理', 'reportAmzReturnsService', 50, b'0', ''),
+(17, '产品分类报表', 'BrowseTreeReport', 'GET_XML_BROWSE_TREE_DATA', '产品分类下载用于广告模块', 'reportBrowseTreeService', 0, b'0', ''),
+(18, '店铺绩效报表', 'PerformanceReport', 'GET_V2_SELLER_PERFORMANCE_REPORT', '店铺绩效情况', 'reportAmzPerformanceService', 1, b'0', ''),
+(19, '发货报表', 'FulfilledShipmentsReport', 'GET_AMAZON_FULFILLED_SHIPMENTS_DATA_GENERAL', '发货报表获取发货地址与对于情况', 'reportAmzFulFilledShipmentsService', 4, b'0', ''),
+(20, '货物移除报表', 'FbaShipmentDetailRemoveReport', 'GET_FBA_FULFILLMENT_REMOVAL_ORDER_DETAIL_DATA', '获取移除库存的订单报表', 'reportAmzFBAShipmentRemoveService', 90, b'0', ''),
+(21, '流量报表', 'SalesAndTrafficBusinessReport', 'GET_SALES_AND_TRAFFIC_REPORT', '流量报表', 'reportAmzSalesAndTrafficBusinessService', 1, b'0', '{"dateGranularity":"DAY", "asinGranularity":"CHILD"}'),
+(22, '订单发票报表', 'OrdersInvoicingReport', 'GET_FLAT_FILE_ORDER_REPORT_DATA_INVOICING', '订单发票报表', 'reportAmzOrderInvoiceService', 3, b'0', ''),
+(23, '欧洲库存报表', 'InventoryByCountry', 'GET_AFN_INVENTORY_DATA_BY_COUNTRY', '欧洲库存报表', 'reportAmzInventoryCountryService', 3, b'0', ''),
+(24, '库龄报表_old', 'InventoryAge', 'GET_FBA_INVENTORY_AGED_DATA', '库龄报表', 'reportAmzInventoryAgeService', 0, b'1', ''),
+(25, '库龄报表', 'InventoryPlanning', 'GET_FBA_INVENTORY_PLANNING_DATA', '库龄报表2', 'reportAmzInventoryPlanningService', 0, b'0', ''),
+(26, '库存详细记录报表', 'FBAInventoryDetailReport', 'GET_LEDGER_DETAIL_VIEW_DATA', '库存详细记录报表', 'reportAmzInventoryDetailService', 7, b'0', ''),
+(27, '库存汇总记录报表', 'FBAInventorySummaryReport', 'GET_LEDGER_SUMMARY_VIEW_DATA', '库存汇总记录报表', 'reportAmzInventorySummaryService', 3, b'0', ''),
+(28, '赔偿报表', 'FbaReimbursementsFeeReport', 'GET_FBA_REIMBURSEMENTS_DATA', '报销费报表', 'reportAmzFBAReimbursementsFeeService', 30, b'0', ''),
+(29, '品牌分析', 'BrandAnalyticsSearchTermsReport', 'GET_BRAND_ANALYTICS_SEARCH_TERMS_REPORT', '品牌分析报表', 'reportAmzBrandAnalyticsSearchTermsService', 0, b'1', ''),
+(30, '退货单配送报表', 'FBMReturnsReport', 'GET_FLAT_FILE_RETURNS_DATA_BY_RETURN_DATE', '退货单用于订单配送管理', 'reportFBMAmzReturnsService', 58, b'0', ''),
+(31, '优惠券报表', 'CouponsPerformanceReport', 'GET_COUPON_PERFORMANCE_REPORT', '优惠券报表', 'reportAmzCouponService', 60, b'0', ''),
+(32, '优惠报表', 'PromotionsPerformanceReport', 'GET_PROMOTION_PERFORMANCE_REPORT', '优惠报表', 'reportAmzPromotionsService', 60, b'0', ''),
+(33, '反馈报表', 'FeedbackReport', 'GET_SELLER_FEEDBACK_DATA', '反馈报表', 'reportAmzFeedbackService', 30, b'0', ''),
+(34, 'VAT发票报表', 'VATInvoiceDataReport', 'GET_FLAT_FILE_VAT_INVOICE_DATA_REPORT', 'VAT发票报表', 'reportAmzInvoiceDataService', 30, b'1', ''),
+(35, 'VAT报表', 'FBAVatTransaction', 'GET_VAT_TRANSACTION_DATA', 'VAT报表', 'reportFBAVatTransactionReportService', 0, b'0', ''),
+(36, 'EPR报表', 'EPRMonthlyReport', 'GET_EPR_MONTHLY_REPORTS', 'EPR报表', 'reportEPRMonthlyReportService', 10, b'0', ''),
+(37, '交易报告', 'TransactionReport', 'GET_DATE_RANGE_FINANCIAL_TRANSACTION_DATA', '亚马逊交易报告', 'reportAmzTransactionService', 89, b'0', NULL);
+ON DUPLICATE KEY UPDATE
+  `cname`=VALUES(`cname`),`ename`=VALUES(`ename`),`code`=VALUES(`code`),
+  `description`=VALUES(`description`),`bean`=VALUES(`bean`),`day`=VALUES(`day`),
+  `disabled`=VALUES(`disabled`),`reportOptions`=VALUES(`reportOptions`);
+
+-- 2) 广告区域（db_amazon 库）
+INSERT INTO `t_amz_region` (`code`,`name`,`advname`,`advpoint`,`client_id`,`client_secret`) VALUES
+  ('EU','欧洲','Europe (EU). Covers UK, FR, IT, ES, DE, and AE marketplaces','advertising-api-eu.amazon.com','',''),
+  ('FE','远东','Far East (FE). Covers JP and AU marketplaces.','advertising-api-fe.amazon.com','',''),
+  ('NA','北美','North America (NA). Covers US and CA marketplaces','advertising-api.amazon.com','',''),
+  ('TT','测试','All Marketplace','advertising-api-test.amazon.com','','')
+ON DUPLICATE KEY UPDATE
+  `name`=VALUES(`name`),`advname`=VALUES(`advname`),`advpoint`=VALUES(`advpoint`);
+
+-- 3) 广告区域（db_amazon_adv 库，广告服务实际读取）
+USE db_amazon_adv;
+INSERT INTO `t_amz_region` (`code`,`name`,`advname`,`advpoint`,`client_id`,`client_secret`) VALUES
+  ('EU','欧洲','Europe (EU). Covers UK, FR, IT, ES, DE, and AE marketplaces','advertising-api-eu.amazon.com','',''),
+  ('FE','远东','Far East (FE). Covers JP and AU marketplaces.','advertising-api-fe.amazon.com','',''),
+  ('NA','北美','North America (NA). Covers US and CA marketplaces','advertising-api.amazon.com','',''),
+  ('TT','测试','All Marketplace','advertising-api-test.amazon.com','','')
+ON DUPLICATE KEY UPDATE
+  `name`=VALUES(`name`),`advname`=VALUES(`advname`),`advpoint`=VALUES(`advpoint`);

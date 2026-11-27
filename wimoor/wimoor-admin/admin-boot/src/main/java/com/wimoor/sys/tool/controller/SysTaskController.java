@@ -1,6 +1,5 @@
 package com.wimoor.sys.tool.controller;
 
-import cn.hutool.core.util.StrUtil;
 import com.wimoor.admin.common.exception.BizException;
 import com.wimoor.common.pojo.entity.QuartzJobsVO;
 import com.wimoor.common.pojo.entity.QuartzTask;
@@ -10,7 +9,6 @@ import org.springframework.web.bind.annotation.*;
 
 import com.wimoor.common.result.Result;
 import com.wimoor.common.service.SystemSchedulerService;
-import org.springframework.web.client.RestTemplate;
 
 import java.util.Date;
 import java.util.List;
@@ -92,29 +90,18 @@ public class SysTaskController {
     public Result<?> runApiAction(@RequestBody QuartzTask task){
         String message = ""; // 用于记录任务执行的信息。
         try {
-            // 通过 SpringUtil 获取 RestTemplate 实例，用于执行 HTTP 请求。
-            RestTemplate restTemplate = SpringUtil.getBean("restTemplateApi");
             // 获取任务的路径、参数和描述信息。
             Object jobPath = task.getPath();
             Object parameter = task.getParameter();
             Object description = task.getDescription();
             // 记录任务执行开始相关描述信息。
             message = message + (description + ":rundate=================>" + new Date() + "============>" + parameter);
-            try {
-                // 根据参数是否存在，使用不同的方式调用 API。
-                Result<?> result = null;
-                if (!StrUtil.isEmptyIfStr(parameter)) {
-                    result = restTemplate.getForObject(jobPath.toString(), Result.class);
-                } else {
-                    result = restTemplate.getForObject(jobPath.toString(), Result.class, parameter);
-                }
-                // 如果调用结果不为空，记录结果码到信息中。
-                if (result != null) {
-                    message = message + ("result-code:" + result.getCode());
-                }
-            } catch (Exception e) {
-                // 如果在调用 API 过程中出现异常，抛出自定义异常并包含异常信息。
-                throw new BizException("出错了:" + e.getMessage());
+            // 统一走带登录态的调用：后台拉取端点都在网关鉴权之后，裸调必然 403
+            com.wimoor.common.service.impl.SchedulerApiUtil api = SpringUtil.getBean(com.wimoor.common.service.impl.SchedulerApiUtil.class);
+            Result<?> result = api.get(jobPath.toString());
+            // 如果调用结果不为空，记录结果码到信息中。
+            if (result != null) {
+                message = message + ("result-code:" + result.getCode());
             }
             // 记录任务执行结束相关描述信息。
             message = message + (description + ":enddate=================" + new Date());

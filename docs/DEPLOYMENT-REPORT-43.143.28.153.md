@@ -620,3 +620,31 @@ admin-boot 重新编译 BUILD SUCCESS（含全部 4 处修复），单独替换 
 - **运行时验证**：11 服务全部 active、网关 200；前端 version.json 更新为 `1795784972821-sibqconnq`；静态 JS 含 `AEC-AI` 新文案。
 - **浏览器实测登录页**：`title=AEC 跨境电商ERP`、欢迎语 `欢迎登录AEC`、AEC logo 图片正常渲染 —— 品牌改造真实生效。
 - **回归**：未改数据库/API 契约/技术标识符；登录鉴权、服务发现、飞书回调、OSS 图片等保留项均未触碰，零回归风险。
+
+---
+
+## 后台数据定时拉取调度：维修 Quartz + 分层配置（2026-11-27 22:00-）
+
+### 用户指令与关键决策
+- "帮我补这三件事"（凭证/报告落地/调度器）+"拉取哪些域，现有落地页全部拉回来，频率按文档 API 要求决定"。
+- 决策：①调度=**复用系统已有 Quartz，维修好**（不新建 crontab）；②基础数据=补种报告类型+广告区域；③频率=按官方限流+时效分层。
+- 追加要求："所有数据不走 wimoor、不经中转/转发" → 审计确认数据链路本就 100% 直连亚马逊官方域名（token=api.amazon.com、业务=sellingpartnerapi-*.amazon.com、广告=advertising-api*.amazon.com、代理死代码），无需改动；官方文档 §8.3 证实 2023-10-02 起不需 SigV4，AWS 凭证只供 SQS 不参与拉数。
+
+### 根因（为什么原调度全空跑）
+拉取端点都在网关鉴权后（jsessionid 校验），原 `QuartzTaskFactory`/`SysTaskController.runApi` 用 RestTemplate 裸调，无人登录时必然 403 `token已被禁止访问`，所有定时任务形同虚设。实测：裸调 403；登录拿 token 后带 token 调 `refreshMarket` 返回 200。
+
+### 改动（本地，3 代码 + 2 SQL + 1 文档）
+| 文件 | 改动 |
+|---|---|
+| `SchedulerApiUtil.java`（新增） | 调度统一工具：自动登录本机网关拿 jsessionid，带 token 调端点；token 缓存 30min；失败重试一次；登录只走 127.0.0.1 纯内网 |
+| `QuartzTaskFactory.java` | 裸调改走工具类；修正 parameter 判断反转 bug |
+| `SysTaskController.java` | 页面"立即执行"同样改走工具类，清理无用 import |
+| `07-seed-report-types-and-regions.sql`（新增） | 补种报告类型 36 条 + 广告区域 NA/EU/FE/TT 两库，幂等；端点官方域名，client 留空 |
+| `08-scheduler-tasks.sql`（新增） | 21 个分层调度任务，默认暂停，幂等 |
+| `SCHEDULER-SETUP.md`（新增） | 合规声明/频率依据/启用步骤/排障/边界 |
+
+### 编译验证（本地）
+- `mvn -o -pl wimoor-admin/admin-boot -am -DskipTests package`：成功，jar 22:14 更新；字节校验 jar 内含 `SchedulerApiUtil.class`、`/admin/api/v1/auth/login`、`jsessionid`。
+
+### 待部署
+- 部署 admin-boot.jar、导入 07/08 SQL、重启 admin、验证任务加载与带 token 调用闭环。
