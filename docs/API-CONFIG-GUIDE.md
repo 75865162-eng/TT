@@ -88,21 +88,23 @@ INSERT INTO db_amazon_adv.t_amz_region (code,name,advname,advpoint,client_id,cli
 ## 第 3 步：页面绑定 SP 店铺授权（refresh token）
 
 1. 进入 **店铺授权** 页面 → 选中刚才建的店铺 → 点 **添加授权/绑定授权**。
-2. 弹出授权框后，把「类型」切到 **开发者模式**（`isdeveloper`）——只有切换后才会出现手动填 token 的字段。
-3. 按真实值填：
+2. 弹框打开后**默认就是「手填凭证」模式**（开关显示「手填凭证」），直接填即可，无需切换。
+   - 系统已改为默认手填、弱化浏览器 OAuth；如需走常规授权可把开关拨到「常规授权」（不推荐），回调确认绑定仍保留作兜底。
+3. 按真实值填（LWA 凭证每店一份，填在表单里，保存到该店授权记录）：
 
    | 页面字段 | 填什么 |
    |---|---|
    | 店铺名称 | 第 1 步建的店铺组 |
    | 站点 | 按店铺区域选：北美=`us-east-1` / 欧洲=`eu-west-1` / 远东=`us-west-2` |
-   | 类型 | **开发者模式** |
+   | 类型 | **手填凭证**（默认） |
    | Seller Id | 真实 Seller ID |
-   | Client Id | 真实 LWA clientId |
-   | Client Secret | 真实 LWA clientSecret |
+   | LWA Client Id | 真实 LWA clientId（`amzn1.application-oa2-client...`） |
+   | LWA Client Secret | 真实 LWA clientSecret |
    | Refresh Token | 该店的 SP-API refresh token（`Atnr\|...`） |
-   | Proxy Ip / Proxy Port | 不走代理则留空 |
+   | Proxy Ip / Proxy Port | 不走代理则留空（留空不会报错，已修复空指针） |
 
    > 页面会自动按「站点」推导 region（us-east-1→NA 等），无需手填 region。
+   > 运行时 API 构建优先用每店自己填的 LWA Client Id/Secret，为空才回退 Nacos 全局值。
 
 4. 保存。保存动作调 `saveAuth`，后端会写入授权并自动拉站点参与信息。
 5. 重复 1-4，把每个店铺都绑一遍。

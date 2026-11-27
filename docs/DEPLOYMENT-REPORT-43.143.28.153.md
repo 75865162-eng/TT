@@ -536,3 +536,29 @@ admin-boot 重新编译 BUILD SUCCESS（含全部 4 处修复），单独替换 
 1. 在"店铺授权"页用真实 SP-API refresh token 添加店铺授权 → 触发全量拉取，交易报告/广告/Listing 等数据将自动入库。
 2. 在主数据模块创建账套、仓库、物料、客户、物流公司。
 以上涉及真实业务凭证与数据，需用户自行录入，不在代码/DDL 范畴。
+
+---
+
+## 店铺授权流程改造：默认手填 LWA + 弱化 OAuth（2026-11-27 19:08-19:45）
+
+### 背景
+用户要求把 SP-API 店铺授权改成"自己填 LWA clientId/clientSecret + refresh token"。代码核实结论：手填路径（`saveAuth`）本已存在（原「高级/开发者模式」），但有三处需改：①默认走 OAuth 而非手填；②字段标签是泛化的 Client Id/Secret，未标明 LWA；③后端 `saveAuth` 对 Proxy Ip 留空会 NPE，导致手填保存必失败。
+
+### 改动（本地，共 3 文件）
+| 文件 | 改动 |
+|---|---|
+| `AmazonAuthorityServiceImpl.java:339` | `auth.setProxyIp(auth.getProxyIp().trim())` → 加 `if(getProxyIp()!=null)` 守卫，消除 Proxy Ip 留空时的 NPE（P0，否则手填保存必失败） |
+| `authstore.vue` | `isdeveloper` 默认 `false`→`true`（弹框打开即手填）；开关文案 高级/常规 → 手填凭证/常规授权；三个凭证字段标签明确为 LWA Client Id / LWA Client Secret / Refresh Token 并加占位提示；常规 OAuth 按钮降级为次要样式；`show()` 每次打开重置为手填；`initAuth()` OAuth 回调场景仍切回确认绑定（保留兜底，未删 authSeller 后端） |
+| `docs/API-CONFIG-GUIDE.md` | 第 3 步改为"默认手填凭证"，字段表更新，说明 Proxy Ip 留空已修复 |
+
+### 决策确认（用户拍板）
+- 授权形态：**改成默认手填，弱化 OAuth**（不删后端 OAuth 回调，保留兜底）。
+- LWA 凭证落点：**每店一份，填在授权表单**（写入 `t_amazon_auth.client_id/client_secret`，运行时 `ApiBuildService` 优先用店铺级，Nacos 全局仅回退）。
+
+### 编译验证（本地）
+- `mvn -o -pl wimoor-amazon/amazon-boot -am -DskipTests package`：成功，jar 19:44 更新（249488633 字节）。
+- `pnpm build`（wimoor-ui）：成功，`✓ built in 1m 12s`，无错误。
+- 未改数据库 schema、未改 API 契约、未动其它模块。
+
+### 待用户授权
+- commit + push GitHub main、部署服务器（替换 amazon-boot.jar + 前端 dist，先备份）需用户明确授权后执行。

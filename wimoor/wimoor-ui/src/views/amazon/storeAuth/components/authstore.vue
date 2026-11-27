@@ -33,8 +33,8 @@
 					 :width="60"
 					 style="--el-switch-on-color: #ff4949; --el-switch-off-color:  #13ce66"
 					 inline-prompt
-					 active-text="高级"
-					 inactive-text="常规"
+				 active-text="手填凭证"
+				 inactive-text="常规授权"
 				   />
 				</el-form-item>
 				<el-form-item  v-if="!formInline.isdeveloper" label="授权链接" >
@@ -52,16 +52,16 @@
 							 
 				</el-form-item>    
 				<el-form-item  v-if="formInline.isdeveloper" label="Seller Id" >
-				 	 <el-input v-model="formInline.sellerid"></el-input>
+				 	 <el-input v-model="formInline.sellerid" placeholder="卖家后台账户信息中的 Seller ID / Merchant ID"></el-input>
 				</el-form-item>    
-				<el-form-item  v-if="formInline.isdeveloper" label="Client Id" >
-					 <el-input v-model="formInline.clientId"></el-input>
+				<el-form-item  v-if="formInline.isdeveloper" label="LWA Client Id" >
+					 <el-input v-model="formInline.clientId" placeholder="LWA 凭证 clientId（amzn1.application-oa2-client...）"></el-input>
 				</el-form-item> 
-				<el-form-item  v-if="formInline.isdeveloper" label="Client Secret" >
-					 <el-input v-model="formInline.clientSecret"></el-input>
+				<el-form-item  v-if="formInline.isdeveloper" label="LWA Client Secret" >
+					 <el-input v-model="formInline.clientSecret" placeholder="LWA 凭证 clientSecret"></el-input>
 				</el-form-item> 
 				<el-form-item  v-if="formInline.isdeveloper" label="Refresh Token" >
-					 <el-input v-model="formInline.refreshToken"></el-input>
+					 <el-input v-model="formInline.refreshToken" placeholder="该店的 SP-API refresh token（Atnr|...）"></el-input>
 				</el-form-item> 
 				<el-form-item  v-if="formInline.isdeveloper" label="Proxy Ip" >
 					 <el-input v-model="formInline.proxyIp"></el-input>
@@ -78,7 +78,7 @@
 			    </div>
 				 <div v-else>
 					 <el-button @click="authVisible = false">取消</el-button>
-					 <el-button v-if="authtype=='manuAuthority'" type="primary" @click="getamazonUrl"  >登录亚马逊授权</el-button >
+					 <el-button v-if="authtype=='manuAuthority'" @click="getamazonUrl"  >常规授权（浏览器跳转，不推荐）</el-button >
 					 <el-button v-if="authtype=='amazonAuthority'" type="primary" @click="subMitAuth"  >确认绑定</el-button >
 				 </div>
 		     </span>
@@ -109,13 +109,14 @@
 		 marketplaceid:'',
 		 awsRegion:"us-east-1",
 		 showurl:false,
-		 isdeveloper:false,
+		 isdeveloper:true,
 	})
 	let url=ref("");
 	function initAuth(){
 		if((route.query&&route.query.mws_auth_token)||(route.query&&route.query.path&&route.query.path.indexOf("mws_auth_token")>-1)){
 			authVisible.value =true
-		    authtype.value='amazonAuthority';	
+		    authtype.value='amazonAuthority';
+		    formInline.isdeveloper=false; // OAuth 回调场景走确认绑定，保留兜底
 		}
 	}
 	function handleChange(){
@@ -210,6 +211,8 @@
 	}
 	function show(){
 		authVisible.value =true
+		authtype.value='manuAuthority';
+		formInline.isdeveloper=true; // 每次打开默认手填凭证模式
 		loadUrl();
 	}
 	watch(props,()=>{

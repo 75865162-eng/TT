@@ -336,7 +336,9 @@ public class AmazonAuthorityServiceImpl extends ServiceImpl<AmazonAuthorityMappe
 		auth.setClientSecret(auth.getClientSecret().trim()); 
 		auth.setRefreshToken(auth.getRefreshToken().trim()); 
 		auth.setSellerid(auth.getSellerid().trim());
-		auth.setProxyIp(auth.getProxyIp().trim());
+		if(auth.getProxyIp()!=null) {
+			auth.setProxyIp(auth.getProxyIp().trim());
+		}
 	    auth.setProxyPort(auth.getProxyPort());
 		AmazonGroup group = this.iAmazonGroupService.getById(auth.getGroupid());
 		if(group==null) {
