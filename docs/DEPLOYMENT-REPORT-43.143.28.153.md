@@ -660,3 +660,13 @@ admin-boot 重新编译 BUILD SUCCESS（含全部 4 处修复），单独替换 
 - 数据补种：07 SQL 报告类型36条、广告区域两库各4行（advertising-api*.amazon.com 官方域名）。
 - 调度任务：08 SQL 21 个 `AEC-SYNC-*` 任务，默认 isdelete=1 暂停，待用户核对启用。
 - jar：MD5 `898f4731...` 首次部署；LoadBalanced 修复后重新编译部署（见下）。
+
+### 最终部署与验证（2026-11-27 22:40-22:50，闭环完成）
+- **Push**：`764bc205..684bff85 main -> main`（LoadBalanced 修复）。
+- **jar 部署**：新 jar MD5 `d3f58f07f791a31832657e369db6664d` 与本地一致；注意首次替换因脚本 `set -e` 在 sudo 下解析失败未生效（部署的仍是旧 `898f4731`），已用 `cp -f` 强制替换并逐条 md5 确认 after=new。
+- **数据补种**：报告类型 36 条、广告区域两库各 4 行（advertising-api*.amazon.com 官方域名，client 留空待填）；SQL 两处坑（reportOptions 超长、行尾分号断 ON DUPLICATE）已修。
+- **调度任务**：21 个 `AEC-SYNC-*`，isdelete=1 默认暂停，待用户核对启用。
+- **端到端验证（纯 HTTP）**：登录拿 session(36位) → 调 `runApi` 触发 `refreshMarket`。
+  - 返回 `result-code:200`；admin 日志：`[scheduler] login ok, token acquired` + `GET .../refreshMarket -> code=200`。
+  - **证明 Quartz 调度裸调 403 问题已修复，自动登录带 token 调用真实生效**。
+- **诚实边界**：t_amazon_auth=0（无店铺授权）、广告授权空 → 调度任务启用后能自动调用官方 API，但拉不到数据属业务数据未录入；需用户填真实 LWA/refresh token 后才能拉数。所有任务默认暂停，用户核对后再逐个启用。
