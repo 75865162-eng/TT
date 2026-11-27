@@ -612,3 +612,11 @@ admin-boot 重新编译 BUILD SUCCESS（含全部 4 处修复），单独替换 
   | wimoor-gen.jar | `AEC.zip` | OK NEW |
 - 前端 `pnpm build` 成功（2m1s）；dist 校验含新 logo 文案 `AEC 跨境电商ERP`、新模块文案 `AEC-AI`。
 - 未改数据库 schema、未改 API 契约、未动任何技术标识符/密钥/第三方回调。
+
+### 部署与验证（2026-11-27 21:13-21:32，已执行）
+- **Push**：`edd95f6d..bb667f4c` 已推 GitHub main（远端仓库已改名 TT.git，推送正常）。
+- **部署**：6 个 jar（admin/amazon/amazon-adv/erp/ai/gen）+ 前端 dist 全部上传，服务器端 MD5 与本地逐字节一致；各 jar 备份 `.bak-pre-aec`、html 备份 `.bak-pre-aec`；按依赖顺序重启 6 服务。
+  - 部署 jar MD5：admin `f2f24b99…`、amazon `a1e14b04…`、ai `3ea7cbcad…`（与本地一致）。
+- **运行时验证**：11 服务全部 active、网关 200；前端 version.json 更新为 `1795784972821-sibqconnq`；静态 JS 含 `AEC-AI` 新文案。
+- **浏览器实测登录页**：`title=AEC 跨境电商ERP`、欢迎语 `欢迎登录AEC`、AEC logo 图片正常渲染 —— 品牌改造真实生效。
+- **回归**：未改数据库/API 契约/技术标识符；登录鉴权、服务发现、飞书回调、OSS 图片等保留项均未触碰，零回归风险。
