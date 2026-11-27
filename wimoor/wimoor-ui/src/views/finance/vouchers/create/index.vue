@@ -856,7 +856,9 @@ async function handleQuery(){
       data.hasQuantity = false;
       data.hasCurrency = false;
       data.hasAuxiliary = false;
-      res.rows[0].entries.forEach(item=>{
+      if (!res.rows || res.rows.length === 0) return;
+      const firstRow = res.rows[0];
+      (firstRow.entries || []).forEach(item=>{
         if(item.debitAmount&&!item.debitAmountChinese){
           item.debitAmountChinese=getChineseAmountDigits(item.debitAmount);
         }else{
@@ -887,7 +889,7 @@ async function handleQuery(){
         }
       })
 
-      Object.assign(data.form, res.rows[0])
+      Object.assign(data.form, firstRow)
       // 设置lastVoucherYearMonth，防止修改日期时重新请求凭证号
       if (data.form.voucherDate) {
         const voucherDate = new Date(data.form.voucherDate);
@@ -918,7 +920,9 @@ async function handleQuery(){
 async function getVoucherDetail(id) {
   let groupid=await finStore.getCurrentTenantId();
     listVouchers({"groupid":groupid,"voucherId":id}).then(async res=>{
-      res.rows[0].entries.forEach(item=>{
+      if (!res.rows || res.rows.length === 0) return;
+      const detailRow = res.rows[0];
+      (detailRow.entries || []).forEach(item=>{
         if(item.debitAmount&&!item.debitAmountChinese){
           item.debitAmountChinese=getChineseAmountDigits(item.debitAmount);
         }else{
@@ -930,9 +934,9 @@ async function getVoucherDetail(id) {
           item.creditAmountChinese={};
         }
       })
-      Object.assign(data.form, res.rows[0])
+      Object.assign(data.form, detailRow)
       // 设置会计期间是否已结账状态
-      data.periodClosed = res.rows[0].periodClosed || false;
+      data.periodClosed = detailRow.periodClosed || false;
       // 设置lastVoucherYearMonth，防止同一会计期间内修改日期时重新请求凭证号
       if (data.form.voucherDate) {
         const voucherDate = new Date(data.form.voucherDate);

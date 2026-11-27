@@ -299,8 +299,8 @@ function handleBindSku(row) {
  onMounted(()=>{
 	 handleQuery('init')
  });
- function handleTableRowClick(row){	
-	console.log('切换笔记，内容长度:', row.content.length);
+	function handleTableRowClick(row){	
+	console.log('切换笔记，内容长度:', (row.content || '').length);
 	state.notepad=JSON.parse(JSON.stringify(row));
 	
 	// 当切换笔记时，确保编辑器内容同步更新

@@ -143,11 +143,17 @@ public class SupplierManagerController {
     @PostMapping("/submitPrice/{token}/login")
     public Result<?> submitLoginAction(@PathVariable String token, @RequestBody Map<String,Object> param){
         UserSupplier supplier =quoteOrderService.getSupplierInfo(token);
+        if(supplier==null){
+            throw new BizException("链接已失效");
+        }
         String operate=param.get("operate")!=null?param.get("operate").toString():null;
         if(operate==null){
             throw new BizException("参数异常");
         }
         if(operate.equals("login")){
+            if(param.get("mobile")==null||param.get("password")==null){
+                throw new BizException("参数异常");
+            }
             String mobile=param.get("mobile").toString();
             String password=param.get("password").toString();
             String md5=quoteOrderService.md5(password);
@@ -158,6 +164,9 @@ public class SupplierManagerController {
             }
         }
         if(operate.equals("reset")){
+            if(param.get("mobile")==null||param.get("password")==null){
+                throw new BizException("参数异常");
+            }
             String mobile=param.get("mobile").toString();
             String password=param.get("password").toString();
             String key=param.get("key")!=null?param.get("key").toString():null;

@@ -79,7 +79,7 @@ public class FinVoucherEntriesController extends BaseController
                     }
                 }
             }
-            String companyname = groupidmap.get("company").toString();
+            String companyname = groupidmap.get("company") != null ? groupidmap.get("company").toString() : "";
             List<Map<String, Object>> list = finVoucherEntriesService.selectFinVoucherEntriesList(dto);
 
             // 构建辅助核算列映射：entry_id -> Map<type_name, item_code>
@@ -235,7 +235,7 @@ public class FinVoucherEntriesController extends BaseController
                 }
             }
             List<String> voucherDates = new ArrayList<>();
-            String companyname = groupidmap.get("company").toString();
+            String companyname = groupidmap.get("company") != null ? groupidmap.get("company").toString() : "";
             List<Map<String, Object>> list = finVoucherEntriesService.selectFinVoucherEntriesList(dto);
 
             // 构建辅助核算文本映射

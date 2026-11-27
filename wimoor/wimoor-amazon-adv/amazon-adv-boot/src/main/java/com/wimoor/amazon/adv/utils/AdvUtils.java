@@ -99,8 +99,8 @@ public class AdvUtils {
 		ThreadPoolTaskExecutor threadPoolTaskExecutor=SpringUtil.getBean("threadPoolTaskExecutor");
 		Map<Future<?>, Long> startTimeMap = new ConcurrentHashMap<>();
 		if(!type.equals("normal")){
-			int tryNumber=runMap.get(type)!=null?runMap.get(type):0;
-			runMap.put(type, tryNumber+1);
+			// 原子累加（返回旧值），避免并发 get+put 丢失计数导致限流失效；保持原"基于旧值判断"语义
+			int tryNumber=runMap.compute(type, (k,v)->(v==null?0:v)+1) - 1;
 			if (tryNumber>1&&tryNumber<maxTryNumber) {
 				return;
 			}

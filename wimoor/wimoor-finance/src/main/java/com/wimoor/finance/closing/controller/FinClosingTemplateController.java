@@ -602,7 +602,7 @@ public class FinClosingTemplateController extends BaseController
                 java.util.List<?> list = (java.util.List<?>) result.getData();
                 for (Object obj : list) {
                     Map<String, Object> data = (Map<String, Object>) obj;
-                    if (tableName.equals(data.get("name"))) {
+                    if (tableName.equals(data.get("name")) && data.get("id") != null) {
                         return Long.valueOf(data.get("id").toString());
                     }
                 }

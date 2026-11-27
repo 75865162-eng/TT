@@ -1186,10 +1186,18 @@ public class ProfitServiceImpl implements IProfitService{
 		// 根据售价计算 Amazon Referral Fee
 		BigDecimal referralFee = new BigDecimal("0");
 //		referralFeeService.calculateReferralFee(typeid, price, country);
-		if(price.setScale(2,RoundingMode.HALF_EVEN).floatValue()==fbaFee.getYourPrice().floatValue()){
-			referralFee = fbaFee.getEstimatedReferralFeePerUnit();
+		BigDecimal yourPrice = fbaFee.getYourPrice();
+		BigDecimal estimatedReferralFee = fbaFee.getEstimatedReferralFeePerUnit();
+		// 售价或佣金为空时无法计算，按0处理，避免拆箱NPE / divide by zero
+		if (yourPrice == null) {
+			referralFee = estimatedReferralFee != null ? estimatedReferralFee : BigDecimal.ZERO;
+		} else if(price.setScale(2,RoundingMode.HALF_EVEN).floatValue()==yourPrice.floatValue()){
+			referralFee = estimatedReferralFee != null ? estimatedReferralFee : BigDecimal.ZERO;
 		} else {
-			BigDecimal referralRate = fbaFee.getEstimatedReferralFeePerUnit().divide(fbaFee.getYourPrice(),2,RoundingMode.HALF_EVEN);//比率=佣金/售价；
+			// 售价为0时无法计算比率，按0处理，避免 divide by zero
+			BigDecimal referralRate = (yourPrice.signum() == 0 || estimatedReferralFee == null)
+					? BigDecimal.ZERO
+					: estimatedReferralFee.divide(yourPrice,2,RoundingMode.HALF_EVEN);//比率=佣金/售价；
 			referralFee = price.multiply(referralRate).setScale(2,RoundingMode.HALF_EVEN);
 			if(ref!=null&&ref.getLoweast()!=null&&referralFee!=null&&ref.getLoweast().floatValue()>referralFee.floatValue()){
 				referralFee = ref.getLoweast();

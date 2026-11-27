@@ -381,7 +381,7 @@
 			function handleUpdate(index,row){
 				getUserFormData(row.id).then(res=>{
 					state.formData.id=res.data.id;
-					state.formData.name=res.data.userinfo.name;
+					state.formData.name=res.data.userinfo ? res.data.userinfo.name : '';
 					state.formData.account=res.data.account;
 					state.formData.state=res.data.state;
 					state.formData.disable=res.data.disable;

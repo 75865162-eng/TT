@@ -177,7 +177,11 @@ public class FeiShuTemplateStrategy implements IFinClosingTemplateStrategy {
         StringBuilder datalog = new StringBuilder();
         for(int i=0;i<records.size();i++) {
             JSONObject recordItem = records.getJSONObject(i);
-            String fieldKey=recordItem.get("record_id").toString();
+            Object recordIdObj = recordItem.get("record_id");
+            if (recordIdObj == null) {
+                continue;
+            }
+            String fieldKey=recordIdObj.toString();
             fieldkeys.add(fieldKey);
             JSONObject recordItemFields=recordItem.getJSONObject("fields");
             String summary = extractFieldValue(recordItemFields, finClosingTemplateFeishu.getSummaryField());

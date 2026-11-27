@@ -72,6 +72,7 @@ export function delMappingRules(ruleIds) {
 
 // 初始化默认规则
 export function initDefaultRules(groupid) {
+  if (!groupid) return Promise.resolve({code: 200, data: null}); // 租户ID未就绪时不发无效请求
   return request({
     url: `/api/finance/report/mapping-rules/init-default/${groupid}`,
     method: 'post'
@@ -80,6 +81,7 @@ export function initDefaultRules(groupid) {
 
 // 同步报表公式
 export function syncReportFormulas(groupid, templateId, templateType) {
+  if (!groupid || !templateId) return Promise.resolve({code: 200, data: null}); // 关键参数为空时不发无效请求
   return request({
     url: `/api/finance/report/mapping-rules/sync/${groupid}/${templateId}/${templateType}`,
     method: 'post'

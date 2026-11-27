@@ -648,28 +648,24 @@ public class SysDeepSeekServiceImpl implements ISysDeepSeekService {
         return iDeepseekChatMessagesService.getKey(userInfo.getId());
     }
 
-    private static StringBuilder reasoningContent = new StringBuilder();
-    private static StringBuilder finalContent = new StringBuilder();
-    private static boolean isFirstPrint = true;
-    private  void handleGenerationResult(GenerationResult message) {
+    // 打印状态改为每次调用的局部变量（原 static StringBuilder/isFirstPrint 在单例并发下串流且无界增长）
+    private  void handleGenerationResult(GenerationResult message, boolean[] isFirstPrint) {
         if (message == null || message.getOutput() == null || message.getOutput().getChoices() == null || message.getOutput().getChoices().isEmpty()) {
             return;
         }
         String reasoning = message.getOutput().getChoices().get(0).getMessage().getReasoningContent();
         String content = message.getOutput().getChoices().get(0).getMessage().getContent();
         if (reasoning != null && !reasoning.isEmpty()) {
-            reasoningContent.append(reasoning);
-            if (isFirstPrint) {
+            if (isFirstPrint[0]) {
                 System.out.println("====================思考过程====================");
-                isFirstPrint = false;
+                isFirstPrint[0] = false;
             }
             System.out.print(reasoning);
         }
         if (content != null && !content.isEmpty()) {
-            finalContent.append(content);
-            if (!isFirstPrint) {
+            if (!isFirstPrint[0]) {
                 System.out.println("\n====================完整回复====================");
-                isFirstPrint = true;
+                isFirstPrint[0] = true;
             }
             System.out.print(content);
         }
@@ -689,7 +685,8 @@ public class SysDeepSeekServiceImpl implements ISysDeepSeekService {
             throws NoApiKeyException, ApiException, InputRequiredException {
         GenerationParam param = buildGenerationParam(userMsg);
         Flowable<GenerationResult> result = gen.streamCall(param);
-        result.blockingForEach(message -> handleGenerationResult(message));
+        final boolean[] isFirstPrint = {true};
+        result.blockingForEach(message -> handleGenerationResult(message, isFirstPrint));
     }
 
     @Override

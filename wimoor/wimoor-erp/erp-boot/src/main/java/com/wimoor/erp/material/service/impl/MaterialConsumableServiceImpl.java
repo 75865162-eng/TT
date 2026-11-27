@@ -388,7 +388,7 @@ public List<Map<String, Object>> findConsumableDetailByShipment(String shopid, S
 	param.put("shipmentid", shipmentid);
 	String warehouseid=null;
 	Result<ShipInboundShipmentDTO> dto = amazonClientOneFeignManager.getShipmentidAction(shipmentid);
-	if(Result.isSuccess(dto)&&dto.getData()!=null) {
+	if(Result.isSuccess(dto)&&dto.getData()!=null&&dto.getData().getInboundplan()!=null) {
 		warehouseid=dto.getData().getInboundplan().getWarehouseid();
 		param.put("itemlist", dto.getData().getItemList());
 		param.put("warehouseid", warehouseid);

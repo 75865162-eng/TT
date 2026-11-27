@@ -54,11 +54,16 @@ public class AndTablesServiceImpl implements IAndTablesService {
                     createAppResp.getCode(), createAppResp.getMsg(), createAppResp.getRequestId());
             return createAppResp;
         }
+        // 飞书接口成功但 data/app 可能为空，逐级判空避免 NPE
+        if (createAppResp.getData() == null || createAppResp.getData().getApp() == null) {
+            return createAppResp;
+        }
+        String appToken = createAppResp.getData().getApp().getAppToken();
         // 添加数据表
         List<CreateAppTableRespBody> tables = new ArrayList<>();
         for (ReqTable table : request.getTables()) {
             CreateAppTableReq createAppTableReq = CreateAppTableReq.newBuilder()
-                    .appToken(createAppResp.getData().getApp().getAppToken())
+                    .appToken(appToken)
                     .createAppTableReqBody(CreateAppTableReqBody.newBuilder().table(table).build())
                     .build();
             CreateAppTableResp createAppTableResp = client.bitable().appTable().create(createAppTableReq);

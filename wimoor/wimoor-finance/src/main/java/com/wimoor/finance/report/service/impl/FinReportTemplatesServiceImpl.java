@@ -885,13 +885,17 @@ public class FinReportTemplatesServiceImpl implements IFinReportTemplatesService
 
     private BigDecimal findNearestPrecedingAmount(FinReportItems item, List<FinReportItems> allItems, Map<String, BigDecimal> amounts) {
         // 先在同级别找有子项的兄弟项目
-        FinReportItems bestMatch = findNearestPrecedingWithChildrenAtLevel(item, allItems, item.getItemLevel());
+        Integer itemLevel = item.getItemLevel();
+        if (itemLevel == null) {
+            return BigDecimal.ZERO;
+        }
+        FinReportItems bestMatch = findNearestPrecedingWithChildrenAtLevel(item, allItems, itemLevel);
         if (bestMatch != null) {
             return amounts.getOrDefault(bestMatch.getItemCode(), BigDecimal.ZERO);
         }
         // 同级别没找到，向上一级找（如"流动资产合计"level3找"流动资产"level2）
-        if (item.getItemLevel() > 1) {
-            bestMatch = findNearestPrecedingWithChildrenAtLevel(item, allItems, item.getItemLevel() - 1);
+        if (itemLevel > 1) {
+            bestMatch = findNearestPrecedingWithChildrenAtLevel(item, allItems, itemLevel - 1);
             if (bestMatch != null) {
                 return amounts.getOrDefault(bestMatch.getItemCode(), BigDecimal.ZERO);
             }

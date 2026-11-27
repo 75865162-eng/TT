@@ -497,7 +497,7 @@ public class FinVouchersServiceImpl implements IFinVouchersService
         UserInfo userinfo = UserInfoContext.get();
         for(Long finVoucherId:finVoucherIds){
             FinVouchers voucher = this.selectFinVouchersByVoucherId(finVoucherId);
-            if(voucher!=null && voucher.getVoucherStatus()==1){
+            if(voucher!=null && Integer.valueOf(1).equals(voucher.getVoucherStatus())){
                 voucher.setVoucherStatus(2); // 已审核
                 voucher.setUpdatedTime(new Date());
                 voucher.setUpdateBy(userinfo.getUserName());
@@ -1066,7 +1066,10 @@ public class FinVouchersServiceImpl implements IFinVouchersService
     public void reversePosting(Long voucherId) {
         // 1. 检查凭证状态
         FinVouchers voucher = finVouchersMapper.selectFinVouchersByVoucherId(voucherId);
-        if (voucher.getVoucherStatus() != 3) { // 3-已过账
+        if (voucher == null) {
+            throw new BizException("凭证不存在");
+        }
+        if (!Integer.valueOf(3).equals(voucher.getVoucherStatus())) { // 3-已过账
             throw new BizException("凭证未过账，不能反过账");
         }
 

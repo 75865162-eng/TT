@@ -171,6 +171,31 @@ check_cmp_guard 'wimoor/wimoor-admin/admin-boot/src/main/java/com/wimoor/admin/s
 check_cmp_guard 'wimoor/wimoor-admin/admin-boot/src/main/java/com/wimoor/sys/tool/controller/SysQueryFieldController.java' \
   'i1==null' '查询字段 findex 排序'
 
+# 14. 财务/外部参数包装类型拆箱 NPE（第四轮审计新增类别）
+#    注意：BigDecimal.divide 是否有零守卫难以静态准确判断（多数在外层 if>0 内），不纳入自动检测
+echo "[14] 包装类型拆箱 NPE"
+cmp_hits=$(grep -rnE 'getVoucherStatus\(\) *[!=]=|getIsCurrent\(\) *[!=]=|getItemLevel\(\) *[><-]' wimoor \
+  --include=*.java 2>/dev/null | grep -v '/target/' \
+  | grep -vE 'Integer\.valueOf|Objects\.equals|== *null|!= *null' | head -8)
+if [ -n "$cmp_hits" ]; then
+  echo "  [WARN] 发现包装类型直接拆箱比较（需人工确认是否可null）:"
+  echo "$cmp_hits" | head -8
+else
+  pass "关键包装类型字段均为 null 安全比较"
+fi
+
+# 15. static HashMap 懒初始化（check-then-act 非原子，第四轮新增）
+echo "[15] static Map 懒初始化线程安全"
+lazy_map_hits=$(grep -rnE 'static[^;]*Map[^;]*= *null|static[^;]*List[^;]*= *null' wimoor \
+  --include=*.java 2>/dev/null | grep -v '/target/' \
+  | grep -E 'colorMap|advRecordTypeMap|listcookies' | head -8)
+if [ -n "$lazy_map_hits" ]; then
+  fail "发现 static Map/List = null 懒初始化（应改 static final 不可变或 synchronized）:"
+  echo "$lazy_map_hits" | head -8
+else
+  pass "关键静态映射均为一次性不可变初始化"
+fi
+
 echo "===== 结果 ====="
 if [ "$FAIL" -eq 1 ]; then
   echo "发现问题，请修复后再部署。"

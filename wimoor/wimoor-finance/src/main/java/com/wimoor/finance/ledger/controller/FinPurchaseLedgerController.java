@@ -75,6 +75,9 @@ public class FinPurchaseLedgerController extends BaseController {
         String entryId = (String) params.get("entryId");
         String acct = (String) params.get("acct");
         String projectid = (String) params.get("projectid");
+        if (params.get("payprice") == null) {
+            return Result.error("付款金额不能为空");
+        }
         BigDecimal payprice = new BigDecimal(params.get("payprice").toString());
         String remark = (String) params.get("remark");
         String operator = (String) params.get("operator");

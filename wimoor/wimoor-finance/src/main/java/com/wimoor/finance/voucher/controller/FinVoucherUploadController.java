@@ -90,7 +90,7 @@ public class FinVoucherUploadController extends BaseController
             }
         }
         List<String> voucherDates = new ArrayList<>();
-        String companyname = groupidmap.get("company").toString();
+        String companyname = groupidmap.get("company") != null ? groupidmap.get("company").toString() : "";
         if (file != null) {
             try {
                 InputStream inputStream = file.getInputStream();

@@ -55,7 +55,7 @@ public class MerchantShippingGroupServiceImpl extends ServiceImpl<MerchantShippi
 		dto.setGroupid(authority.getGroupid());
 		dto.setItemName("SANDAL");
 		ProductTypeDefinition response = iProductProductTypeService.captureTypeDefinition(authority,dto);
-	    if(response!=null&&response.getSchema()!=null) {
+	    if(response!=null&&response.getSchema()!=null&&response.getSchema().getLink()!=null) {
 	    	String jsonstr = GeneralUtil.loadJson(response.getSchema().getLink().getResource());
 	    	JSONObject json =jsonstr==null?null: GeneralUtil.getJsonObject(jsonstr);
 	    	JSONObject properties = json==null?null:json.getJSONObject("properties");

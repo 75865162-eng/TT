@@ -302,11 +302,11 @@ public class GeneralUtil {
 	}
 
 	static int node = 0;
-	static List<Map<String, String>> listcookies = null;
+	static final List<Map<String, String>> listcookies = new ArrayList<Map<String, String>>();
 
-	public static Map<String, String> getCookies(int i) {
-		if (listcookies == null) {
-			listcookies = new ArrayList<Map<String, String>>();
+	// synchronized：避免并发首次调用 check-then-act 重复构造/读到未填充完的 list
+	public static synchronized Map<String, String> getCookies(int i) {
+		if (listcookies.isEmpty()) {
 			Map<String, String> cookies0 = new HashMap<String, String>();
 			cookies0.put("session-id", "257-7849104-1304152");
 			cookies0.put("session-id-time", "2082758401l");
@@ -2078,18 +2078,20 @@ public class GeneralUtil {
 		else return value.trim();
 	}
    
-	public static  Map<String,String> colorMap=null;
-	
+	// 静态不可变映射：一次性初始化，避免并发首次调用 check-then-act 导致半初始化/重复构造
+	private static final Map<String,String> colorMap;
+	static {
+		Map<String,String> m = new HashMap<String,String>();
+		m.put("red", "danger");
+		m.put("blue", "primary");
+		m.put("orange", "warning");
+		m.put("green", "success");
+		m.put("purple", "info");
+		colorMap = java.util.Collections.unmodifiableMap(m);
+	}
+
 	public static Object getColorType(Object value) {
 		   if(value==null)return null;
-		   if(colorMap==null) {
-				colorMap=new HashMap<String,String>();
-		    	colorMap.put("red", "danger");
-		    	colorMap.put("blue", "primary");
-		    	colorMap.put("orange", "warning");
-		    	colorMap.put("green", "success");
-		    	colorMap.put("purple", "info");
-		   }
 	      String type=colorMap.get(value);
 	      if(type!=null)return type;
 	      else return value;

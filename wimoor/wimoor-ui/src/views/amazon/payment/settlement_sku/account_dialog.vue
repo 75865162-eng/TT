@@ -187,8 +187,8 @@
 	function loadGroupMarket(groupid,marketplaceid){
 		settlementSkuRptApi.getGroupMarket({"groupid":groupid,"marketplaceid":marketplaceid}).then((res)=>{
 			 if(res.data){
-				 state.localData.gname=res.data.group.name;
-				 state.localData.marketplacename=res.data.market.name;
+				 state.localData.gname=res.data.group ? res.data.group.name : '';
+				 state.localData.marketplacename=res.data.market ? res.data.market.name : '';
 			 }
 		});
 	}

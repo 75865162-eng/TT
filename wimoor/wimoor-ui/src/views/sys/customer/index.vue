@@ -542,6 +542,7 @@ const  state=reactive({
 		state.visible=true;
 		limitApi.detail({"shopid":shopid}).then((res)=>{
 			const data = res.data;
+			if (!data) return;
 			state.pkgTable.push(data);
 			let startDate = data.effectiveTime;
 			if (!startDate) {

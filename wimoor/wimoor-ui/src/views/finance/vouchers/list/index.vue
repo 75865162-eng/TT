@@ -296,9 +296,9 @@ async function getList() {
   }
   listVouchers(params).then(response => {
 	  vouchersList.value = [];
-	  response.rows.forEach(row=>{
-		 var myrow=row.entries;
-		 var length=row.entries.length;
+	  (response.rows || []).forEach(row=>{
+		 var myrow=row.entries || [];
+		 var length=myrow.length;
 	     myrow.forEach((item,index)=>{
 			 const targetObj =item;
 			 const sourceObj =row;

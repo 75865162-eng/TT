@@ -321,9 +321,9 @@
 					ElMessage.success(  "添加成功！");
 					state.form.overprice=res.data.overprice;
 					state.form.lossprice=res.data.lossprice;
-					row.itemid=res.data.item.id;
-					row.overamount=res.data.item.overamount;
-					row.lossamount=res.data.item.lossamount;
+					row.itemid=res.data.item ? res.data.item.id : '';
+					row.overamount=res.data.item ? res.data.item.overamount : 0;
+					row.lossamount=res.data.item ? res.data.item.lossamount : 0;
 				}
 			});
 		}

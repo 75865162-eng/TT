@@ -274,6 +274,7 @@ export default {
 			if (data && data.urlPerm) {
 			  // GET:/youlai-admin/api/v1/users
 			  const urlPermArr = data.urlPerm.split(':');
+			  if (urlPermArr.length < 2) return;
 			  state.urlPerm.requestMethod = urlPermArr[0];
 			  state.urlPerm.serviceName = urlPermArr[1].substring(
 				1,

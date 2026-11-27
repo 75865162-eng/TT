@@ -329,7 +329,7 @@ public class FinAccountingPeriodsServiceImpl implements IFinAccountingPeriodsSer
                     finAccountingPeriodsMapper.insertFinAccountingPeriods(currentPeriod);
                 } else {
                     // 如果存在但isCurrent不是1，更新为1
-                    if (currentPeriod.getIsCurrent() != 1) {
+                    if (!Integer.valueOf(1).equals(currentPeriod.getIsCurrent())) {
                         currentPeriod.setIsCurrent(1);
                         currentPeriod.setPeriodStatus(PeriodStatus.OPEN.getValue());
                         currentPeriod.setUpdatedTime(new Date());

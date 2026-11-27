@@ -173,7 +173,7 @@
 			warehouseApi.getWarehouseList().then(function(res){
 				state.warehouseData = res.data;
 				if(res.data && res.data.length>0){
-					state.warehouseCheck=res.data[0].children[0].id;
+					state.warehouseCheck=res.data[0].children && res.data[0].children.length>0 ? res.data[0].children[0].id : '';
 					handleQuery();
 				}
 			})

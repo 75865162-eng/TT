@@ -106,7 +106,8 @@ public class AmzNotificationsSubscriptionsServiceImpl extends ServiceImpl<AmzNot
 			query.eq("subscriptionId", subscriptionId);
 			query.eq("amazonauthid", amazonAuthority.getId());
 			String eventFilterType="#";
-			if(subscription.getProcessingDirective()!=null&&subscription.getProcessingDirective().getEventFilter()!=null) {
+			if(subscription.getProcessingDirective()!=null&&subscription.getProcessingDirective().getEventFilter()!=null
+					&&subscription.getProcessingDirective().getEventFilter().getEventFilterType()!=null) {
 				eventFilterType= subscription.getProcessingDirective().getEventFilter().getEventFilterType().getValue();
 			}
 		    query.eq("eventFilterType",eventFilterType);

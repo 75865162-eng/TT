@@ -125,22 +125,26 @@ public class AmzAdvReportHandlerServiceImpl implements IAmzAdvReportHandlerServi
 		public static int threadnumber = 0;
 	}
 	
-	public static Map<String, String> advRecordTypeMap = new HashMap<String, String>();
+	// 静态不可变映射：一次性初始化，避免并发首次调用时 HashMap 非原子 put 造成结构损坏/数据丢失
+	public static final Map<String, String> advRecordTypeMap;
+	static {
+		Map<String, String> m = new HashMap<String, String>();
+		m.put("keywords","keyword");
+		m.put("campaigns","campaign");
+		m.put("productAds","productAd");
+		m.put("adGroups","adGroup");
+		m.put("campaignNegativeKeywords","campaignNegativeKeyword");
+		m.put("negativeKeywords","negativeKeyword");
+		m.put("targets","targets");
+		m.put("negativeTargets","negativeTargets");
+		advRecordTypeMap = java.util.Collections.unmodifiableMap(m);
+	}
 	public static String getAdvResponseRecordType(String recordType){
-		if(advRecordTypeMap.get(recordType)==null){
-			advRecordTypeMap.put("keywords","keyword");
-			advRecordTypeMap.put("campaigns","campaign");
-			advRecordTypeMap.put("productAds","productAd");
-			advRecordTypeMap.put("adGroups","adGroup");
-			advRecordTypeMap.put("campaignNegativeKeywords","campaignNegativeKeyword");
-			advRecordTypeMap.put("negativeKeywords","negativeKeyword");
-			advRecordTypeMap.put("targets","targets");
-			advRecordTypeMap.put("negativeTargets","negativeTargets");
-		}
-		if(advRecordTypeMap.get(recordType)==null) {
+		String type = advRecordTypeMap.get(recordType);
+		if(type==null) {
 			return recordType;
 		}
-		return advRecordTypeMap.get(recordType);
+		return type;
 	}
  
 	
