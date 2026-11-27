@@ -10,12 +10,12 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.http.client.SimpleClientHttpRequestFactory;
 import org.springframework.stereotype.Component;
 import org.springframework.web.client.RestTemplate;
 
 import com.alibaba.fastjson.JSONObject;
 import com.wimoor.common.result.Result;
-import com.wimoor.util.SpringUtil;
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -52,8 +52,18 @@ public class SchedulerApiUtil {
 
     private static final long TOKEN_TTL_MS = 30L * 60 * 1000;
 
+    /** 普通 RestTemplate：不能用 @LoadBalanced 的 restTemplateApi（它会把 IP 当服务名去 Nacos 解析，报 No instances available） */
+    private final RestTemplate plain = createPlainRestTemplate();
+
     private volatile String cachedToken;
     private volatile long tokenExpireAt;
+
+    private static RestTemplate createPlainRestTemplate() {
+        SimpleClientHttpRequestFactory f = new SimpleClientHttpRequestFactory();
+        f.setConnectTimeout(10000);
+        f.setReadTimeout(120000); // 全量拉取端点可能耗时较久
+        return new RestTemplate(f);
+    }
 
     /**
      * 带登录态 GET 调用一个后台端点。
@@ -63,7 +73,7 @@ public class SchedulerApiUtil {
      * @return 端点返回的 Result；调用失败返回 null（不抛异常，避免打断 Quartz 调度）
      */
     public Result<?> get(String path) {
-        RestTemplate restTemplate = SpringUtil.getBean("restTemplateApi");
+        RestTemplate restTemplate = plain;
         String url = path.startsWith("http://") || path.startsWith("https://") ? path : gateway + path;
         try {
             String token = getToken(restTemplate);

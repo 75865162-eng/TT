@@ -648,3 +648,15 @@ admin-boot 重新编译 BUILD SUCCESS（含全部 4 处修复），单独替换 
 
 ### 待部署
 - 部署 admin-boot.jar、导入 07/08 SQL、重启 admin、验证任务加载与带 token 调用闭环。
+
+### 部署验证中的修复：LoadBalanced 陷阱（2026-11-27 22:34-）
+- 首次部署后端到端验证发现：`runApi` 返回 200 但无 `result-code:200`；admin 日志报 `No instances available for 127.0.0.1`。
+- 根因：复用了 `@LoadBalanced` 的 `restTemplateApi`，它把 `http://127.0.0.1:8080` 当服务名去 Nacos 解析，找不到实例。
+- 修复：`SchedulerApiUtil` 改用自身 `new RestTemplate()`（SimpleClientHttpRequestFactory，connect 10s/read 120s），不再用 `restTemplateApi`；同步移除 SpringUtil import。
+- 数据层补种时也修正了 SQL 两处问题：第21条 reportOptions 超 varchar(50)（改空串）、报告类型 INSERT 行尾分号导致 ON DUPLICATE 断裂（去分号）。最终生产：报告类型36、广告区域两库各4（官方域名）。
+
+### 部署状态
+- Push：`ac292c35..764bc205 main -> main`（远端提示改名 TT.git，推送正常）。
+- 数据补种：07 SQL 报告类型36条、广告区域两库各4行（advertising-api*.amazon.com 官方域名）。
+- 调度任务：08 SQL 21 个 `AEC-SYNC-*` 任务，默认 isdelete=1 暂停，待用户核对启用。
+- jar：MD5 `898f4731...` 首次部署；LoadBalanced 修复后重新编译部署（见下）。

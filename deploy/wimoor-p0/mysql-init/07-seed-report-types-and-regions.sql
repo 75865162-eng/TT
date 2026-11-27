@@ -30,7 +30,7 @@ INSERT INTO `t_amz_report_request_type`
 (18, '店铺绩效报表', 'PerformanceReport', 'GET_V2_SELLER_PERFORMANCE_REPORT', '店铺绩效情况', 'reportAmzPerformanceService', 1, b'0', ''),
 (19, '发货报表', 'FulfilledShipmentsReport', 'GET_AMAZON_FULFILLED_SHIPMENTS_DATA_GENERAL', '发货报表获取发货地址与对于情况', 'reportAmzFulFilledShipmentsService', 4, b'0', ''),
 (20, '货物移除报表', 'FbaShipmentDetailRemoveReport', 'GET_FBA_FULFILLMENT_REMOVAL_ORDER_DETAIL_DATA', '获取移除库存的订单报表', 'reportAmzFBAShipmentRemoveService', 90, b'0', ''),
-(21, '流量报表', 'SalesAndTrafficBusinessReport', 'GET_SALES_AND_TRAFFIC_REPORT', '流量报表', 'reportAmzSalesAndTrafficBusinessService', 1, b'0', '{"dateGranularity":"DAY", "asinGranularity":"CHILD"}'),
+(21, '流量报表', 'SalesAndTrafficBusinessReport', 'GET_SALES_AND_TRAFFIC_REPORT', '流量报表', 'reportAmzSalesAndTrafficBusinessService', 1, b'0', ''),
 (22, '订单发票报表', 'OrdersInvoicingReport', 'GET_FLAT_FILE_ORDER_REPORT_DATA_INVOICING', '订单发票报表', 'reportAmzOrderInvoiceService', 3, b'0', ''),
 (23, '欧洲库存报表', 'InventoryByCountry', 'GET_AFN_INVENTORY_DATA_BY_COUNTRY', '欧洲库存报表', 'reportAmzInventoryCountryService', 3, b'0', ''),
 (24, '库龄报表_old', 'InventoryAge', 'GET_FBA_INVENTORY_AGED_DATA', '库龄报表', 'reportAmzInventoryAgeService', 0, b'1', ''),
@@ -46,7 +46,7 @@ INSERT INTO `t_amz_report_request_type`
 (34, 'VAT发票报表', 'VATInvoiceDataReport', 'GET_FLAT_FILE_VAT_INVOICE_DATA_REPORT', 'VAT发票报表', 'reportAmzInvoiceDataService', 30, b'1', ''),
 (35, 'VAT报表', 'FBAVatTransaction', 'GET_VAT_TRANSACTION_DATA', 'VAT报表', 'reportFBAVatTransactionReportService', 0, b'0', ''),
 (36, 'EPR报表', 'EPRMonthlyReport', 'GET_EPR_MONTHLY_REPORTS', 'EPR报表', 'reportEPRMonthlyReportService', 10, b'0', ''),
-(37, '交易报告', 'TransactionReport', 'GET_DATE_RANGE_FINANCIAL_TRANSACTION_DATA', '亚马逊交易报告', 'reportAmzTransactionService', 89, b'0', NULL);
+(37, '交易报告', 'TransactionReport', 'GET_DATE_RANGE_FINANCIAL_TRANSACTION_DATA', '亚马逊交易报告', 'reportAmzTransactionService', 89, b'0', NULL)
 ON DUPLICATE KEY UPDATE
   `cname`=VALUES(`cname`),`ename`=VALUES(`ename`),`code`=VALUES(`code`),
   `description`=VALUES(`description`),`bean`=VALUES(`bean`),`day`=VALUES(`day`),

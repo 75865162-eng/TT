@@ -69,6 +69,7 @@
 - **登录是否成功**：admin 日志搜 `[scheduler] login ok`。
 - **调用是否成功**：admin 日志搜 `[scheduler] GET ... -> code=200`。
 - **403**：检查 `SchedulerApiUtil.gateway/account/password` 配置（默认 `http://127.0.0.1:8080` / `1` / `1`）；可在 Nacos `wimoor-admin` 覆盖 `scheduler.auth.*`。
+- **`No instances available for 127.0.0.1`**：`SchedulerApiUtil` 内部用普通 `RestTemplate`（非 `@LoadBalanced`），因为 `@LoadBalanced` 的 `restTemplateApi` 会把 IP 当服务名去 Nacos 解析而失败。这是修复点，勿改回 `restTemplateApi`。
 - **429**：属正常限流，SDK 指数退避；如持续，调大对应域 cron 间隔。
 
 ## 七、诚实边界
