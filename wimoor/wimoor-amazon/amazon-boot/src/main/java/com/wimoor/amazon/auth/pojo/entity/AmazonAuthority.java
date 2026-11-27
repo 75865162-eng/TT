@@ -103,6 +103,9 @@ public class AmazonAuthority  extends  BaseEntity  implements RateLimitConfigura
 
 	@TableField(exist = false)
 	private Date captureDateTime;
+	/** 保存成功但拉取站点/报告失败时的提示（不落库，仅回传前端） */
+	@TableField(exist = false)
+	private String saveWarnMsg;
 	@TableField(exist = false)
     private int requestOrderReportTime=0;
 	@TableField(exist = false)

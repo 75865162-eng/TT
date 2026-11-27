@@ -52,7 +52,7 @@
 							 
 				</el-form-item>    
 				<el-form-item  v-if="formInline.isdeveloper" label="Seller Id" >
-				 	 <el-input v-model="formInline.sellerid" placeholder="卖家后台账户信息中的 Seller ID / Merchant ID"></el-input>
+				 	 <el-input v-model="formInline.sellerid" placeholder="可留空：留空用店铺组+区域占位保存；拉订单/库存/广告需补填真实 Seller ID"></el-input>
 				</el-form-item>    
 				<el-form-item  v-if="formInline.isdeveloper" label="LWA Client Id" >
 					 <el-input v-model="formInline.clientId" placeholder="LWA 凭证 clientId（amzn1.application-oa2-client...）"></el-input>
@@ -204,10 +204,14 @@
 			formInline.region="FE";
 		}
 		authApi.saveAuth(formInline).then((res)=>{
-			ElMessage.success("授权成功！");
+			if(res.data&&res.data.saveWarnMsg){
+				ElMessage.warning(res.data.saveWarnMsg);
+			}else{
+				ElMessage.success("授权成功！");
+			}
 			authVisible.value =false;
 			initAuth();
-		});
+		}).catch(()=>{});
 	}
 	function show(){
 		authVisible.value =true

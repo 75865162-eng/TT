@@ -317,12 +317,18 @@ public class AmazonAuthorityServiceImpl extends ServiceImpl<AmazonAuthorityMappe
 	@Override
 	@CacheEvict(value = { "AmazonAuthorityCache" }, allEntries = true)
 	public AmazonAuthority saveAuth(AmazonAuthority auth) {
-		// TODO Auto-generated method stub
+		// Seller Id 留空时按「店铺组_区域」生成稳定占位值：既能落库，又保证同一店铺组+区域重复保存幂等、不撞 sellerid 唯一键。
+		// 占位值不是亚马逊真实 Seller ID，依赖真实 Seller ID 的拉数接口（订单/库存/广告等）会失败，需补填真实值后重新保存。
+		if(StrUtil.isBlank(auth.getSellerid())) {
+			String region = StrUtil.isBlank(auth.getRegion()) ? "NA" : auth.getRegion().trim();
+			String group = StrUtil.isBlank(auth.getGroupid()) ? "0" : auth.getGroupid().trim();
+			String placeholder = "AUTO_" + group + "_" + region;
+			auth.setSellerid(placeholder);
+			auth.setSaveWarnMsg("Seller Id 未填，已用占位值「" + placeholder
+					+ "」保存。此授权可用于拉取站点信息；订单/库存/广告等拉数需补填真实 Seller Id 后重新保存。");
+		}
 		AmazonAuthority oldAuth=null;
 		oldAuth=this.selectBySellerId(auth.getSellerid());
-		if(StrUtil.isBlank(auth.getSellerid())) {
-			throw new BizException("sellerid 不能为空");
-		}
 		if(StrUtil.isBlank(auth.getClientId())) {
 			throw new BizException("Client Id 不能为空");
 		}
@@ -353,7 +359,7 @@ public class AmazonAuthorityServiceImpl extends ServiceImpl<AmazonAuthorityMappe
 			auth.setStatusupdate(null);
 			this.updateById(auth);
 			AmazonAuthority newauth = this.getById(oldAuth.getId());
-			iAmazonSellerMarketService.refreshMarketByAuth(newauth);
+			safeRefreshMarketAndReport(auth, newauth, false);
 			return auth;
 		}else {
 			auth.setRefreshTokenTime(new Date());
@@ -364,18 +370,54 @@ public class AmazonAuthorityServiceImpl extends ServiceImpl<AmazonAuthorityMappe
 			auth.setStatusupdate(null);
 			this.save(auth);
 			AmazonAuthority newauth = this.getById(auth.getId());
-			iAmazonSellerMarketService.refreshMarketByAuth(newauth);
-			Calendar cstart = Calendar.getInstance();
-			cstart.add(Calendar.DATE, -30);
-			Calendar cend = Calendar.getInstance();
-			handlerReportService.requestReport(auth.getId(),ReportType.OrdersByOrderDateReport,cstart,cend,false); 
-			handlerReportService.requestAuthReport("id",auth.getId(),ReportType.ProductListings,false); 
-			handlerReportService.requestAuthReport("id",auth.getId(),ReportType.InventoryReport,false); 
+			safeRefreshMarketAndReport(auth, newauth, true);
 			return auth;
 		}
 	}
 
+	/**
+	 * 授权落库后拉取站点/报告的容错处理：
+	 * 保存本身已成功，拉取失败只回传警告，不再抛异常中断保存（避免误判为授权失败）。
+	 */
+	private void safeRefreshMarketAndReport(AmazonAuthority auth, AmazonAuthority newauth, boolean requestReports) {
+		try {
+			iAmazonSellerMarketService.refreshMarketByAuth(newauth);
+		} catch (Exception e) {
+			e.printStackTrace();
+			appendWarn(auth, "拉取站点信息失败（" + shortMsg(e.getMessage())
+					+ "）。请核对 LWA 凭证 / Refresh Token / 站点区域后重试。");
+			return;
+		}
+		if (requestReports) {
+			try {
+				Calendar cstart = Calendar.getInstance();
+				cstart.add(Calendar.DATE, -30);
+				Calendar cend = Calendar.getInstance();
+				handlerReportService.requestReport(auth.getId(), ReportType.OrdersByOrderDateReport, cstart, cend, false);
+				handlerReportService.requestAuthReport("id", auth.getId(), ReportType.ProductListings, false);
+				handlerReportService.requestAuthReport("id", auth.getId(), ReportType.InventoryReport, false);
+			} catch (Exception e) {
+				e.printStackTrace();
+				appendWarn(auth, "发起初始报告失败（" + shortMsg(e.getMessage())
+						+ "）。可稍后在报告页手动重新发起。");
+			}
+		}
+	}
+
+	/** 追加警告，不覆盖已有的（如 Seller Id 占位提示） */
+	private void appendWarn(AmazonAuthority auth, String msg) {
+		String old = auth.getSaveWarnMsg();
+		auth.setSaveWarnMsg(StrUtil.isBlank(old) ? ("授权已保存成功；" + msg) : (old + " 另：" + msg));
+	}
+
+	private String shortMsg(String msg) {
+		if (StrUtil.isBlank(msg)) {
+			return "无详细错误";
+		}
+		return msg.length() > 160 ? msg.substring(0, 160) : msg;
+	}
 	
+
 	@Override
 	@CacheEvict(value = { "AmazonAuthorityCache","authmarketplaceListCache" }, allEntries = true)
 	public AmazonAuthority authSeller(String state, String selling_partner_id, String mws_auth_token,
