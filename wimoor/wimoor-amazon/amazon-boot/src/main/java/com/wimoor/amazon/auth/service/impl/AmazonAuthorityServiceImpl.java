@@ -441,7 +441,18 @@ public class AmazonAuthorityServiceImpl extends ServiceImpl<AmazonAuthorityMappe
 			}
 		}
 		String region = auth.getRegion().trim();
-		AmazonAuthority exist = this.selectByGroupAndRegion(auth.getGroupid(), region);
+		// 不用 selectByGroupAndRegion(内部 selectOne)：历史脏数据可能导致同店铺+区域多条而抛异常。
+		// 用 list 过滤无效 sellerid（none/空），优先取真实授权记录，兼容脏数据。
+		QueryWrapper<AmazonAuthority> existQ = new QueryWrapper<AmazonAuthority>();
+		existQ.eq("groupid", auth.getGroupid());
+		existQ.eq("region", region);
+		existQ.eq("disable", Boolean.FALSE);
+		existQ.isNotNull("sellerid");
+		existQ.ne("sellerid", "none");
+		existQ.ne("sellerid", "");
+		existQ.orderByAsc("id");
+		List<AmazonAuthority> existList = this.baseMapper.selectList(existQ);
+		AmazonAuthority exist = (existList != null && !existList.isEmpty()) ? existList.get(0) : null;
 		if (exist != null) {
 			// 已有授权：只更新非空凭证字段
 			boolean changed = false;

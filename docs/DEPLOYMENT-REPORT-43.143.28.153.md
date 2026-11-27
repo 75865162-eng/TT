@@ -758,3 +758,8 @@ admin-boot 重新编译 BUILD SUCCESS（含全部 4 处修复），单独替换 
 **验证**：后端 jar rc=0 编译成功（02:21:28）；前端 build rc=0（02:22:23），新文案/接口已进 storeAuth/authApi chunk。
 
 **用法**：店铺管理 → 左侧店铺卡片点"编辑" → 对话框下方"SP-API 授权凭证"→ 选区域、填 Client Id/Secret/Refresh Token → 确认。首次配置填全三项，之后可只填要换的项。
+
+**部署踩坑与修复（02:16-02:37）**：
+- 坑1：`html.old`（root 属主历史残留）导致 `mv` swap 失败；且 docker nginx 是 bind-mount 到旧目录 inode，mv 替换目录后容器内文件丢失，`/version.json` 500、rewrite 循环。修复：sudo 删除残留 old 目录 + 完成 swap 后**重启 nginx 容器**重新挂载当前 html 目录（`docker restart wm-p0-nginx`），version.json 恢复 200。
+- 坑2：`t_amazon_auth` 存在脏数据（sellerid=`none` 的沙箱残留 + 占位记录，同 groupid+region=NA 两条），`selectByGroupAndRegion`(selectOne) 抛 `multiple records`。修复：`saveGroupCredentials` 改用 `baseMapper.selectList` + 过滤 sellerid 为 none/空 + 取第一条，兼容脏数据且不误写垃圾记录。
+- 最终验收：jar md5 `76c928df`；前端 version `1795803661111`；`saveGroupCredentials` 用真实 groupid+空凭证返回"请至少填写一项要更新的凭证"（证明定位与容错生效）；服务 active、Nacos 注册、version.json/index.html HTTP 200。
