@@ -57,7 +57,11 @@ public class SysQueryFieldController {
 					if(f1==null&&f2==null)return 0;
 					if(f1==null)return -1;
 					if(f2==null)return 1;
-					return f1.getFindex().compareTo(f2.getFindex());
+					Integer i1=f1.getFindex(),i2=f2.getFindex();
+					if(i1==null&&i2==null)return 0;
+					if(i1==null)return 1;
+					if(i2==null)return -1;
+					return i1.compareTo(i2);
 				}});
 		  }
 		  return Result.success(list);

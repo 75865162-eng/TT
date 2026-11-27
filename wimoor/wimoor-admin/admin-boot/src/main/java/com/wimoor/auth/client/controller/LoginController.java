@@ -65,6 +65,7 @@ public class LoginController {
 		}
 		if(body==null)return Result.failed();
 		JSONObject userjson = GeneralUtil.getJsonObject(body);
+		if(userjson==null)return Result.failed("请求体格式错误");
 		String account=userjson.getString("account");
 		String password=userjson.getString("password");
 		try {
@@ -274,6 +275,7 @@ public class LoginController {
 		}
 		if(body==null)return Result.failed();
 		JSONObject userjson = GeneralUtil.getJsonObject(body);
+		if(userjson==null)return Result.failed("请求体格式错误");
 		String account=userjson.getString("account");
 		if(account!=null){
 			account=account.trim();

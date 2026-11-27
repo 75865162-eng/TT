@@ -142,6 +142,35 @@ else
   pass "无 static SimpleDateFormat（均为线程安全实现）"
 fi
 
+# 12. 认证入口 getJsonObject 返回 null 后裸取 getString（登录链路 NPE）
+echo "[12] 认证入口 JSONObject 空守卫"
+lc='wimoor/wimoor-admin/admin-boot/src/main/java/com/wimoor/auth/client/controller/LoginController.java'
+if [ -f "$lc" ]; then
+  naked=$(grep -n -A1 'JSONObject userjson = GeneralUtil.getJsonObject' "$lc" \
+    | grep 'getString' | wc -l)
+  guards=$(grep -c 'userjson==null' "$lc")
+  if [ "$naked" -gt "$guards" ]; then
+    fail "LoginController 存在 getJsonObject 未判空直接 getString（登录 NPE）: naked=$naked guards=$guards"
+  else
+    pass "LoginController 认证入口均有 JSONObject 空守卫"
+  fi
+else
+  echo "  [WARN] LoginController 不存在，跳过"
+fi
+
+# 13. Comparator 中对可能为 null 的字段直接 compareTo（菜单/字段排序 NPE）
+echo "[13] Comparator 字段拆箱 NPE"
+check_cmp_guard() {
+  local f="$1" marker="$2" label="$3"
+  [ -f "$f" ] || { echo "  [WARN] $label 文件不存在，跳过"; return; }
+  if grep -q "$marker" "$f"; then pass "$label 含 null 守卫"
+  else fail "$label 缺少 sort/findex null 守卫（compareTo NPE）"; fi
+}
+check_cmp_guard 'wimoor/wimoor-admin/admin-boot/src/main/java/com/wimoor/admin/service/impl/SysMenuServiceImpl.java' \
+  's1 == null' '菜单路由 sort 排序'
+check_cmp_guard 'wimoor/wimoor-admin/admin-boot/src/main/java/com/wimoor/sys/tool/controller/SysQueryFieldController.java' \
+  'i1==null' '查询字段 findex 排序'
+
 echo "===== 结果 ====="
 if [ "$FAIL" -eq 1 ]; then
   echo "发现问题，请修复后再部署。"

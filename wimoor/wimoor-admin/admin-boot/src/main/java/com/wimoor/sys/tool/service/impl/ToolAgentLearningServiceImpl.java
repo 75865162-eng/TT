@@ -118,8 +118,8 @@ public class ToolAgentLearningServiceImpl extends ServiceImpl<ToolAgentLearningM
                 break;
         }
 
-        // 3. 自动状态转换
-        if (learning.getConfidence().compareTo(new BigDecimal("0.20")) < 0) {
+        // 3. 自动状态转换（confidence 为空时跳过，避免 NPE）
+        if (learning.getConfidence() != null && learning.getConfidence().compareTo(new BigDecimal("0.20")) < 0) {
             learning.setStatus(ToolAgentLearning.STATUS_EXPIRED);
         }
 

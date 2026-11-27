@@ -307,7 +307,7 @@ public class SysMenuServiceImpl extends ServiceImpl<SysMenuMapper, SysMenu> impl
     private List<RouteVO> recursionRoute(String parentId, List<SysMenu> menuList) {
         List<RouteVO> list = new LinkedList<>();
         Optional.ofNullable(menuList)
-                .ifPresent(menus -> menus.stream().filter(menu -> menu.getParentId().equals(parentId))
+                .ifPresent(menus -> menus.stream().filter(menu -> menu != null && parentId.equals(menu.getParentId()))
                 .forEach(menu -> {
                     RouteVO routeVO = new RouteVO();
                     routeVO.setName(menu.getId() + ""); // 根据name路由跳转 this.$router.push({path:xxx})
@@ -331,8 +331,12 @@ public class SysMenuServiceImpl extends ServiceImpl<SysMenuMapper, SysMenu> impl
         list.sort(new Comparator<RouteVO>() {
 			@Override
 			public int compare(RouteVO o1, RouteVO o2) {
-				// TODO Auto-generated method stub
-				return o1.getSort().compareTo(o2.getSort());
+				// 菜单 sort 字段可能为 null（历史数据/手工插入），直接 compareTo 会 NPE
+				Integer s1 = o1.getSort(), s2 = o2.getSort();
+				if (s1 == null && s2 == null) return 0;
+				if (s1 == null) return 1;
+				if (s2 == null) return -1;
+				return s1.compareTo(s2);
 			}
         });
         return list;

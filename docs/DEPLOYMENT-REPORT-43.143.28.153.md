@@ -358,3 +358,32 @@ if (accountkey 有旧值 && 旧值 != 新 session) {
 
 ### 编译
 7 模块 `mvn package` BUILD SUCCESS（EXIT_CODE=0），6 个 boot jar 均新编译，内嵌 `common-core-2.0.0.jar` 含新 `ThreadSafeSimpleDateFormat.class`。
+
+---
+
+## 第三轮部署验收暴露的补充审计（2026-11-27 12:00-12:25）
+
+### 背景
+线程安全 jar 部署后验收登录失败（126 页无法开始）。没有停在"部署完成"，而是抓浏览器网络时间线定位到真实根因——这是"不要等部署好了才发现"纪律的反向印证：部署后发现立即深挖。
+
+### 根因链（决定性证据）
+1. 浏览器登录 POST `/auth/login` 返回 200，Redis 中 `login_tokens:<sid>` 存在且 session 字段匹配（EXISTS=1）。
+2. 登录后跳 `/home`，守卫请求 `menus/route` → **400 `{"code":400}`**。
+3. 后端日志决定性堆栈：`SysMenuServiceImpl.listRoute(SysMenuServiceImpl.java:212)` → `NullPointerException`。
+4. 定位到 `recursionRoute` 第 335 行 `o1.getSort().compareTo(o2.getSort())` —— **菜单 sort 字段为 null 时 NPE**（`@Cacheable` 缓存掩盖了脏数据，admin 重启清缓存后暴露）。
+5. 400 触发前端守卫判定失败 → 清空 jsessionid → 跳 /ssologin → 无 token 请求 menus/route → 网关 403 死循环 → 登录流程看似失败。
+
+### 补充修复（4 处，全部同类 NPE 防御）
+| 文件:行 | 问题 | 修法 |
+|---|---|---|
+| `LoginController:277/68` | `GeneralUtil.getJsonObject(body)` 可能返回 null，直接 `getString` → 登录链路 NPE | 加 `userjson==null` 守卫返回失败 |
+| `SysMenuServiceImpl:335` | 菜单 `sort` 为 null，`compareTo` NPE（本次崩溃根因） | nulls 比较：都 null 返 0，单 null 排后 |
+| `SysMenuServiceImpl:310` | `menu.getParentId().equals(parentId)` parentId 为 null NPE | 改 `parentId.equals(menu.getParentId())` + menu 判空 |
+| `SysQueryFieldController:60` | 查询字段 `findex` 为 null，compareTo NPE（同类） | 加 null 守卫 |
+| `ToolAgentLearningServiceImpl:122` | `confidence` 为 null，compareTo NPE（同类） | 加判空跳过状态转换 |
+
+### 防复发
+`preflight-audit.sh` 从 11 类扩至 **13 类**：新增 [12] 认证入口 JSONObject 空守卫、[13] Comparator 字段拆箱 NPE（菜单 sort / 查询字段 findex）。当前自检 13 类全 OK。
+
+### 编译/部署
+admin-boot 重新编译 BUILD SUCCESS（含全部 4 处修复），单独替换 admin jar（备份 `.bak-pre-audit3b`），逐字节校验，重启等待 170s 启动。
