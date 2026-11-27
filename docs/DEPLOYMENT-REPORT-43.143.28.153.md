@@ -682,3 +682,19 @@ admin-boot 重新编译 BUILD SUCCESS（含全部 4 处修复），单独替换 
   - 验证：`https://aecob.com/` HTTP 200、SSL 校验 0（证书可信，SAN 含两域名）；回调端点 HTTPS 可达（缺参数返回 400，证明已转发到后端）。
 - **Nacos 配置同步**：`wimoor-amazon` 的 `auth.redirecturl` 由错误的 `https://mywebsit.com/authresult` 改为 `https://aecob.com/amazon/api/v1/amzauthority/authSeller`，发布并回读确认；重启 wimoor-amazon 使 `ApiBuildService`(@ConfigurationProperties, 无 RefreshScope) 生效。
 - **用户待办**：该 URI 填入亚马逊开发者后台 LWA 应用的 OAuth Login URI；并给应用勾选 Sellers（及后续 Orders/Reports/Products/Feeds）角色、重新授权生成新 refresh token 回填页面，拉站点 403 才会解除。此为亚马逊后台配置，我无法代劳。
+
+### 【更正上条结论】拉站点 403 真正根因：沙箱 token 打生产端点（2026-11-28 00:36-00:45）
+用户指出"不用 Seller ID 一定能拉回数据"，推翻了上面"缺角色授权"的推断。按官方文档（用户上传的 SP-API 新人配置指南）重新深度排查，证据链如下：
+1. **凭证有效**：库中真实 refreshToken 换 LWA token 成功（200）；改坏一个字符立即 400 → token 真实、clientId/Secret 配套。
+2. **应用有效**：client_credentials（免授权）换的 token 调 notifications/destinations 返回 200 → 应用有 SP-API 访问权、凭证正确、区域端点正确、header 齐全（官方文档四要素 host+x-amz-access-token+x-amz-date+user-agent 都试过）。
+3. **用户 token 全线 403**：同一应用用卖家 refreshToken 换的 token 调 Sellers/catalog 都 403；与角色、Seller ID、OAuth/手填方式均无关（拉站点接口代码不传 sellerId）。
+4. **决定性证据**：同一 token 打 **沙箱端点 → HTTP 200**（返回完整 marketplaceParticipations，含 ATVPDKIKX0DER/Amazon.com），打 **生产端点 → 403**。→ 根因是这套 refreshToken 是**沙箱凭证**，而代码把它打到了生产端点。
+5. **代码 bug**：`ApiBuildService.getEndPoint()` 第 158 行 `sandbox="false";` **写死**，覆盖 Nacos 的 `auth.sandbox`（原配 false）。沙箱 token 因此永远走生产端点。
+
+**修复**：删除该写死行，让 sandbox 读取 Nacos `auth.sandbox`（@ConfigurationProperties 注入）。getEndPoint 被 26 个接口复用，改一处全局生效。
+- 编译：jar md5 `80488c17`，字节校验 ApiBuildService.class 不再含 `false` 常量。
+- Push：`ac75c7b8..fc9cfbed main -> main`。
+- 部署：运行 jar md5 一致 `80488c17`；Nacos `sandbox` 改 `true` 并回读；重启新 PID 1417195。
+- **端到端验证**：网关调 `refreshMarketByAuth?authid=2126331287773880322` 返回 `{"code":200,"msg":"一切ok"}`；`db_amazon.t_amazonseller_market` 落库 `ATVPDKIKX0DER / Amazon.com / US / USD`，opttime `2026-11-28 00:44:10`。**证明无需 Seller ID 即可拉回数据**。
+
+**运维提示**：sandbox 由凭证类型决定——沙箱应用 Create Token 生成的 refreshToken 配 `auth.sandbox: true`；生产卖家授权的 refreshToken 配 `false`。换凭证时必须同步改此开关。上条"补 Sellers 角色"的待办对沙箱凭证不适用（沙箱已验证可拉），仅当切换到生产凭证且确实缺角色时才需要。
