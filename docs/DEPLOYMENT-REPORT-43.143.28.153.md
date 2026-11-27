@@ -484,3 +484,55 @@ admin-boot 重新编译 BUILD SUCCESS（含全部 4 处修复），单独替换 
 - `outputs/page-data-acceptance.json`：126 页数据级结果明细
 - `outputs/prod-schema.tsv`：生产库完整列结构（9412 列）
 - `outputs/mapper-col-mismatches.json`：静态初筛候选（别名映射误报率高，仅作参考，不采纳）
+
+---
+
+## 数据收口闭环：启用隐藏功能 + 空数据原因定性（2026-11-27 15:04-15:35）
+
+### 背景
+用户确认"确实要用"隐藏功能，并要求"部署前最后的数据收口闭环验证，没有数据的都确定好原因，并处理完成"。本轮授权数据契约变更。
+
+### 一、补建缺失的表/列（DDL，已上生产）
+新增 `deploy/wimoor-p0/mysql-init/06-enable-hidden-features.sql`（幂等），生产执行结果：
+
+| 对象 | 结果 | 依据 |
+|---|---|---|
+| `db_amazon.t_amz_transaction_report` | 建表，35 列 | TransactionReport.java + Mapper.xml Base_Column_List |
+| `db_amazon.t_amz_transaction_report_column_mapping` | 建表，4 列 + 导入 293 行 | init_amz_transaction_report_column_mapping.sql（INSERT IGNORE 幂等） |
+| `db_erp.t_erp_fin_account_period_rollover` | 建表，7 列 | FinAccountPeriodRollover.java + Mapper.xml |
+| `db_erp.t_erp_purchase_form_payment.period_rollover_id` | 加列 varchar(40) | 实体 String 语义，与结转表 id JOIN 隐式转换匹配 |
+| 交易报告菜单 id=1012205 | visible 0→1 | 用户确认启用；清路由缓存后生效 |
+
+### 二、代码 bug 修复（重编译部署）
+- `TransactionReportMapper.xml` 3 处 `s.amazon_auth_id` → `s.amazonAuthId`（生产列名为驼峰无下划线）。
+- 重新编译 amazon-boot（BUILD SUCCESS），字节校验上传、备份 `.bak-pre-audit5`、原子替换、重启 wimoor-amazon，服务 active、网关 200。
+
+### 三、修复效果验证（运行时）
+| 接口 | 修复前 | 修复后 |
+|---|---|---|
+| 交易报表 getFeeSummaryByType / getDailyFeeByType / getSalesCompare / getDetailPage | HTTP 400 `Table doesn't exist` | **HTTP 200** `{"code":200,"data":[]}` |
+| 结转 rolloverList / 付款汇总 summary | 缺列 `Unknown column` | **HTTP 200** 正常 |
+| 事务回滚写入测试 | — | INSERT 成功 1 行 + JOIN 列引用无错 + ROLLBACK 后 0 行（未留测试数据） |
+| 交易报告页面 `/amazon/payment/transaction` | 菜单隐藏 | 正常打开，DOM 有内容，零错误 |
+
+### 四、空数据原因定性（用户明确要求）
+对 126 页所有"始终空"接口逐一核实生产库表行数，原因分四类：
+
+| 类别 | 典型接口 | 根本原因 | 性质 |
+|---|---|---|---|
+| **A 系统/配置类空** | notify(126次)、findbindlist(126次)、holiday、sysTagsGroups、subjects | 无通知/无绑定/未配置节假日 | **正常空态**，无需处理 |
+| **B 店铺授权为空** | getAmazonGroup(54次)、getMarketByGroup(18次)、getMarketAll、海关申报(28次)、产品状态字典 | **`t_amazon_auth`=0、`t_amz_adv_auth`=0** | **业务数据未初始化**：需在"店铺授权"页用真实 refresh token 添加店铺，SP-API 才能拉取 |
+| **C 基础资料未建** | warehouse/getlist(19次)、material/getOwnerList(10次)、customer/listAll、shipTransCompany | 仓库/物料/客户/物流公司表均 0 行 | **业务数据未初始化**：需在主数据模块录入 |
+| **D 账套为空** | periods/groups(48次) | `t_erp_fin_account`=0（会计期间 fin_accounting_periods 已有 24 行） | **业务数据未初始化**：需先创建店铺账套 |
+
+**核心结论**：所有空数据均为"业务数据未初始化"（店铺授权/主数据/账套未录入）或"正常空态"，**无一例是代码 bug**。交易报表表已建好、写入/查询链路已验证通畅，只等真实店铺授权后由 SP-API 报告回调自动填充数据。这些业务数据需用户用真实凭证在页面录入，AI 不臆造数据。
+
+### 五、最终验收
+- **全量 126 页数据级复验**（`outputs/page-data-acceptance-final.json`）：126 页全通过，540 次有数据接口调用，**零 API 错误、零 SQL 错误**，与补表前一致（零回归）。
+- 10 服务 active、网关 200、4 容器健康。
+- 回滚点：amazon-boot `.bak-pre-audit5`；DDL 前 schema 已记录（本次均为 CREATE TABLE IF NOT EXISTS / ADD COLUMN，可逆）。
+
+### 六、需用户后续操作（业务数据录入，非代码问题）
+1. 在"店铺授权"页用真实 SP-API refresh token 添加店铺授权 → 触发全量拉取，交易报告/广告/Listing 等数据将自动入库。
+2. 在主数据模块创建账套、仓库、物料、客户、物流公司。
+以上涉及真实业务凭证与数据，需用户自行录入，不在代码/DDL 范畴。

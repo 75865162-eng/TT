@@ -224,7 +224,7 @@
                     COUNT(DISTINCT s.settlement_id) as settlement_count
                 FROM t_amz_transaction_report t
                 LEFT JOIN t_amz_settlement_report s 
-                    ON t.order_id = s.order_id AND t.amazonauthid = s.amazon_auth_id AND s.amount_type = 'ItemPrice'
+                    ON t.order_id = s.order_id AND t.amazonauthid = s.amazonAuthId AND s.amount_type = 'ItemPrice'
                 WHERE t.amazonauthid = #{amazonauthid}
                 AND t.transaction_type = 'Order'
                 AND DATE(t.date_time) >= #{startDate}
@@ -251,7 +251,7 @@
                     COUNT(DISTINCT s.settlement_id) as settlement_count
                 FROM t_amz_transaction_report t
                 LEFT JOIN t_amz_settlement_report s 
-                    ON t.order_id = s.order_id AND t.amazonauthid = s.amazon_auth_id AND s.amount_type = 'ItemPrice'
+                    ON t.order_id = s.order_id AND t.amazonauthid = s.amazonAuthId AND s.amount_type = 'ItemPrice'
                 WHERE t.amazonauthid = #{amazonauthid}
                 AND t.transaction_type = 'Order'
                 AND DATE(t.date_time) >= #{startDate}
@@ -278,7 +278,7 @@
                     COUNT(DISTINCT s.settlement_id) as settlement_count
                 FROM t_amz_transaction_report t
                 LEFT JOIN t_amz_settlement_report s 
-                    ON t.order_id = s.order_id AND t.amazonauthid = s.amazon_auth_id AND s.amount_type = 'ItemPrice'
+                    ON t.order_id = s.order_id AND t.amazonauthid = s.amazonAuthId AND s.amount_type = 'ItemPrice'
                 WHERE t.amazonauthid = #{amazonauthid}
                 AND t.transaction_type = 'Order'
                 AND DATE(t.date_time) >= #{startDate}
