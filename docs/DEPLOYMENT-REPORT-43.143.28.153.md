@@ -740,3 +740,9 @@ admin-boot 重新编译 BUILD SUCCESS（含全部 4 处修复），单独替换 
 - 设计要点：按主键定位不产生重复授权；凭证留空保持原值（可只换 Refresh Token）；不明文回显凭证；拉站点失败仅黄色警告不中断保存。
 
 **验证**：后端 amazon-boot jar 编译成功；前端 `npm run build` 成功，`editCredential-BizuBlqB.js` 已打包进 dist。
+
+**部署与验收（2026-11-28 02:07-02:11）**：
+- 提交 `cbd714e6` 已推送 GitHub main（`40e0317d..cbd714e6`）。
+- 前端 dist 全量替换 `/home/ubuntu/tt/deploy/wimoor-p0/html/`（备份 `html.bak-pre-crededit`，nginx docker 挂载该目录，无需重启 nginx）；后端新 jar 用 sudo cp 覆盖 root 属主文件（备份 `.bak-pre-crededit`），md5 `a590161158fc5ec6af24527c8fcc7c8d`，重启 wimoor-amazon。
+- 验收：服务 active、Nacos 已注册（127.0.0.1:8102）、sandbox=false；前端 version `1795802451526` + `editCredential-BizuBlqB.js` 经 HTTP 200 可访问；新接口 `POST /amzauthority/updateCredentials` 用真实授权 id + 空凭证返回 `请至少填写一项要更新的凭证`——证明按主键定位逻辑生效，且未改动任何数据。
+- 用法：店铺管理 → 授权列表每行"编辑凭证"按钮 → 店铺/Seller ID/区域只读，三个凭证框留空=不修改，只填要换的项（如新 Refresh Token）→ 保存后自动重拉站点验证，失败回黄色警告。
