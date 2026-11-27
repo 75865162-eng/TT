@@ -670,3 +670,15 @@ admin-boot 重新编译 BUILD SUCCESS（含全部 4 处修复），单独替换 
   - 返回 `result-code:200`；admin 日志：`[scheduler] login ok, token acquired` + `GET .../refreshMarket -> code=200`。
   - **证明 Quartz 调度裸调 403 问题已修复，自动登录带 token 调用真实生效**。
 - **诚实边界**：t_amazon_auth=0（无店铺授权）、广告授权空 → 调度任务启用后能自动调用官方 API，但拉不到数据属业务数据未录入；需用户填真实 LWA/refresh token 后才能拉数。所有任务默认暂停，用户核对后再逐个启用。
+
+### OAuth 回调域名 aecob.com + HTTPS 证书（2026-11-28 00:20-）
+背景：亚马逊开发者后台注册 SP-API 应用必填 OAuth 登录 URI（Redirect URI），必须 HTTPS 且与代码 `auth.redirecturl` 完全一致。代码回调端点为 `GET /amazon/api/v1/amzauthority/authSeller`（类路径 `/api/v1/amzauthority` + `/authSeller`，网关前缀 `/amazon`）。
+- **根因诊断**：用库中真实凭证（sellerid=none 那条）实测——LWA 换 token 成功（HTTP 200），但调 `getMarketplaceParticipations` 在 NA/EU/FE 三区域均 403 `Unauthorized`。SDK 仅用 LWA 签名无 SigV4 缺失、endpoint 映射正确 → 确认是亚马逊后台该 LWA 应用/授权缺 `Sellers` 角色权限，非代码问题。
+- **域名/证书现状修复**：
+  - `aecob.com` / `www.aecob.com` DNS 已解析到 43.143.28.153；但 443 原证书签给 `esmorah.com`，`aecob.com` 报证书不匹配。
+  - 用 certbot webroot 模式（webroot=前端 html 目录，ACME 路径外网可达已验证 200）签发 `aecob.com` + `www.aecob.com` 证书，到期 2027-02-25，自动续期已配。
+  - 备份旧证书/配置（`certs.bak-pre-aecob`、`nginx.conf.bak-pre-aecob`），新证书复制到挂载目录 `/home/ubuntu/tt/deploy/wimoor-p0/certs`。
+  - nginx 443 server_name 增加 `aecob.com www.aecob.com`（80 server 不动），`nginx -t` 通过并 reload。
+  - 验证：`https://aecob.com/` HTTP 200、SSL 校验 0（证书可信，SAN 含两域名）；回调端点 HTTPS 可达（缺参数返回 400，证明已转发到后端）。
+- **Nacos 配置同步**：`wimoor-amazon` 的 `auth.redirecturl` 由错误的 `https://mywebsit.com/authresult` 改为 `https://aecob.com/amazon/api/v1/amzauthority/authSeller`，发布并回读确认；重启 wimoor-amazon 使 `ApiBuildService`(@ConfigurationProperties, 无 RefreshScope) 生效。
+- **用户待办**：该 URI 填入亚马逊开发者后台 LWA 应用的 OAuth Login URI；并给应用勾选 Sellers（及后续 Orders/Reports/Products/Feeds）角色、重新授权生成新 refresh token 回填页面，拉站点 403 才会解除。此为亚马逊后台配置，我无法代劳。
