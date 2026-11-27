@@ -155,7 +155,8 @@ public class ApiBuildService implements InitializingBean {
 	
 	private String getEndPoint(String region) {
 		String endpoint="";
-		sandbox="false";
+		// sandbox 由 Nacos 的 auth.sandbox 注入（@ConfigurationProperties），不可在此写死，
+		// 否则沙箱凭证会打到生产端点被 403 Unauthorized
 		if(sandbox!=null&&"true".equals(sandbox)) {
 			if("us-east-1".equals(region)) {
 				endpoint="https://sandbox.sellingpartnerapi-na.amazon.com";
