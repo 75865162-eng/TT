@@ -56,7 +56,7 @@
   <el-dialog
       v-model="dialogVisible"
       :title=edittitle
-      width="30%"
+      width="50%"
       @close ="closedialog"
   >
     <el-form label-width="auto">
@@ -96,6 +96,28 @@
         />
         <span v-else class="text-red">请先保存店铺信息，再初始化财务账套！</span>
       </el-form-item>
+
+      <el-divider content-position="left" v-if="form.id">SP-API 授权凭证</el-divider>
+      <template v-if="form.id">
+        <el-alert type="info" show-icon :closable="false" style="margin-bottom:12px"
+          title="留空的凭证项保持原样；填了就更新。首次配置请填全 Client Id / Client Secret / Refresh Token。" />
+        <el-form-item label="授权区域">
+          <el-select v-model="credForm.awsRegion" placeholder="请选择区域" @change="onCredRegionChange">
+            <el-option label="北美 (NA)" value="us-east-1"></el-option>
+            <el-option label="欧洲 (EU)" value="eu-west-1"></el-option>
+            <el-option label="远东 (FE)" value="us-west-2"></el-option>
+          </el-select>
+        </el-form-item>
+        <el-form-item label="LWA Client Id">
+          <el-input v-model="credForm.clientId" placeholder="留空则不修改"></el-input>
+        </el-form-item>
+        <el-form-item label="LWA Client Secret">
+          <el-input v-model="credForm.clientSecret" placeholder="留空则不修改" show-password></el-input>
+        </el-form-item>
+        <el-form-item label="Refresh Token">
+          <el-input v-model="credForm.refreshToken" type="textarea" :rows="2" placeholder="留空则不修改"></el-input>
+        </el-form-item>
+      </template>
     </el-form>
 
     <template #footer>
@@ -150,6 +172,7 @@ import {dateFormat} from '@/utils/index.js';
 import { ElDivider,ElMessageBox ,ElMessage } from 'element-plus';
 import draggable from "vuedraggable";
 import groupApi from '@/api/amazon/group/groupApi.js';
+import authApi from '@/api/amazon/auth/authApi.js';
 import {initFinAccountingSubjects} from "@/api/finance/subjects"
 // 响应式数据
 const dialogVisible = ref(false);
@@ -158,6 +181,21 @@ const storeList = reactive({list:[]});
 const dialogRank = reactive({visible:false});
 const state = reactive({list:[],form:{isInit:true},formloading:false});
 const {list,form,formloading} = toRefs(state);
+// SP-API 凭证表单（独立于店铺组表单）
+const credForm = reactive({awsRegion:'us-east-1',region:'NA',clientId:'',clientSecret:'',refreshToken:''});
+const resetCredForm = () => {
+  credForm.awsRegion='us-east-1';
+  credForm.region='NA';
+  credForm.clientId='';
+  credForm.clientSecret='';
+  credForm.refreshToken='';
+};
+const onCredRegionChange = (val) => {
+  credForm.awsRegion=val;
+  if(val==='us-east-1') credForm.region='NA';
+  else if(val==='eu-west-1') credForm.region='EU';
+  else if(val==='us-west-2') credForm.region='FE';
+};
 
 
 
@@ -171,12 +209,40 @@ const addStorename = () => {
   dialogVisible.value = true;
   state.form={isInit:true};
   edittitle.value = "添加店铺";
+  resetCredForm();
 };
 
 const dragEnd = () => {
   state.list.forEach((item,index) => {
     item.findex = index + 1;
   });
+};
+
+// 店铺信息保存成功后，若填写了凭证则保存 SP-API 凭证（有授权更新、无授权新建）
+const saveCredentialsIfFilled = () => {
+  if(!state.form.id){
+    ElMessage.error('店铺未保存成功，凭证未更新，请重试！');
+    return;
+  }
+  if(!credForm.clientId && !credForm.clientSecret && !credForm.refreshToken){
+    return; // 三项都留空，不动凭证
+  }
+  authApi.saveGroupCredentials({
+    groupid: state.form.id,
+    region: credForm.region,
+    AWSRegion: credForm.awsRegion,
+    clientId: credForm.clientId,
+    clientSecret: credForm.clientSecret,
+    refreshToken: credForm.refreshToken
+  }).then((res)=>{
+    let data=res.data;
+    if(data && data.saveWarnMsg){
+      ElMessage.warning(data.saveWarnMsg);
+    }else{
+      ElMessage.success('SP-API 凭证已保存，正在校验站点');
+    }
+    resetCredForm();
+  }).catch(()=>{});
 };
 
 const saveStore = () => {
@@ -202,6 +268,7 @@ const saveStore = () => {
           ElMessage.success('提交成功！');
           dialogVisible.value = false;
           state.formloading=false;
+          saveCredentialsIfFilled();
           loadStoreList();
         }).catch(e=>{state.formloading=false;});
       }).catch(e=>{state.formloading=false;});
@@ -210,6 +277,7 @@ const saveStore = () => {
         ElMessage.success('提交成功！');
         dialogVisible.value = false;
         state.formloading=false;
+        saveCredentialsIfFilled();
         loadStoreList();
       }).catch(e=>{state.formloading=false;});
     }
@@ -219,6 +287,7 @@ const saveStore = () => {
       ElMessage.success('提交成功！');
       dialogVisible.value = false;
       state.formloading=false;
+      saveCredentialsIfFilled();
       loadStoreList();
     }).catch(e=>{state.formloading=false;});
   }
@@ -245,12 +314,14 @@ const updataStorename = (item) => {
     state.form=res.data;
     state.form.isInit=true;
     edittitle.value = "编辑店铺";
+    resetCredForm();
     dialogVisible.value = true;
   })
 };
 
 const closedialog = () => {
   state.form ={};
+  resetCredForm();
 };
 
 const delectStore = (item) => {

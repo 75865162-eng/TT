@@ -188,6 +188,22 @@ public class AmazonAuthorityController {
 	    	}
 	    }
 	    
+	    @ApiOperation(value = "在编辑店铺中保存 SP-API 凭证（有授权则更新、无则新建）")
+	    @PostMapping("/saveGroupCredentials")
+	    public Result<AmazonAuthority> saveGroupCredentialsAction(@RequestBody AmazonAuthority auth) {
+	    	UserInfo userinfo = UserInfoContext.get();
+	    	auth.setShopId(userinfo.getCompanyid());
+	    	AmazonAuthority result = iAmazonAuthorityService.saveGroupCredentials(auth);
+	    	if(result!=null) {
+	    		result.setMwsauthtoken("****");
+	    		result.setRefreshToken("****");
+	    		result.setClientSecret("****");
+	    		return Result.success(result);
+	    	}else {
+	    		return Result.failed("保存凭证失败请重试");
+	    	}
+	    }
+
 	    @ApiOperation(value = "编辑已有授权的凭证（只改 ClientId/ClientSecret/RefreshToken）")
 	    @PostMapping("/updateCredentials")
 	    public Result<AmazonAuthority> updateCredentialsAction(@RequestBody AmazonAuthority auth) {

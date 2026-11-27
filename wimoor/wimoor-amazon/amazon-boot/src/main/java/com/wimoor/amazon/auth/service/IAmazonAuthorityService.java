@@ -50,6 +50,9 @@ public interface IAmazonAuthorityService  extends IService<AmazonAuthority> {
 	/** 编辑授权凭证：只更新 ClientId/ClientSecret/RefreshToken，不改 SellerId/店铺/区域 */
 	AmazonAuthority updateCredentials(String id, String clientId, String clientSecret, String refreshToken);
 
+	/** 在编辑店铺中保存凭证：按店铺+区域判断，有授权则更新凭证、无则新建授权并拉站点验证 */
+	AmazonAuthority saveGroupCredentials(AmazonAuthority auth);
+
 	List<Map<String, Object>> selectAuthMaketplace(String shopid);
 
 	List<String> getAllBossEmalShop();

@@ -746,3 +746,15 @@ admin-boot 重新编译 BUILD SUCCESS（含全部 4 处修复），单独替换 
 - 前端 dist 全量替换 `/home/ubuntu/tt/deploy/wimoor-p0/html/`（备份 `html.bak-pre-crededit`，nginx docker 挂载该目录，无需重启 nginx）；后端新 jar 用 sudo cp 覆盖 root 属主文件（备份 `.bak-pre-crededit`），md5 `a590161158fc5ec6af24527c8fcc7c8d`，重启 wimoor-amazon。
 - 验收：服务 active、Nacos 已注册（127.0.0.1:8102）、sandbox=false；前端 version `1795802451526` + `editCredential-BizuBlqB.js` 经 HTTP 200 可访问；新接口 `POST /amzauthority/updateCredentials` 用真实授权 id + 空凭证返回 `请至少填写一项要更新的凭证`——证明按主键定位逻辑生效，且未改动任何数据。
 - 用法：店铺管理 → 授权列表每行"编辑凭证"按钮 → 店铺/Seller ID/区域只读，三个凭证框留空=不修改，只填要换的项（如新 Refresh Token）→ 保存后自动重拉站点验证，失败回黄色警告。
+
+---
+
+### 修正：凭证编辑入口放进「编辑店铺」对话框（2026-11-28 02:16-02:22）
+
+用户反馈"没有改变"：上次加的"编辑凭证"按钮在右侧授权表格，但 `t_amazon_auth` 表为空 → 右侧"暂无数据" → 按钮不显示；用户实际点的是左侧列表的"编辑店铺"（编辑店铺组），那里没有凭证字段。
+
+**修正**：把凭证编辑直接做进「编辑店铺」对话框，`v-if="form.id"`（仅编辑已有店铺时显示）。新增后端 `POST /amzauthority/saveGroupCredentials`：按店铺组+区域判断——有授权则只更新非空凭证字段（SellerId/区域不动），无授权则新建授权（SellerId 留空生成占位值）并拉站点验证。前端对话框加区域选择 + Client Id/Secret/Refresh Token，留空不修改，保存店铺后若填了凭证则一并提交。
+
+**验证**：后端 jar rc=0 编译成功（02:21:28）；前端 build rc=0（02:22:23），新文案/接口已进 storeAuth/authApi chunk。
+
+**用法**：店铺管理 → 左侧店铺卡片点"编辑" → 对话框下方"SP-API 授权凭证"→ 选区域、填 Client Id/Secret/Refresh Token → 确认。首次配置填全三项，之后可只填要换的项。

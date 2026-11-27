@@ -21,6 +21,9 @@ function saveAuth(data){
 function updateCredentials(data){
 	return request.post('/amazon/api/v1/amzauthority/updateCredentials',data);
 }
+function saveGroupCredentials(data){
+	return request.post('/amazon/api/v1/amzauthority/saveGroupCredentials',data);
+}
 function getAuthMaketplace(data){
 	return request.get('/amazon/api/v1/amzauthority/getAuthMaketplace',{params:data});
 }
@@ -50,5 +53,5 @@ function getAmazonAuthIdByGroupId(data){
 
 export default{
 	getAuthUrl,getBindSeller,deleteByLogic,authSeller,getRegionByGroup,saveAuth,getAuthMaketplace,
-	requestReportParamAuth,refreshMarketByAuth,uploadReportFile,getPerformance,statusChange,getAmazonAuthIdByGroupId,updateCredentials
+	requestReportParamAuth,refreshMarketByAuth,uploadReportFile,getPerformance,statusChange,getAmazonAuthIdByGroupId,updateCredentials,saveGroupCredentials
 }

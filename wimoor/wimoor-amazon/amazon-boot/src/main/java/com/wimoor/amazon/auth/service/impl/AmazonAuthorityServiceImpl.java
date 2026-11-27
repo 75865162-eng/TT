@@ -416,6 +416,53 @@ public class AmazonAuthorityServiceImpl extends ServiceImpl<AmazonAuthorityMappe
 	}
 
 	/**
+	 * 在「编辑店铺」中保存 SP-API 凭证：按店铺组 + 区域判断。
+	 * 已有授权 → 只更新非空的凭证字段（SellerId/店铺/区域不动）；
+	 * 无授权 → 按店铺组 + 区域新建授权（SellerId 留空则由 saveAuth 生成占位值），并拉站点验证。
+	 * 这样无论此前是否已授权，用户在编辑店铺弹窗填凭证都能生效。
+	 */
+	@Override
+	@CacheEvict(value = { "AmazonAuthorityCache", "authmarketplaceListCache" }, allEntries = true)
+	public AmazonAuthority saveGroupCredentials(AmazonAuthority auth) {
+		if (auth == null || StrUtil.isBlank(auth.getGroupid())) {
+			throw new BizException("店铺不能为空");
+		}
+		AmazonGroup group = this.iAmazonGroupService.getById(auth.getGroupid());
+		if (group == null) {
+			throw new BizException("未找到对应店铺");
+		}
+		if (StrUtil.isBlank(auth.getRegion())) {
+			// 前端未给 region 时按 awsRegion 推导，兜底 NA
+			if (StrUtil.isNotBlank(auth.getAWSRegion())) {
+				auth.setRegion(apiBuildService.getRegion(auth.getAWSRegion()));
+			}
+			if (StrUtil.isBlank(auth.getRegion())) {
+				auth.setRegion("NA");
+			}
+		}
+		String region = auth.getRegion().trim();
+		AmazonAuthority exist = this.selectByGroupAndRegion(auth.getGroupid(), region);
+		if (exist != null) {
+			// 已有授权：只更新非空凭证字段
+			boolean changed = false;
+			if (StrUtil.isNotBlank(auth.getClientId())) { exist.setClientId(auth.getClientId().trim()); changed = true; }
+			if (StrUtil.isNotBlank(auth.getClientSecret())) { exist.setClientSecret(auth.getClientSecret().trim()); changed = true; }
+			if (StrUtil.isNotBlank(auth.getRefreshToken())) { exist.setRefreshToken(auth.getRefreshToken().trim()); changed = true; }
+			if (!changed) {
+				throw new BizException("请至少填写一项要更新的凭证（Client Id / Client Secret / Refresh Token）");
+			}
+			exist.setRefreshTokenTime(new Date());
+			exist.setOpttime(new Date());
+			this.updateById(exist);
+			AmazonAuthority fresh = this.getById(exist.getId());
+			safeRefreshMarketAndReport(exist, fresh, false);
+			return exist;
+		}
+		// 无授权：新建（沿用 saveAuth 的占位 SellerId + 拉站点 + 初始报告逻辑）
+		return this.saveAuth(auth);
+	}
+
+	/**
 	 * 授权落库后拉取站点/报告的容错处理：
 	 * 保存本身已成功，拉取失败只回传警告，不再抛异常中断保存（避免误判为授权失败）。
 	 */
