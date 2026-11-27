@@ -560,5 +560,9 @@ admin-boot 重新编译 BUILD SUCCESS（含全部 4 处修复），单独替换 
 - `pnpm build`（wimoor-ui）：成功，`✓ built in 1m 12s`，无错误。
 - 未改数据库 schema、未改 API 契约、未动其它模块。
 
-### 待用户授权
-- commit + push GitHub main、部署服务器（替换 amazon-boot.jar + 前端 dist，先备份）需用户明确授权后执行。
+### 部署与验证（2026-11-27 19:49-20:05，已执行）
+- **Push**：`2cc41bd7..0d42ad27` 已推 GitHub main（远端提示仓库改名 TT.git，推送成功）。
+- **部署**：新 jar（MD5 `a643178ec2685e350ccf87d1f106b9dd`）+ 前端 dist（MD5 `e36bb6503c117305bc86737d96a126e1`）上传服务器，MD5 本地/服务器双向校验一致；备份 `.bak-pre-authfix`（jar 与 html 目录）；重启 wimoor-amazon。
+- **前端版本**：服务器 version.json 从 `1795758196533-nz3psxemf` 更新为 `1795779851209-g2br8h1at`；静态 JS 已含新文案 `LWA Client Id`（authstore-BRt3-EF5.js）。
+- **运行时验证**：wimoor-amazon active、新进程 19:58 启动、网关 200。
+- **saveAuth 冒烟**（账号 1/1 登录态，proxyIp 留空、groupid 不存在）：HTTP 400 `{"code":400,"msg":"未找到对应店铺"}` —— 走业务校验而非 500 NPE，**证明 ProxyIp 空指针修复真实生效**；因 groupid 不存在未写入任何数据，无脏数据残留。
