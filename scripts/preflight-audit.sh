@@ -131,6 +131,17 @@ check_split_guard 'wimoor/wimoor-admin/admin-boot/src/main/java/com/wimoor/sys/t
 check_split_guard 'wimoor/wimoor-amazon/amazon-boot/src/main/java/com/wimoor/amazon/report/service/impl/ReportAmzProductRecommendedListServiceImpl.java' \
   'parts.length < 3' '推荐报表行解析'
 
+# 11. static SimpleDateFormat 线程安全隐患（并发 format/parse 产生错乱日期）
+echo "[11] static SimpleDateFormat 线程安全"
+tsf_hits=$(grep -rnE 'static[^;=]*SimpleDateFormat[^;]*= *new SimpleDateFormat\(' wimoor \
+  --include=*.java 2>/dev/null | grep -v '/target/' | grep -v 'ThreadSafeSimpleDateFormat' | head -10)
+if [ -n "$tsf_hits" ]; then
+  fail "发现 static SimpleDateFormat（并发不安全，应改 ThreadSafeSimpleDateFormat）:"
+  echo "$tsf_hits" | head -10
+else
+  pass "无 static SimpleDateFormat（均为线程安全实现）"
+fi
+
 echo "===== 结果 ====="
 if [ "$FAIL" -eq 1 ]; then
   echo "发现问题，请修复后再部署。"

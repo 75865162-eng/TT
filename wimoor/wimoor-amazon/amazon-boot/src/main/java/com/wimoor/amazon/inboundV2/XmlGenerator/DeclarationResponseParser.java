@@ -10,13 +10,14 @@ import javax.xml.parsers.DocumentBuilderFactory;
 import java.io.StringReader;
 import org.xml.sax.InputSource;
 import java.text.SimpleDateFormat;
+import com.wimoor.common.ThreadSafeSimpleDateFormat;
 
 /**
  * 报关单回执解析器
  */
 public class DeclarationResponseParser {
 
-    private static final SimpleDateFormat DATE_FORMAT = new SimpleDateFormat("yyyyMMdd'T'HHmmssmm");
+    private static final SimpleDateFormat DATE_FORMAT = new ThreadSafeSimpleDateFormat("yyyyMMdd'T'HHmmssmm");
 
     /**
      * 解析报关单回执

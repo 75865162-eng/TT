@@ -2,6 +2,7 @@ package com.wimoor.admin.util;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import com.wimoor.common.ThreadSafeSimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
 /**
@@ -54,7 +55,7 @@ public class CalendarUtils {
     /**
      * 转换为2012年11月22日格式
      */
-    private static SimpleDateFormat chineseDateFormat = new SimpleDateFormat(
+    private static SimpleDateFormat chineseDateFormat = new ThreadSafeSimpleDateFormat(
             "yyyy年MM月dd日");
 
     /**

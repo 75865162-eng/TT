@@ -320,3 +320,41 @@ if (accountkey 有旧值 && 旧值 != 新 session) {
 - **部署**：仅 6 个改动 jar 增量替换（admin/erp/finance/amazon/amazon-adv/quote），每个旧 jar 备份为 `.bak-pre-audit2`，SFTP 上传逐字节校验 size 一致，逐服务 `systemctl restart`。6 服务 Spring 上下文全部 `Started`，无 BeanCreationException/NPE/端口冲突；10 服务全 active，网关 8080=200。
 - **全量验收**：`outputs/page-acceptance-after-deep-audit.json` **126/126 OK**，1654 次接口调用零失败，API 错误 0、toast 错误 0；19 条 JS 错误均为 `CanceledError: canceled`（验收翻页时的 axios 取消，属良性噪声，历史基线 18~20 条同量级，无回归）。此前报错的 `/amazon/a/record`、`/amazon/manager`、`/fin/voucher/create`、`/sys/tags` 等页面全部正常。
 - **回滚点**：6 个 `.bak-pre-audit2` 旧 jar 保留在服务器，如需回滚直接换回并重启对应服务。
+
+---
+
+## 第三轮深度审计：static SimpleDateFormat 线程安全隐患（2026-11-27 11:35）
+
+### 背景
+用户再次要求"深入研究审计现有代码，找类似问题，不要等部署好了才发现"。第二轮聚焦空上下文 NPE 与集合越界；本轮换维度，扫描**前两轮未覆盖的并发/线程安全类**。
+
+### 根因
+`SimpleDateFormat` 内部持有可变 `Calendar` 状态，**作为 static 共享时多线程并发 format/parse 会产生串日期、错乱结果甚至 NumberFormatException**。这与前两轮"页面报错/数据异常"是同一类"生产才暴露"的隐患，只是触发条件是并发而非空上下文。
+
+### 决定性实验
+用 16 线程 × 3000 次并发 format 对比：
+- 原生 `SimpleDateFormat`：**48000 次中 14411 次错误（30% 错误率）**
+- 本轮新增 `ThreadSafeSimpleDateFormat`：**0 错误**
+
+### 已修（10 处 static 声明，7 个文件 + 1 新类）
+新增 `common-core/ThreadSafeSimpleDateFormat.java`：继承 `SimpleDateFormat`，内部用 ThreadLocal 为每个线程提供独立实例，重写 `format(Date,...)`/`parse(String,ParsePosition)` 委托。**字段类型与调用方 API 完全不变**，仅替换 `new`，零业务侵入。
+
+替换点：
+- `GeneralUtil.FMT_YMD`（全系统通用，68 处调用点）
+- `CalendarUtils.chineseDateFormat`
+- `inboundV2/XmlHelper` 3 个（报关单 DATE/TIMESTAMP/TIMESTAMP_MS）
+- `inboundV2/CustomsDeclarationHelper` 2 个
+- `inboundV2/DeclarationResponseParser.DATE_FORMAT`
+- `inboundV2/XmlPojo/DeclarationHeader.DATE_FORMAT`
+- `erp/PurchaseAlibabaAuthServiceImpl.alibabatimefmt`
+
+### 保留（非 bug）
+- 其他 `static DateTimeFormatter`（Java 8+ 不可变、线程安全）无需改。
+- `DynamicDataSource` 的 ThreadLocal（第一轮已确认 data 模块叶调用无嵌套，保留）。
+- 报表导入 4 处空 catch：日期格式多样的**有意容错**，加日志会逐行刷屏，非崩溃类，保留。
+
+### 防复发
+`preflight-audit.sh` 扩至 **11 类**：新增 [11] `static SimpleDateFormat` 检测，命中即 FAIL，杜绝再引入。当前自检 11 类全 OK（仅 OAuth 假域名 WARN）。
+
+### 编译
+7 模块 `mvn package` BUILD SUCCESS（EXIT_CODE=0），6 个 boot jar 均新编译，内嵌 `common-core-2.0.0.jar` 含新 `ThreadSafeSimpleDateFormat.class`。

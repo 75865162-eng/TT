@@ -48,7 +48,7 @@ import java.util.regex.Pattern;
  */
 
 public class GeneralUtil {
-	public static final SimpleDateFormat FMT_YMD = new SimpleDateFormat("yyyy-MM-dd");
+	public static final SimpleDateFormat FMT_YMD = new ThreadSafeSimpleDateFormat("yyyy-MM-dd");
 
 	/**
 	 * 此功能可以将数据库里面查出来的list<map> 结构在进行以某个字段进行分类。

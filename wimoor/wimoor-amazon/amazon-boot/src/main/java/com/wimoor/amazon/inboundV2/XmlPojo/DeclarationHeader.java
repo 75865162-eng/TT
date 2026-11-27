@@ -5,6 +5,7 @@ import lombok.Data;
 
 import java.math.BigDecimal;
 import java.text.SimpleDateFormat;
+import com.wimoor.common.ThreadSafeSimpleDateFormat;
 import java.util.Date;
 
 /**
@@ -12,7 +13,7 @@ import java.util.Date;
      */
 @Data
 public  class DeclarationHeader {
-    private static final SimpleDateFormat DATE_FORMAT = new SimpleDateFormat("yyyyMMdd");
+    private static final SimpleDateFormat DATE_FORMAT = new ThreadSafeSimpleDateFormat("yyyyMMdd");
         // 基本信息
         private String seqNo;                  // 数据中心统一编号
         private String ieFlag = "E";           // 进出口标志 I-进口 E-出口

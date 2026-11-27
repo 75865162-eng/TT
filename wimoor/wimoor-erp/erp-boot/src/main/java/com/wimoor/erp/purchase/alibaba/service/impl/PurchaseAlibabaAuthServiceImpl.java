@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.math.BigInteger;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import com.wimoor.common.ThreadSafeSimpleDateFormat;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -46,7 +47,7 @@ public class PurchaseAlibabaAuthServiceImpl extends ServiceImpl<PurchaseAlibabaA
     @Setter
     String open1688;
     
-	public static SimpleDateFormat alibabatimefmt = new SimpleDateFormat("yyyyMMddhhmmssSSS");
+	public static SimpleDateFormat alibabatimefmt = new ThreadSafeSimpleDateFormat("yyyyMMddhhmmssSSS");
 
 	public PurchaseAlibabaAuth saveAction(PurchaseAlibabaAuth purchaseAlibabaAuth) {
 		QueryWrapper<PurchaseAlibabaAuth> queryWrapper=new QueryWrapper<PurchaseAlibabaAuth>();

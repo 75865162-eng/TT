@@ -12,6 +12,7 @@ import javax.xml.transform.dom.DOMSource;
 import javax.xml.transform.stream.StreamResult;
 import java.io.StringWriter;
 import java.text.SimpleDateFormat;
+import com.wimoor.common.ThreadSafeSimpleDateFormat;
 import java.util.Date;
 import java.util.UUID;
 
@@ -20,9 +21,9 @@ import java.util.UUID;
  */
 public class XmlHelper {
 
-    public static final SimpleDateFormat DATE_FORMAT = new SimpleDateFormat("yyyyMMdd");
-    public static final SimpleDateFormat TIMESTAMP_FORMAT = new SimpleDateFormat("yyyyMMddHHmmss");
-    private static final SimpleDateFormat TIMESTAMP_MS_FORMAT = new SimpleDateFormat("yyyyMMddHHmmssSSS");
+    public static final SimpleDateFormat DATE_FORMAT = new ThreadSafeSimpleDateFormat("yyyyMMdd");
+    public static final SimpleDateFormat TIMESTAMP_FORMAT = new ThreadSafeSimpleDateFormat("yyyyMMddHHmmss");
+    private static final SimpleDateFormat TIMESTAMP_MS_FORMAT = new ThreadSafeSimpleDateFormat("yyyyMMddHHmmssSSS");
 
     /**
      * 生成GUID（36位大写UUID）

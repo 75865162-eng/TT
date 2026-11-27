@@ -14,6 +14,7 @@ import javax.xml.transform.stream.StreamResult;
 import java.io.StringWriter;
 import java.math.BigDecimal;
 import java.text.SimpleDateFormat;
+import com.wimoor.common.ThreadSafeSimpleDateFormat;
 import java.util.*;
 
 /**
@@ -21,8 +22,8 @@ import java.util.*;
  */
 public class CustomsDeclarationHelper {
 
-    private static final SimpleDateFormat DATE_FORMAT = new SimpleDateFormat("yyyyMMdd");
-    private static final SimpleDateFormat TIMESTAMP_FORMAT = new SimpleDateFormat("yyyyMMddHHmmssSS");
+    private static final SimpleDateFormat DATE_FORMAT = new ThreadSafeSimpleDateFormat("yyyyMMdd");
+    private static final SimpleDateFormat TIMESTAMP_FORMAT = new ThreadSafeSimpleDateFormat("yyyyMMddHHmmssSS");
 
     private Document doc;
     private Element root;
