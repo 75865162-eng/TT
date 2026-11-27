@@ -82,7 +82,7 @@
 <div v-else-if="homeAuthority==3" class="admin-welcome-container">
 	 <div class="welcome-header">
 		 <el-icon class="welcome-icon"><Setting /></el-icon>
-		 <h1 class="welcome-title">欢迎使用 Wimoor 系统管理员控制台</h1>
+		 <h1 class="welcome-title">欢迎使用 AEC 系统管理员控制台</h1>
 	 </div>
 	 
 	 <div class="admin-quick-actions">

@@ -216,7 +216,7 @@ public class ShipInboundPlanQuotaV2ServiceImpl implements IShipInboundPlanQuotaV
 	public void setPDFDocShipFormDetail(PdfWriter writer,UserInfo user, Document document,  QuotaInfoDTO quotaInfoDto,List<ShipPlanVo> volist) {
 	 try {
 		document.addTitle("配货单");
-	    document.addAuthor("wimoor");
+	    document.addAuthor("AEC");
 		// step 3
 		document.open();
 		// step 4
@@ -529,7 +529,7 @@ public class ShipInboundPlanQuotaV2ServiceImpl implements IShipInboundPlanQuotaV
 		// TODO Auto-generated method stub
 		try {
 		document.addTitle("配货单");
-		document.addAuthor("wimoor");
+		document.addAuthor("AEC");
 		// step 3
 		document.open();
 		// step 4
@@ -787,7 +787,7 @@ public class ShipInboundPlanQuotaV2ServiceImpl implements IShipInboundPlanQuotaV
 	
 	public void setPDFDocLabel(Document document, List<Map<String,Object>> skulist, PdfWriter writer){
 		document.addTitle("产品标签");
-		document.addAuthor("wimoor");
+		document.addAuthor("AEC");
 		try {
 		// step 3
 		document.open();

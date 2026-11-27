@@ -1,7 +1,7 @@
 import request from "@/utils/request.js";
 
 /**
- * wimoor-ai 能力模块 API（对接 /ai/api/v1/*，服务端口 8102，经 nginx/vite 代理）。
+ * AEC-AI 能力模块 API（对接 /ai/api/v1/*，服务端口 8102，经 nginx/vite 代理）。
  * 只读端点无需租户参数；写端点需 org/workspace/user（生产由网关注入鉴权）。
  */
 export const aiApi = {

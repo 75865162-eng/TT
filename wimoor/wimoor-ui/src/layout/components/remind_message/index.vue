@@ -251,7 +251,7 @@
 		});
 		userApi.findOwnerAll().then((res)=>{
 			state.userlist=res.data;
-			state.userlist.unshift({name:"系统管理员",id:0,account:"admin@wimoor.com"});
+			state.userlist.unshift({name:"系统管理员",id:0,account:"admin@aecob.com"});
 			state.currentRow=null;
 			});
         setInterval(function(){

@@ -560,7 +560,7 @@ public class OrderManagerServiceImpl implements IOrderManagerService{
 		Map<String,Object> map=new HashMap<String, Object>();
 		// 打印pdf发票
 		document.addTitle("Invoice");
-		document.addAuthor("wimoor");
+		document.addAuthor("AEC");
 		document.addSubject("This is the subject of the PDF file.");
 		document.addKeywords("This is the keyword of the PDF file.");
 		// step 3

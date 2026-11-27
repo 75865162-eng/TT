@@ -346,7 +346,7 @@ public class PreprocessFormServiceImpl extends ServiceImpl<PreprocessFormMapper,
             }
             try {
                 document.addTitle("包装配货单");
-                document.addAuthor("wimoor");
+                document.addAuthor("AEC");
                 // step 3
                 document.open();
                 // step 4
@@ -514,7 +514,7 @@ public class PreprocessFormServiceImpl extends ServiceImpl<PreprocessFormMapper,
         }
         try {
             document.addTitle("组装配货单");
-            document.addAuthor("wimoor");
+            document.addAuthor("AEC");
             // step 3
             document.open();
             // step 4

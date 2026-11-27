@@ -112,7 +112,7 @@ function addRoute(router,data,routerData){
 		 item.name= v.name;
 		 if(v["redirect"]){
 			 if(v.redirect.indexOf(".do")>0||v.redirect.indexOf(".jsp")>0){
-				//这种属于外部菜单与本系统路由无关 item.path= 'https://erp.wimoor.com'+v.redirect; 
+				//这种属于外部菜单与本系统路由无关 item.path= 'https://erp.aecob.com'+v.redirect; 
 			 }else{
 				 item.redirect=v.redirect;
 				 needroute=true;

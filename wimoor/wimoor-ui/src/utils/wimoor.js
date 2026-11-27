@@ -1,6 +1,6 @@
 /**
  * 通用js方法封装处理
- * Copyright (c) 2019 wimoor
+ * Copyright (c) 2019 AEC
  */
 
 // 日期格式化

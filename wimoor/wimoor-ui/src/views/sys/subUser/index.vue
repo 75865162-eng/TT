@@ -119,7 +119,7 @@
 			</el-form-item>
 			<el-form-item label="登录密码"  prop="password" >
 				<el-input v-if="formData.id" v-model="formData.password" type="password" show-password placeholder="******"></el-input>
-				<el-input v-else v-model="formData.password" type="password" show-password :placeholder="'默认密码 '+formData.account+'wimoor!0'"></el-input>
+				<el-input v-else v-model="formData.password" type="password" show-password :placeholder="'默认密码 '+formData.account+'aec!0'"></el-input>
 			</el-form-item>
 			<el-form-item label="用户名"    prop="name">
 				<el-input v-model="formData.name" placeholder="请输入..."></el-input>
@@ -343,7 +343,7 @@
 					return;
 				}
 				if(!state.formData.password){
-					state.formData.password=state.formData.account.trim()+"wimoor!0";
+					state.formData.password=state.formData.account.trim()+"aec!0";
 				}
 				if(validatePasswordComplexity(state.formData.password)==false){
 					ElMessage.error('确保密码长度至少为8，且需包含字母、数字和特殊字符');

@@ -32,9 +32,9 @@ public class SwaggerConfig {
     //生成接口信息，包括标题、联系人，联系方式等
     private ApiInfo apiInfo() {
         return new ApiInfoBuilder()
-                .title("Wimoor Amazon ADV模块接口文档")
+                .title("AEC Amazon ADV模块接口文档")
                 .description("如有疑问，请联系开发工程师")
-                .contact(new Contact("深圳市深码创科技有限公司", "https://www.wimoor.com", "418981026@qq.com"))
+                .contact(new Contact("深圳市深码创科技有限公司", "https://www.aecob.com", "418981026@qq.com"))
                 .version("1.0")
                 .build();
     }

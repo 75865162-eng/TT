@@ -34,7 +34,7 @@ public class AsyncPoolConfig implements AsyncConfigurer {
         executor.setThreadPriority(Thread.MAX_PRIORITY);
         executor.setDaemon(false);
         executor.setKeepAliveSeconds(600);// 线程空闲时间
-        executor.setThreadNamePrefix("wimoor-Executor-"); // 线程名字前缀
+        executor.setThreadNamePrefix("AEC-Executor-"); // 线程名字前缀
         executor.setWaitForTasksToCompleteOnShutdown(true);
         executor.setAwaitTerminationSeconds(3600);
         executor.setRejectedExecutionHandler(new ThreadPoolExecutor.CallerRunsPolicy());

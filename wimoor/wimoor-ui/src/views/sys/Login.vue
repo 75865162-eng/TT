@@ -6,7 +6,7 @@
 			<div class="left-content"></div>
 			<el-card class="login-box">
            <el-image src="/login-logo.png"></el-image>
-		   <h4 class="m-t-24">欢迎登录Wimoor</h4>
+		   <h4 class="m-t-24">欢迎登录AEC</h4>
             <el-form class="m-t-24" ref="form" :model="form" size="normal">
                 <el-form-item>
                     <el-input :prefix-icon="User" v-model="form.account"  @keydown.enter="userLogin" :autofocus="true" size="large"  placeholder="请输入手机号或邮箱" clearable>

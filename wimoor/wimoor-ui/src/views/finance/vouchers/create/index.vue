@@ -85,8 +85,8 @@
             </div>
           </div>
 
-          <div class="wimoor-voucher-table-wrapper">
-            <table class="wimoor-voucher-table">
+          <div class="aec-voucher-table-wrapper">
+            <table class="aec-voucher-table">
               <thead>
               <tr>
                 <th class="row-number-col">序号</th>
@@ -125,7 +125,7 @@
                           :disabled="data.periodClosed"
                           @keyup.enter="focusNextCell($event, 'account', index)"
                           style="border: none; box-shadow: none; padding: 0; height: 60px;width:100%; font-size: 13px;"
-                          class="wimoor-input">
+                          class="aec-input">
                       </el-input>
                       <div style="padding-top:20px;">
                         <el-button
@@ -266,7 +266,7 @@
                         @keyup.enter="focusNextCell($event, 'credit', index)"
                         @keyup.tab="focusNextCell($event, 'credit', index)"
                         style="border: none; box-shadow: none; padding: 0; text-align: right; height: 100%; font-size: 13px;"
-                        class="wimoor-input"
+                        class="aec-input"
                     />
                   </div>
                   <div v-else class="amountHeaderWrapper" >
@@ -313,7 +313,7 @@
                         @input="calculateTotal(item)"
                         @keyup.enter="focusNextRow(index)"
                         style="border: none; box-shadow: none; padding: 0; text-align: right; height: 100%; font-size: 13px;"
-                        class="wimoor-input"
+                        class="aec-input"
                     />
                   </div>
                   <div v-else class="amountHeaderWrapper" :style="{ color: item.creditAmount < 0 ? 'red' : '' }">
@@ -430,7 +430,7 @@
             </table>
           </div>
 
-          <div class="wimoor-voucher-footer">
+          <div class="aec-voucher-footer">
             <div class="voucher-signatures">
               <div class="signature-item">
                 <span class="signature-label">制单人:</span>
@@ -1666,28 +1666,28 @@ function openSaveTemplateDialog() {
 
 </script>
 <style>
-/*   .wimoor-voucher-table-wrapper .wimoor-voucher-table tr:hover{
+/*   .aec-voucher-table-wrapper .aec-voucher-table tr:hover{
      
   }
-  .wimoor-voucher-table-wrapper .wimoor-voucher-table td:hover{
+  .aec-voucher-table-wrapper .aec-voucher-table td:hover{
      
   } */
-.wimoor-voucher-table .account-col .el-input__wrapper ,
-.wimoor-voucher-table .summary-col .el-input__wrapper,
-.wimoor-voucher-table .amount-input-wrapper .el-input__wrapper {
+.aec-voucher-table .account-col .el-input__wrapper ,
+.aec-voucher-table .summary-col .el-input__wrapper,
+.aec-voucher-table .amount-input-wrapper .el-input__wrapper {
   box-shadow: none !important;
 }
-.wimoor-voucher-table .account-col .el-select__wrapper ,
-.wimoor-voucher-table .summary-col .el-select__wrapper,
-.wimoor-voucher-table .amount-input-wrapper .el-select__wrapper {
+.aec-voucher-table .account-col .el-select__wrapper ,
+.aec-voucher-table .summary-col .el-select__wrapper,
+.aec-voucher-table .amount-input-wrapper .el-select__wrapper {
   box-shadow: none !important;
 }
-.wimoor-voucher-table .account-col .el-select__input,
-.wimoor-voucher-table .summary-col .el-select__input,
-.wimoor-voucher-table .amount-input-wrapper.el-select__input{
+.aec-voucher-table .account-col .el-select__input,
+.aec-voucher-table .summary-col .el-select__input,
+.aec-voucher-table .amount-input-wrapper.el-select__input{
   height:50px;
 }
-.wimoor-voucher-table  .currency-col{
+.aec-voucher-table  .currency-col{
   font-size:12px;
 }
 
@@ -1772,22 +1772,22 @@ function openSaveTemplateDialog() {
   font-size: 14px;
 }
 
-.wimoor-voucher-table-wrapper {
+.aec-voucher-table-wrapper {
   border: 1px solid #000000;
 }
 
-.wimoor-voucher-table {
+.aec-voucher-table {
   width: 100%;
   border-collapse: collapse;
   font-family: 'Microsoft YaHei', Arial, sans-serif;
 }
 
-.wimoor-voucher-table th,
-.wimoor-voucher-table td {
+.aec-voucher-table th,
+.aec-voucher-table td {
   border: 1px solid #cacaca;
 }
 
-.wimoor-voucher-table th {
+.aec-voucher-table th {
   font-weight: 500;
   color: var(--el-text-color-primary);
   font-size: 13px;
@@ -1851,13 +1851,13 @@ function openSaveTemplateDialog() {
   display: none;
   color: var(--el-text-color-regular);
 }
-.wimoor-input,
-.wimoor-select {
+.aec-input,
+.aec-select {
   border-radius: 0 !important;
 }
 
-.wimoor-input:focus,
-.wimoor-select:focus {
+.aec-input:focus,
+.aec-select:focus {
   box-shadow: none !important;
   border-color: #409eff !important;
 }
@@ -1902,7 +1902,7 @@ function openSaveTemplateDialog() {
   font-weight: bold;
 }
 
-.wimoor-voucher-footer {
+.aec-voucher-footer {
   border: 1px solid #d0d0d0;
   border-top: none;
   border-radius: 0 0 4px 4px;
@@ -1975,7 +1975,7 @@ function openSaveTemplateDialog() {
 
 /* 响应式设计 */
 @media (max-width: 1024px) {
-  .wimoor-voucher-header {
+  .aec-voucher-header {
     flex-direction: column;
     align-items: flex-start;
     gap: 10px;
@@ -2160,15 +2160,15 @@ function openSaveTemplateDialog() {
 }
 
 :global(.dark) .voucher-header,
-:global(.dark) .wimoor-voucher-table-wrapper,
-:global(.dark) .wimoor-voucher-footer {
+:global(.dark) .aec-voucher-table-wrapper,
+:global(.dark) .aec-voucher-footer {
   background-color: var(--el-bg-color);
   color: var(--el-text-color-primary);
   border-color: var(--el-border-color);
 }
 
-:global(.dark) .wimoor-voucher-table th,
-:global(.dark) .wimoor-voucher-table td {
+:global(.dark) .aec-voucher-table th,
+:global(.dark) .aec-voucher-table td {
   border-color: var(--el-border-color);
 }
 

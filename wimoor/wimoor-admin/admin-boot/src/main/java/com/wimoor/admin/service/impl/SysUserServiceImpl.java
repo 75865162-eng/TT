@@ -1130,7 +1130,7 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserMapper, SysUser> impl
 		// 生成二维码
 		String qrStr;
 		try(ByteArrayOutputStream bos = new ByteArrayOutputStream()){
-			String keyUri = GoogleAuthenticatorUtils.createKeyUri(secretKey, username, "Wimoor万墨ERP");  // Demo_System 服务标识不参与运算，可任意设置
+			String keyUri = GoogleAuthenticatorUtils.createKeyUri(secretKey, username, "AEC ERP");  // Demo_System 服务标识不参与运算，可任意设置
 			QRCodeUtils.writeToStream(keyUri, bos);
 			qrStr = Base64.encodeBase64String(bos.toByteArray());
 		}catch (WriterException | IOException e) {

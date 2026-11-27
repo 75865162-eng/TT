@@ -523,7 +523,7 @@ public class ShipAmazonFormServiceImpl implements IShipAmazonFormService{
 	public void setPDFDocShipFormDetail(PdfWriter writer,UserInfo user, Document document, ShipInboundShipmenSummarytVo data) {
 	 try {
 		document.addTitle("配货单");
-	    document.addAuthor("wimoor");
+	    document.addAuthor("AEC");
 		// step 3
 		document.open();
 		// step 4
@@ -799,7 +799,7 @@ public class ShipAmazonFormServiceImpl implements IShipAmazonFormService{
 		// TODO Auto-generated method stub
 		try {
 		document.addTitle("配货单");
-		document.addAuthor("wimoor");
+		document.addAuthor("AEC");
 		// step 3
 		document.open();
 		// step 4

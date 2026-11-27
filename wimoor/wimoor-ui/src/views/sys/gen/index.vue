@@ -208,7 +208,7 @@ function handleGenTable(row) {
       proxy.$modal.msgSuccess("成功生成到自定义路径：" + row.genPath)
     })
   } else {
-    proxy.$download.zip("/api/code/gen/batchGenCode?tables=" + tbNames, "wimoor.zip")
+    proxy.$download.zip("/api/code/gen/batchGenCode?tables=" + tbNames, "AEC.zip")
   }
 }
 

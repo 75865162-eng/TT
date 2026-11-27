@@ -714,7 +714,7 @@ public ShipInboundShipmenSummarytVo getUnSyncShipment(String groupid, String mar
 	
 	public void setPDFDocLabel(Document document, List<Map<String,Object>> skulist, PdfWriter writer){
 		document.addTitle("产品标签");
-		document.addAuthor("wimoor");
+		document.addAuthor("AEC");
 		try {
 		// step 3
 		document.open();

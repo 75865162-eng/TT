@@ -24,7 +24,7 @@ public class AiApiController {
     @GetMapping("/health")
     public Map<String, Object> health() {
         Map<String, Object> m = new LinkedHashMap<>();
-        m.put("module", "wimoor-ai");
+        m.put("module", "aec-ai");
         m.put("status", "UP");
         m.put("liliVersion", SkillManifest.LILI_VERSION);
         m.put("skills", Catalog.listSkills().size());

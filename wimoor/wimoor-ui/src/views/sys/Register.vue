@@ -6,7 +6,7 @@
 				<div class="left-content"></div>
 				<el-card class="login-box">
 	           <el-image src="/login-logo.png"></el-image>
-			   <h4 class="m-t-24">欢迎注册Wimoor</h4>
+			   <h4 class="m-t-24">欢迎注册AEC</h4>
 	        <el-form ref="myform" :model="form" :rules="rules" size="normal" class="m-t-24">
 	           <el-form-item label="手机号">
 	               <el-input   v-model="form.account"  size="large"   placeholder="请输入手机" clearable>
@@ -45,7 +45,7 @@
 					<div style="float:right"> 
 						<el-link href="/clause.html" 
 						type="primary" :underline="false"  target="_blank">
-						《wimoor用户协议条款》
+						《AEC用户协议条款》
 						</el-link>
 					</div>
 					<div style="float:left">

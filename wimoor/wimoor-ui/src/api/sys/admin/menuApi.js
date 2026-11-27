@@ -51,12 +51,12 @@ export const menuApi={
 																namegrouplist.push({"name":item.meta.title,
 																                     "id":item.name,
 																					 "isout":true,
-																                     "path":"https://weilan.wimoor.com/page.do?location="+item.oldid });  
+																                     "path":"https://weilan.aecob.com/page.do?location="+item.oldid });  
 															}else{
 																namegrouplist.push({"name":item.meta.title,
 																                     "id":item.name,
 																					 "isout":true,
-																                     "path":"https://app.wimoor.com/page.do?location="+item.oldid });  
+																                     "path":"https://app.aecob.com/page.do?location="+item.oldid });  
 															}
 															
 													  }

@@ -55,7 +55,7 @@ public class OrderWordHandler {
 		}
 		//打印word文档发票
 		document.addTitle("Invoice");
-		document.addAuthor("wimoor");
+		document.addAuthor("AEC");
 		document.addSubject("This is the subject of the Word file.");
 		document.addKeywords("This is the keyword of the Word file.");
 		// step 3

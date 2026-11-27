@@ -456,7 +456,7 @@
 		userApi.showInvitePage().then((res)=>{
 			var data=res.data;
 			state.invitecode1='http://'+location.host+'/register?key='+data.invitecode;
-			state.invitecode2='https://wimoor.com?key='+data.invitecode;
+			state.invitecode2='https://aecob.com?key='+data.invitecode;
 			state.invitenumber=data.invitenumber;
 		});
 		

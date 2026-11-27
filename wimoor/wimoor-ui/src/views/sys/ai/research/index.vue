@@ -12,7 +12,7 @@
       </template>
 
       <el-alert v-if="health" :type="health.status === 'UP' ? 'success' : 'warning'" :closable="false" show-icon>
-        wimoor-ai {{ health.status }} · skills {{ health.skills }} / tools {{ health.tools }}
+        AEC-AI {{ health.status }} · skills {{ health.skills }} / tools {{ health.tools }}
       </el-alert>
 
       <el-steps :active="activeStage" finish-status="success" align-center class="steps">

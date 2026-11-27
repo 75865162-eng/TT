@@ -51,7 +51,7 @@ public class MysqlGenerator {
         gc.setBaseColumnList(false);
 
         // 作者
-        gc.setAuthor("wimoor team");
+        gc.setAuthor("AEC team");
         gc.setSwagger2(true);
 
         // 自定义文件命名，注意 %s 会自动填充表实体属性！

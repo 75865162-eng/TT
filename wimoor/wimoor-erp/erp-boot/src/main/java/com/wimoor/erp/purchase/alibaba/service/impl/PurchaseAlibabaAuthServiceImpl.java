@@ -166,7 +166,7 @@ public class PurchaseAlibabaAuthServiceImpl extends ServiceImpl<PurchaseAlibabaA
 		//聚石塔配置在wimoor-auth模块，将该模块放置在可以访问1688的服务器上面。
 		if(open1688!=null)return open1688;
 		else {
-			return "https://alibaba.wimoor.com";
+			return "https://alibaba.aecob.com";
 		}
 	}
 	public JSONObject callApi(String url,String appsecret ,Map<String, String> param) {

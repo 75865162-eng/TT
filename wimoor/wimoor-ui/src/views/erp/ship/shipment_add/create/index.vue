@@ -19,7 +19,7 @@
 	import {Help}from"@icon-park/vue-next";
 	import Fromlist from"./components/form.vue"
 	function openDoc(){
-		window.open("https://wimoor.com/rule-c-534.html","_blank");
+		window.open("https://aecob.com/rule-c-534.html","_blank");
 	}
 </script>
 

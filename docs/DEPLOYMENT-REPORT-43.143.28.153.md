@@ -566,3 +566,49 @@ admin-boot 重新编译 BUILD SUCCESS（含全部 4 处修复），单独替换 
 - **前端版本**：服务器 version.json 从 `1795758196533-nz3psxemf` 更新为 `1795779851209-g2br8h1at`；静态 JS 已含新文案 `LWA Client Id`（authstore-BRt3-EF5.js）。
 - **运行时验证**：wimoor-amazon active、新进程 19:58 启动、网关 200。
 - **saveAuth 冒烟**（账号 1/1 登录态，proxyIp 留空、groupid 不存在）：HTTP 400 `{"code":400,"msg":"未找到对应店铺"}` —— 走业务校验而非 500 NPE，**证明 ProxyIp 空指针修复真实生效**；因 groupid 不存在未写入任何数据，无脏数据残留。
+
+---
+
+## 全面品牌改造：Wimoor → AEC，域名 → aecob.com（2026-11-27 21:00-）
+
+### 用户指令
+"全面审计 wimoor 在系统有哪些残留，帮我都改成系统名 AEC" → 追加"不影响系统稳定的、或改了确认没问题的都改掉" → 补充"我的域名是 aecob.com"。
+
+### 审计方法
+全仓 grep `wimoor`（300+ 文件），按**用户可见品牌** vs **技术标识符/安全契约**两类精确切分。只替换前者；后者改了会导致系统或第三方登录崩溃，坚决不动。
+
+### 已改（48 文件，用户可见文案 + 官网外链 → aecob.com）
+**前端（26 文件）**
+- 品牌露出：settings.js 标题、index.html title、Login/Register 欢迎语、协议条款名、dashboard 欢迎语、"Wimoor完全免费"、AI skills/research 模块文案、条款页 clause.html（title/服务条款/隐私声明全文，wimoor.com→aecob.com）
+- 登录 logo：重绘 `login-logo.png`（保留橙色 W 图标，文字 WIMMOOR→AEC 跨境电商ERP），用 Noto Sans CJK 本地绘制，文字 100% 准确
+- 外链：HeaderAvatar（site/erp/wiki/bbs.wimoor.com→aecob.com）、menuApi（weilan/app）、账号安全邀请链接、飞书外的规则页/打印链接、vite 注释、router 注释
+- 其它：默认子账号密码 `wimoor!0`→`aec!0`、下载文件名 `wimoor.zip`→`AEC.zip`、管理员占位邮箱 `admin@aecob.com`、代码生成 tooltip `com.wimoor.system`→`com.aec.system`、凭证表格 CSS 类名 `wimoor-*`→`aec-*`（同文件 template+style 成对替换）
+
+**后端（22 文件）**
+- 可见文案：邮件文案（汇率说明/官方热线/每周每月财务汇总标题/客服邮箱→aecob.com）、PDF/Word 文档作者 `addAuthor("AEC")`、Swagger 标题（AEC 接口文档 / AEC Amazon ADV）与 contact 官网邮箱→aecob.com、AI 系统提示词"你是AEC ERP系统的AI智能助手"、AI 工具说明、GA 服务标识"AEC ERP"、接口注解"解除和AEC的绑定"
+- 外链：alibaba/erp.wimoor.com→aecob.com、线程名前缀 `AEC-Executor-`、代码生成作者 `AEC team`、AI health module `aec-ai`、下载文件名 `AEC.zip`
+
+### 故意保留（改了会崩/失效，属于技术标识符或安全契约）
+| 类别 | 具体内容 | 保留原因 |
+|---|---|---|
+| 登录安全 | `LoginController` 签名盐 `wimoor2018Fdds`、`TokenConstants.SECRET` | 改了已签发 token/登录签名全部失效 |
+| 短信签名 | `AliyunSmsUtils.setSignName("wimoor")` | 阿里云短信签名需重新审核，非代码可改 |
+| 飞书 OAuth | `feishu/index.vue` 回调 `app.wimoor.com/ssologin`、`h5.wimoor.com/...` | 飞书开放平台注册的重定向地址，改了飞书登录直接失败 |
+| OSS/图片 CDN | `wimoor-file` bucket、`photo.wimoor.com`、`wimoor-file.oss-cn-shenzhen.aliyuncs.com` | 改了历史图片/附件全部 404 |
+| Feign 服务发现 | `@FeignClient("wimoor-admin/amazon/erp/...")`、`ServiceNameConstants` | 改了服务间调用全部找不到服务 |
+| Nacos/配置 key | `${wimoor.admin-scope}`、`wimoor_version`、`JSON_WHITELIST={"com.wimoor"}` | 改了配置读不到、反序列化白名单失效 |
+| Java 包名/目录 | `com.wimoor.*`、`wimoor-ui/utils/wimoor.js` 文件名及 import | 技术标识符，重构数百文件且破坏编译 |
+
+### 编译验证（本地）
+- 首次多模块 `-pl` 逗号路径写法导致 amazon-boot/amazon-adv/gen 被跳过（旧 jar），已单独重编修正。
+- 逐个 jar Python 字节校验新旧文案，最终 6 个启动 jar 全部 `new>=1 old=0`：
+  | jar | 校验文案 | 结果 |
+  |---|---|---|
+  | admin-boot.jar | `AEC ERP系统可用工具说明` / `你是AEC ERP系统` | OK NEW |
+  | amazon-boot.jar | `AEC官方热线` | OK NEW |
+  | amazon-adv-boot.jar | `AEC Amazon ADV` | OK NEW |
+  | erp-boot.jar | `AEC team` | OK NEW |
+  | wimoor-ai-2.0.0.jar | `aec-ai` | OK NEW |
+  | wimoor-gen.jar | `AEC.zip` | OK NEW |
+- 前端 `pnpm build` 成功（2m1s）；dist 校验含新 logo 文案 `AEC 跨境电商ERP`、新模块文案 `AEC-AI`。
+- 未改数据库 schema、未改 API 契约、未动任何技术标识符/密钥/第三方回调。

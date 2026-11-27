@@ -1341,7 +1341,7 @@ public class SysDeepSeekServiceImpl implements ISysDeepSeekService {
 
     private String buildAgentSystemPrompt(UserInfo userInfo, Set<Integer> allowedMenuIds, String currentPage, String pageTitle, String helpDocUrl, String helpDocLibrary, String currentHelpDoc) {
         StringBuilder sb = new StringBuilder();
-        sb.append("你是wimoor ERP系统的AI智能助手，专门帮助用户查询和分析仓储管理、订单、采购、库存、财务等业务数据。\n\n");
+        sb.append("你是AEC ERP系统的AI智能助手，专门帮助用户查询和分析仓储管理、订单、采购、库存、财务等业务数据。\n\n");
         // 注入当前日期，避免AI使用训练数据中的旧日期
         sb.append("当前日期：").append(new java.text.SimpleDateFormat("yyyy年MM月dd日").format(new java.util.Date())).append("\n");
         sb.append("当用户说\"这个月\"时，指的是当前月份；说\"今天\"时，指的是当前日期。请使用准确的日期参数。\n\n");

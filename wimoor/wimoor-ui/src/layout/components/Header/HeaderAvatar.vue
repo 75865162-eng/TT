@@ -108,7 +108,7 @@
 	 	</template>
 	 </el-dialog>
 	 <el-dialog v-model="siteVisible" top="4vh" class="sitedialog"  :destroy-on-close='true' width="80%" >
-	 		 <iframe id="myIframe" src="https://site.wimoor.com" width="100%"   frameborder="0" ></iframe>
+	 		 <iframe id="myIframe" src="https://site.aecob.com" width="100%"   frameborder="0" ></iframe>
 	 	 
 	 </el-dialog>
 </template>
@@ -219,7 +219,7 @@ const isSSO = () => {
 }
 
 const backOldsys = () => {
-	window.location = 'https://erp.wimoor.com/page.do'
+	window.location = 'https://erp.aecob.com/page.do'
 }
 
 const clearCath = () => {
@@ -237,11 +237,11 @@ const goTocenter = () => {
 }
 
 const handDocument = () => {
-	window.open("https://wiki.wimoor.com/shelves/wimoor")
+	window.open("https://wiki.aecob.com/shelves/aec")
 }
 
 const handleHelpQQ = () => {
-	window.open('https://bbs.wimoor.com', '_blank')
+	window.open('https://bbs.aecob.com', '_blank')
 }
 
 const submitBind = () => {

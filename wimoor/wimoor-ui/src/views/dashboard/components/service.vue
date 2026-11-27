@@ -8,7 +8,7 @@
     <div class="pag-radius-bor text-sty setbgS" style='margin-bottom:16px;' >
     <div>
 		<h4 style="color:#303133">全面开源的跨境电商系统</h4>
-		<div class='subtext'>Wimoor完全免费</div>
+		<div class='subtext'>AEC完全免费</div>
     </div>
     </div>
 	<div class="pag-radius-bor text-sty setbgC"  >

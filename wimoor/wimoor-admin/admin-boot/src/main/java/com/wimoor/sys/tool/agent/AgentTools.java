@@ -294,7 +294,7 @@ public class AgentTools {
      */
     public static String getToolDescription(Set<Integer> allowedMenuIds) {
         StringBuilder sb = new StringBuilder();
-        sb.append("# Wimoor ERP系统可用工具说明\n\n");
+        sb.append("# AEC ERP系统可用工具说明\n\n");
 
         try {
             PathMatchingResourcePatternResolver resolver = new PathMatchingResourcePatternResolver();

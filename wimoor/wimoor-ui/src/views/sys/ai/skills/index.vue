@@ -5,7 +5,7 @@
         <div class="card-header">
           <div>
             <span class="title">Lili 技能中心</span>
-            <span class="subtitle">来自 wimoor-ai 真实技能目录（Catalog）</span>
+            <span class="subtitle">来自 AEC-AI 真实技能目录（Catalog）</span>
           </div>
           <el-button type="primary" :loading="loading" @click="load">刷新</el-button>
         </div>

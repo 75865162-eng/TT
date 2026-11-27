@@ -165,7 +165,7 @@
 			state.dataMap.orderNumber=state.dataMap.orderNumber;
 			state.dataMap.buyamount=state.dataMap.buyamount;
 			//print.doPrint(state.dataMap);
-			window.open("http://print.wimoor.com?ip="+ip+"&paper="+paper+"&"+jsonToParam( state.dataMap ));
+			window.open("http://print.aecob.com?ip="+ip+"&paper="+paper+"&"+jsonToParam( state.dataMap ));
 		});
 	}
 	function returnReceive(rowid,row){

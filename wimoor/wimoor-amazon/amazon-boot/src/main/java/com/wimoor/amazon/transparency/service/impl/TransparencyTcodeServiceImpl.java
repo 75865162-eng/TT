@@ -138,7 +138,7 @@ public class TransparencyTcodeServiceImpl extends ServiceImpl<TransparencyTcodeM
 
     private void setPdfBookH1(Document document, PdfWriter writer, List<Map<String, Object>> list) {
         document.addTitle("产品标签");
-        document.addAuthor("wimoor");
+        document.addAuthor("AEC");
         BaseFont baseFont = null;
         try {
             document.open();

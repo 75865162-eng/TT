@@ -491,7 +491,7 @@ public class UserController {
 
 
 
-	@ApiOperation(value = "当前微信账号解除和wimoor的绑定")
+	@ApiOperation(value = "当前微信账号解除和AEC的绑定")
 	@GetMapping("/unbindWechat")
 	public Object unbindWechatAction(HttpServletRequest request) {
 		//UserInfo userInfo = UserInfoContext.get();

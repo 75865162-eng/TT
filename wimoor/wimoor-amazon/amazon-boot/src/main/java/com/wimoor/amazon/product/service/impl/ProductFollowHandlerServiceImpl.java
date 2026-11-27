@@ -469,7 +469,7 @@ public class ProductFollowHandlerServiceImpl  extends ServiceImpl<ProductFollowM
 //	    }
 //		String first="商品分析-发现跟卖提醒";
 //		
-//		String url="https://erp.wimoor.com/page.do?location=3a089e9e-ab14-11e6-bab5-00e04c023f0e";
+//		String url="https://erp.aecob.com/page.do?location=3a089e9e-ab14-11e6-bab5-00e04c023f0e";
 //		notifyHandlerService.createRemind(NotifyTarget.productAnalysis, "like", Constants.sysUser, auth.getShopId(), webcontext, first);
 //		for(Entry<String, String> context:weixincontext.entrySet()) {
 //			if(context.getKey().equals("shop")) {

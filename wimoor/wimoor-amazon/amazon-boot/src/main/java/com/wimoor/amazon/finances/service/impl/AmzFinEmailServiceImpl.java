@@ -158,7 +158,7 @@ public class AmzFinEmailServiceImpl implements IAmzFinEmailService{
 				+ GeneralUtil.formatterQuantity(new BigDecimal(map.get("untransfer_all").toString())) + "</td><td style='text-align:right;'>￥"
 				+ GeneralUtil.formatterQuantity(new BigDecimal(map.get("totalprice_all").toString())) + "</td></tr>");
 		buf.append("</table>");
-		buf.append("<div style='margin:15px 0px'>为了您更清楚的了解到数据的来源，下面提供了各个店铺在每个站点下的汇总金额。其中汇率转换是按照wimoor系统主页展示的每日汇率计算的。</div>");
+		buf.append("<div style='margin:15px 0px'>为了您更清楚的了解到数据的来源，下面提供了各个店铺在每个站点下的汇总金额。其中汇率转换是按照AEC系统主页展示的每日汇率计算的。</div>");
 		buf.append("<table style='width:700px;'>");
 		buf.append("<thead><tr style='height:30px;border:1px solid #eee; background:#fafafa;color:#666'><th>店铺</th><th>站点</th><th style='text-align:right;'>已出账金额</th><th style='text-align:right;'>FBA库存货值</th></tr></thead>");
 		buf.append("<tbody>");
@@ -246,10 +246,10 @@ public class AmzFinEmailServiceImpl implements IAmzFinEmailService{
 		buf.append("<div style='width:100%;height:1px;background:#eee'></div>");
 		buf.append("<div style='padding:30px 30px'>");
 		buf.append("<div>");
-		buf.append("<span style='color: rgb(192, 192, 192); font-size: x-small;'> 如果您有任何关于用户体验方面的问题或建议，都可联系我们：service@wimoor.com </span>");
+		buf.append("<span style='color: rgb(192, 192, 192); font-size: x-small;'> 如果您有任何关于用户体验方面的问题或建议，都可联系我们：service@aecob.com </span>");
 		buf.append("</div>");
 		buf.append("<div>");
-		buf.append("<span style='color: rgb(192, 192, 192); font-size: x-small;'> 如有其它疑问，请拨打wimoor官方热线 86-13554833402获得更多帮助,Copyright © 2017 深圳市深码创科技有限公司版权所有   </span>");
+		buf.append("<span style='color: rgb(192, 192, 192); font-size: x-small;'> 如有其它疑问，请拨打AEC官方热线 86-13554833402获得更多帮助,Copyright © 2017 深圳市深码创科技有限公司版权所有   </span>");
 		buf.append("</div>");
 		buf.append("</div>");
 		buf.append("</div>");
@@ -311,7 +311,7 @@ public class AmzFinEmailServiceImpl implements IAmzFinEmailService{
 		String photoPath = fileUpload.photoServer;
 	    SysEmailDTO dto=new SysEmailDTO();
 	    dto.setToCompany(shopid);
-	    dto.setSubject("Wimoor每周财务汇总");
+	    dto.setSubject("AEC每周财务汇总");
 		StringBuffer buf = new StringBuffer();
 			buf.append("<includetail>");
 			buf.append("<div style='font:Verdana normal 14px;color:#000;'>");
@@ -355,7 +355,7 @@ public class AmzFinEmailServiceImpl implements IAmzFinEmailService{
 		String photoPath = fileUpload.photoServer;
 	    SysEmailDTO dto=new SysEmailDTO();
         dto.setToCompany(shopid);
-	    dto.setSubject("Wimoor每月财务汇总");
+	    dto.setSubject("AEC每月财务汇总");
 		StringBuffer buf = new StringBuffer();
 		buf.append("<includetail>");
 		buf.append("<div style='font:Verdana normal 14px;color:#000;'>");
