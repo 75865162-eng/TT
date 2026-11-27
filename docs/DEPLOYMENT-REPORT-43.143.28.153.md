@@ -387,3 +387,60 @@ if (accountkey 有旧值 && 旧值 != 新 session) {
 
 ### 编译/部署
 admin-boot 重新编译 BUILD SUCCESS（含全部 4 处修复），单独替换 admin jar（备份 `.bak-pre-audit3b`），逐字节校验，重启等待 170s 启动。
+
+---
+
+## 第四轮全盘审计：拆箱NPE/除零/线程安全/前端空值（2026-11-27 14:00-14:30）
+
+### 背景
+用户要求"全盘研究审计现有代码找到bug，不要等部署好了才发现"。前三轮已覆盖编码/会话/上下文NPE/集合越界/线程安全(static SimpleDateFormat)/Comparator拆箱。本轮换维度：四路并行只读审计（Mapper列引用一致性 / 前端运行时空值 / static共享状态线程安全 / 深层NPE与除零），逐条核对真实代码，只修客观可确认的bug，产品/数据决策项保留并如实报告。
+
+### 审计发现与修复（32 文件，全部防御性守卫/线程安全，不改业务逻辑与数据契约）
+
+**后端 NPE / 除零（确定性）**
+| 文件 | 问题 | 修法 |
+|---|---|---|
+| FinVouchersServiceImpl reversePosting | `voucher` 为 null + `getVoucherStatus()!=3` 拆箱 NPE | 判空 + `Integer.valueOf(3).equals()` |
+| FinVouchersServiceImpl approve | `getVoucherStatus()==1` 拆箱 NPE | `Integer.valueOf(1).equals()` |
+| FinReportTemplatesServiceImpl | `item.getItemLevel()>1` / `-1` 拆箱 NPE | 提取局部变量判空 |
+| FinAccountingPeriodsServiceImpl | `getIsCurrent()!=1` 拆箱 NPE | `Integer.valueOf(1).equals()` |
+| ProfitServiceImpl | `divide(yourPrice)` 售价为0/空 → 除零/拆箱 NPE | 售价/佣金判空 + signum()==0 守卫 |
+| SupplierManagerController | 供应商 token 失效 + `param.get("mobile").toString()` 缺字段 NPE | supplier 判空 + 参数判空 |
+| AndTablesServiceImpl | 飞书 `getData().getApp().getAppToken()` 逐级 NPE | 提取 appToken 判空 |
+| FeiShuTemplateStrategy | `record_id` 缺键 NPE | 判空跳过 |
+| FinClosingTemplateController | Feign map `id` 缺键 NPE | 判空 |
+| FinVoucherUpload/EntriesController(3处) | `groupidmap.get("company").toString()` 无匹配 NPE | 判空默认值 |
+| FinPurchaseLedgerController | `payprice` 缺参 NPE/NumberFormatException | 判空返回 error |
+| MerchantShippingGroup/AmzNotifications/MaterialConsumable | Amazon/Feign 返回 `link`/`eventFilterType`/`inboundplan` 为 null 链式 NPE | 逐级判空 |
+
+**线程安全（static 共享可变状态）**
+| 文件 | 问题 | 修法 |
+|---|---|---|
+| SysDeepSeekServiceImpl | `static StringBuilder` 并发 append 串流 + 无界增长；`static isFirstPrint` 并发翻转 | 移除无用 static StringBuilder，打印状态改方法内 boolean[] 局部 |
+| GeneralUtil colorMap | `static Map = null` check-then-act 懒初始化非原子 | 改 static final 不可变 Map（静态块初始化） |
+| AmzAdvReportHandlerServiceImpl advRecordTypeMap | 同上，并发首次调用 HashMap 结构损坏 | 改 static final 不可变 Map |
+| GeneralUtil listcookies | `static List = null` 懒初始化竞态 | final 空列表 + synchronized 方法 |
+| AdvUtils runMap | `get`+`put` 非原子丢失计数 → 限流失效 | 改 `compute` 原子累加（保留基于旧值判断语义） |
+
+**前端空值运行时（与已修 `templates[0]`/`list//sp` 同类）**
+- `finance/vouchers/create`：`res.rows[0].entries` 空数组越界（2 处）
+- `api/finance/mapping_rules`：groupid/templateId 为空仍拼 `sync///` 无效请求
+- `finance/vouchers/list`：`row.entries.length` 空值
+- `sys/menu/components/Perm`：`urlPermArr[1].substring` split 无冒号越界
+- `sys/customer`：limitApi.detail 返回空 data、`sys/subUser`：userinfo 为 null、`sys/notepad`：content 为 null
+- 3 个仓库页：`res.data[0].children[0].id` 无子仓位越界
+- `amazon/.../account_dialog`：group/market 为 null、`erp/shipv2/quote/price`：split("=") 无等号越界、`stocktake/create`：item 为 null
+
+### 保留项（如实报告，未擅改）
+- **Mapper 列引用疑点（12 组）**：审计发现 `s.amazon_auth_id`（DDL 为 `amazonAuthId`）、`t_erp_order_sku_presale.groupid/marketplaceid`（表仅7列）、`pay.period_rollover_id`（DDL 无此列）等 Mapper↔建表脚本不一致。但生产 126 页验收零 SQL 错误，说明生产库表结构与 `01-init.sql` 存在偏差（本地 init.sql 非完整生产 schema），且 SSH 密码为一次性凭证、CI 部署密钥未配置，无法直连生产库核实 information_schema。按"以代码为准、禁止猜测"纪律，不盲目改 SQL/DDL（可能破坏生产），列为**需直连生产库核实后再决策**的待办。
+- `SysDeepSeekServiceImpl.streamCallWithMessage`：死代码（无外部调用者），本轮仅消除其 static 共享状态，未删方法。
+
+### 防复发
+`preflight-audit.sh` 从 13 类扩至 **15 类**：新增 [14] 包装类型拆箱 NPE、[15] static Map/List 懒初始化线程安全。本轮自检 15 类全通过（仅 OAuth 假域名 WARN，refresh-token 模式下非生效路径）。
+
+### 编译 / 部署 / 验收（闭环达成）
+- **编译**：修改涉及的 7 模块 `mvn package` BUILD SUCCESS（EXIT_CODE=0）；前端 `npm run build` 成功。
+- **GitHub**：提交 `999138dd` 推送 origin/main 成功，本地与远端 HEAD 完全一致。
+- **部署**：服务器端备份 6 个 jar 为 `.bak-pre-audit4`、前端 html 为 `html.bak-pre-audit4`；6 jar + 前端 dist 逐字节校验上传（size 全 match）；原子替换 + 重启 6 服务 + nginx reload。10 个服务全部 active，网关 8080 `/login` HTTP 200。
+- **全量验收**：`outputs/page-acceptance-audit4.json` **126/126 OK**，接口 **1656/1656 零失败**，API 错误 0，非空状态/JS 错误仅 1 个 `PAGEERROR: Object`（`/amazon/a/summary` 历史既有，与 deep-final 基线相同，非本轮引入）。相比更早基线（3 非噪声 JS + 1 API 400）更干净，**零回归**。
+- **回滚点**：服务器 `.bak-pre-audit4`（6 jar）+ `html.bak-pre-audit4`（前端）。
