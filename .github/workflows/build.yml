@@ -133,6 +133,9 @@ jobs:
 
       - name: 安装依赖并构建
         working-directory: wimoor/wimoor-ui
+        env:
+          # Vite 构建大型前端默认 2GB 堆会 OOM (exit 134 / heap out of memory)
+          NODE_OPTIONS: --max-old-space-size=4096
         run: |
           pnpm install --frozen-lockfile
           pnpm run build
