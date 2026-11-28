@@ -327,15 +327,15 @@ const closedialog = () => {
 const delectStore = (item) => {
   let id = item.id;
   ElMessageBox.confirm(
-      '你确定要删除该店铺吗?',
+      `删除店铺「${item.name}」后，该店铺下的授权将一并停用，历史数据保留且可恢复。确定删除吗？`,
       {
-        confirmButtonText: '确认',
+        confirmButtonText: '确认删除',
         cancelButtonText: '取消',
         type: 'warning',
         callback:(action) => {
           if(action == "confirm"){
             groupApi.deleteAmazongroup(id).then(() => {
-              ElMessage.success('删除成功');
+              ElMessage.success('删除成功，相关授权已停用');
               loadStoreList();
             });
           }

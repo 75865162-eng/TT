@@ -91,17 +91,25 @@ public class AmazonGroupController {
 	    @DeleteMapping("/delete/{id}")
 	    public Result<AmazonGroup> delAmazonGroupByIdAction(@PathVariable String id) {
 	    	UserInfo userinfo = UserInfoContext.get();
-	    	List<AmazonAuthority> list = iAmazonAuthorityService.list(
-	    			new LambdaQueryWrapper<AmazonAuthority>()
-	    			.eq(AmazonAuthority::getShopId, userinfo.getCompanyid())
-	    			.eq(AmazonAuthority::getGroupid, id)
-	    			.eq(AmazonAuthority::getDisable, Boolean.FALSE));
-	    	if(list.size()>0) {
-	    		throw new BizException("该店铺下存在授权无法删除");
-	    	}
-	    	boolean result=false;
-	    	AmazonGroup group = iAmazonGroupService.getById(id);
-	    	if(group!=null) {
+	    // 该店铺下未禁用的授权（含 sellerid 留空时生成的 AUTO_/none 占位记录）。
+	    // 不再因"存在授权"阻止删除：占位记录本就不是真实授权，真实授权随店铺一并软停用。
+	    List<AmazonAuthority> authList = iAmazonAuthorityService.list(
+	            new LambdaQueryWrapper<AmazonAuthority>()
+	            .eq(AmazonAuthority::getShopId, userinfo.getCompanyid())
+	            .eq(AmazonAuthority::getGroupid, id)
+	            .eq(AmazonAuthority::getDisable, Boolean.FALSE));
+	    boolean result=false;
+	    AmazonGroup group = iAmazonGroupService.getById(id);
+	    if(group!=null) {
+	        // 级联软停用：授权置 disable=true，店铺置 isdelete=true，历史数据全部保留，可恢复。
+	        // 与前端"停用店铺授权"(deleteByLogic)语义一致，不物理删除。
+	        if(authList!=null && !authList.isEmpty()) {
+	            for(AmazonAuthority auth : authList) {
+	                auth.setDisable(Boolean.TRUE);
+	                auth.setOpttime(new Date());
+	                iAmazonAuthorityService.updateById(auth);
+	            }
+	        }
 	    		group.setIsdelete(true);
 	    		group.setOpttime(new Date());
 	    		group.setOperator(userinfo.getId());
