@@ -10,6 +10,7 @@ import com.wimoor.amazon.auth.pojo.entity.AmazonAuthority;
 import com.wimoor.amazon.auth.pojo.entity.AmzAuthApiTimelimit;
 import com.wimoor.amazon.auth.pojo.entity.Marketplace;
 import com.wimoor.amazon.auth.service.IAmzAuthApiTimelimitService;
+import com.wimoor.amazon.auth.service.IAmazonAuthorityService;
 import com.wimoor.amazon.auth.service.IMarketplaceService;
 import com.wimoor.amazon.auth.service.impl.ApiBuildService;
 import com.wimoor.amazon.inventory.mapper.AmzInventoryCountryReportMapper;
@@ -31,6 +32,7 @@ import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
 import java.math.BigInteger;
+import java.time.LocalDateTime;
 import java.util.*;
 import java.util.Map.Entry;
 
@@ -53,6 +55,8 @@ public class InventorySupplyServiceImpl implements IInventorySupplyService{
     IMarketplaceService marketplaceService;
     @Resource
     IAmzAuthApiTimelimitService amzAuthApiTimelimitService;
+    @Resource
+    IAmazonAuthorityService amazonAuthorityService;
 	@Override
 	public Map<String, InventorySummary> captureInventorySupplyNew(AmazonAuthority amazonAuthority, Date date) {
 		// TODO Auto-generated method stub
@@ -230,7 +234,13 @@ public class InventorySupplyServiceImpl implements IInventorySupplyService{
 			 }
 			 List<ProductInfo> infolist = iProductInfoService.selectBySku(inv.getSellerSku(),amazonAuthority.getMarketPlace().getMarketplaceid() , amazonAuthority.getId());
 			 if(infolist==null||infolist.size()==0) {
-				 continue;
+				 // 商品表无此SKU时，用FBA库存接口自带的sku/asin/fnsku补建商品，
+				 // 避免商品表为空导致整条库存/定价/详情链路全部跳过（报表API无权限时的降级路径）
+				 ProductInfo created = createProductFromInventory(amazonAuthority, inv);
+				 if(created==null) {
+					 continue;
+				 }
+				 infolist=Collections.singletonList(created);
 			 }
 			 ProductInfo info = infolist.get(0);
 			 String mkplaceid = amazonAuthority.getMarketPlace().getRegion().equals("EU") ? "EU" : amazonAuthority.getMarketPlace().getMarketplaceid();
@@ -292,6 +302,46 @@ public class InventorySupplyServiceImpl implements IInventorySupplyService{
 			 }
 		}
 		return report;
+	}
+
+	/**
+	 * 当商品表无此SKU时，用FBA库存接口返回的字段补建一条基础商品记录。
+	 * 这样库存数据可以正常落库，后续调度中的商品详情(catalog)/定价刷新也能以该商品为基础补全。
+	 * 报表API无权限时，这是让商品/库存链路能落地的关键降级路径。
+	 */
+	private ProductInfo createProductFromInventory(AmazonAuthority amazonAuthority, InventorySummary inv) {
+		try {
+			String sku = inv.getSellerSku();
+			if (StrUtil.isBlank(sku)) {
+				return null;
+			}
+			Marketplace market = amazonAuthority.getMarketPlace();
+			if (market == null || StrUtil.isBlank(market.getMarketplaceid())) {
+				return null;
+			}
+			ProductInfo info = new ProductInfo();
+			info.setId(amazonAuthorityService.getUUID());
+			info.setSku(sku);
+			info.setAsin(inv.getAsin());
+			info.setFnsku(inv.getFnSku());
+			info.setPcondition(inv.getCondition());
+			info.setMarketplaceid(market.getMarketplaceid());
+			info.setAmazonAuthId(new BigInteger(amazonAuthority.getId()));
+			info.setInvalid(Boolean.FALSE);
+			info.setDisable(Boolean.FALSE);
+			info.setCreatedate(new Date());
+			info.setLastupdate(new Date());
+			info.setRefreshtime(LocalDateTime.now());
+			iProductInfoService.save(info);
+			log.info("由FBA库存补建商品: sku={}, asin={}, authId={}", sku, inv.getAsin(), amazonAuthority.getId());
+			return info;
+		} catch (Exception e) {
+			// 并发或唯一键冲突时，回查已存在的记录，避免整页库存落库失败
+			log.warn("补建商品失败(sku={}), 尝试回查: {}", inv.getSellerSku(), e.getMessage());
+			List<ProductInfo> existing = iProductInfoService.selectBySku(inv.getSellerSku(),
+					amazonAuthority.getMarketPlace().getMarketplaceid(), amazonAuthority.getId());
+			return (existing == null || existing.isEmpty()) ? null : existing.get(0);
+		}
 	}
 	
 	private void saveReservedReport(InventoryReport report, ReservedQuantity resqty) {
