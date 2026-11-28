@@ -789,3 +789,24 @@ admin-boot 重新编译 BUILD SUCCESS（含全部 4 处修复），单独替换 
   - `PRODUCTION_SSH_PRIVATE_KEY` = 服务器 SSH 私钥（对应 workflow 里 `root@$HOST` 登录，注意是 root 用户）
   - 可选 `PRODUCTION_SERVER_DIR`（默认 `/opt/wimoor`，需与服务器实际部署目录一致）
 - 配好后重新 `workflow_dispatch` 勾选 deploy_production 即可完成部署；部署后 moocy 店铺才能删除。
+
+---
+
+### moocy 删除功能上线 + 前台无数据诊断（2026-11-29 00:00-）
+
+**ssh 旁路部署**（用户授权例外，PAT 无权配 Secrets）：新 jar md5 `1f3a1ba5` 原子替换、前端 dist version `1795877938754`，重启 wimoor-amazon + nginx。删除接口 `DELETE /amzgroup/delete/102184196314759671` 返回 `{"code":200,"msg":"一切ok"}`，moocy 从列表消失，级联停用其授权（disable=1）。无临时残留，旧 jar 备份 `.bak-pre-delstore`。
+
+**PAT 结论**：fine-grained PAT 权限满（admin/maintain/push 全 true），但 GitHub 平台封禁其通过 API/CLI 读写 Actions Secrets（`gh secret set` → 403 Resource not accessible by personal access token），与权限无关。
+
+**证书结论**：aecob.com 证书有效（CN=aecob.com，SAN 含 aecob.com/www.aecob.com，到期 2027-02-25，certbot 自动续期），nginx server_name 已含 aecob.com，https://aecob.com/ 返回 200。无需更新。
+
+**前台无数据诊断（逐页 + 数据库行数）**：
+- 前端资源/API 链路正常：登录页、菜单管理页、店铺授权页 API 均 200，数据可见。
+- 数据库各库非空表统计（决定性证据）：
+  - db_admin 13/85：菜单 230、角色/用户/字典/定时任务等系统基础数据正常
+  - db_amazon 9/247：授权 3、站点 9、店铺组 2、报表类型 36 等配置类有；订单/商品等业务表全空
+  - db_amazon_adv 2/155：仅区域 4、店铺组 2，广告数据全空
+  - db_erp 1/193、db_finance 1/46、db_ai 1/9：业务数据全空（仅迁移记录/会计期/余额）
+- 根因：`t_amazon_auth` 3 条授权全是占位（sellerid=none / AUTO_<groupid>_NA），**无一条真实卖家授权** → SP-API seller-scoped 403 → 订单/商品/广告/财务数据从未拉回。非本次部署引入、非前端 bug、非缓存问题。
+- 遗留问题：店铺授权页"区域/国家"字段乱码（åŒ—ç¾Ž=北美、ç¾Žå›½=美国），历史编码问题，本次未动。
+- 能落地的数据（配置类/系统类）在前台均正常显示；需真实授权才能拉取的业务数据需用户在亚马逊卖家后台完成 SP-API 授权后再跑同步。
