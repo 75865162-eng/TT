@@ -12,6 +12,11 @@ LOCK="$ROOT/.deploy.lock"
 RELEASES="$ROOT/releases"
 CURRENT="$ROOT/current"
 LOG_DIR="$ROOT/logs"
+# 前端：nginx 的 bind-mount 源是一个固定软链，指向当前版本的 html 目录。
+# 切换 current 后重启 nginx 使其重新解析新 inode（历史 html swap 旧 inode 500 的根因）。
+HTML_LINK="${HTML_LINK:-/home/ubuntu/tt/deploy/wimoor-p0/html}"
+NGINX_CONTAINER="${NGINX_CONTAINER:-wm-p0-nginx}"
+KEEP_RELEASES="${KEEP_RELEASES:-3}"
 mkdir -p "$RELEASES" "$LOG_DIR"
 
 log() { echo "[$(date '+%H:%M:%S')] $*"; }
@@ -91,9 +96,24 @@ if [ -f "$NEW/deploy/wimoor-p0/migrate.sh" ]; then
 fi
 stage_done migrate
 
-# 5) 原子切换
+# 5) 原子切换（后端 current + 前端 html 软链同一版本）
 log "[switch] 原子切换到新版本"
 ln -sfn "$NEW" "$CURRENT.tmp" && mv -Tf "$CURRENT.tmp" "$CURRENT"
+# 前端：把 nginx 挂载源软链指向新版本的 html 目录。
+# 幂等：首次迁移时 HTML_LINK 可能是物理目录，需先移除（其内容已在版本目录/备份中）。
+if [ -d "$NEW/html" ]; then
+  if [ -e "$HTML_LINK" ] && [ ! -L "$HTML_LINK" ]; then
+    log "[switch] $HTML_LINK 是物理目录，迁移为软链（旧目录重命名为 .html.pre-ci 保留）"
+    mv -Tf "$HTML_LINK" "${HTML_LINK}.pre-ci" 2>/dev/null || {
+      FAIL_REASON="前端目录迁移失败：$HTML_LINK 无法重命名，转人工"; log "$FAIL_REASON" >&2; exit 1
+    }
+  fi
+  ln -sfn "$NEW/html" "$HTML_LINK.tmp" && mv -Tf "$HTML_LINK.tmp" "$HTML_LINK"
+  # docker bind-mount 缓存旧 inode，必须 restart 才能看到新版本文件。
+  if command -v docker >/dev/null 2>&1 && docker ps --format '{{.Names}}' 2>/dev/null | grep -qx "$NGINX_CONTAINER"; then
+    docker restart "$NGINX_CONTAINER" >/dev/null 2>&1 || log "[switch] 警告：nginx 容器重启失败，前端可能仍为旧版本" >&2
+  fi
+fi
 stage_done switch
 
 # 6) 启动：优先 systemd 优雅重启，回退 start-all.sh
@@ -163,6 +183,11 @@ if [ "$ok" -ne 1 ] || [ "$AC_OK" -ne 1 ]; then
   cp -a "$LOG_DIR/start-$SHA.log" "$LOG_DIR/failed-$SHA.log" 2>/dev/null || true
   if [ -n "$OLD_TARGET" ] && [ -d "$OLD_TARGET" ]; then
     ln -sfn "$OLD_TARGET" "$CURRENT.tmp" && mv -Tf "$CURRENT.tmp" "$CURRENT"
+    # 前端软链一并回退到旧版本 html
+    if [ -d "$OLD_TARGET/html" ] && [ -L "$HTML_LINK" ]; then
+      ln -sfn "$OLD_TARGET/html" "$HTML_LINK.tmp" && mv -Tf "$HTML_LINK.tmp" "$HTML_LINK"
+      docker restart "$NGINX_CONTAINER" >/dev/null 2>&1 || true
+    fi
     if [ "$USE_SYSTEMD" -eq 1 ]; then
       for svc in gateway admin erp amazon amazon-adv finance data gen quote ai; do
         systemctl stop "wimoor-$svc" 2>/dev/null || true
@@ -184,6 +209,29 @@ if [ "$ok" -ne 1 ] || [ "$AC_OK" -ne 1 ]; then
   fi
   exit 1
 fi
+
+# 10) 版本保留清理：只保留最近 KEEP_RELEASES 个版本，正在运行的版本不删
+log "[cleanup] 清理旧版本（保留最近 $KEEP_RELEASES 个）"
+find "$RELEASES" -mindepth 1 -maxdepth 1 -type d | sort -r | awk -v keep="$KEEP_RELEASES" 'NR>keep' | while read -r old; do
+  [ "$(readlink -f "$CURRENT")" = "$(readlink -f "$old")" ] && continue
+  in_use=false
+  if [ "$USE_SYSTEMD" -eq 1 ]; then
+    for svc in gateway admin erp amazon amazon-adv finance data gen quote ai; do
+      pid=$(systemctl show "wimoor-$svc" --property=MainPID --value 2>/dev/null || echo 0)
+      cwd=$(readlink -f "/proc/$pid/cwd" 2>/dev/null || true)
+      case "$cwd" in "$old"|"$old"/*) in_use=true ;; esac
+    done
+  fi
+  # 前端软链若仍指向该版本也不删
+  [ "$(readlink -f "$HTML_LINK" 2>/dev/null)" = "$(readlink -f "$old/html" 2>/dev/null)" ] && in_use=true
+  [ "$in_use" = "true" ] && continue
+  rm -rf "$old" && log "[cleanup] 已删除旧版本 $(basename "$old")"
+done
+# 临时 bundle 目录与日志轮转（CI 上传的 /tmp/wimoor-release-<sha> 由本脚本自行清理）
+case "$BUNDLE" in
+  /tmp/wimoor-release-*) rm -rf "$BUNDLE" && log "[cleanup] 已删除临时 bundle $BUNDLE" ;;
+esac
+find "$LOG_DIR" -maxdepth 1 -type f -name 'deployment-report-*' -mtime +30 -delete 2>/dev/null || true
 
 REPORT_RESULT="success"
 log "[done] 部署成功：$SHA（报告：$REPORT）"

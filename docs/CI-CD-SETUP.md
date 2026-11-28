@@ -4,7 +4,7 @@
 
 `.github/workflows/build.yml` 已升级为「构建 + 部署」全流程：
 
-- **触发**：push 到 `main` 或 `java-only`、手动 `workflow_dispatch`、PR（PR 只构建不部署）
+- **触发**：push 到 `main`、手动 `workflow_dispatch`、PR（PR 只构建不部署）；push 只构建，部署需 `workflow_dispatch` 勾选 `deploy_production`
 - **build-backend**：JDK 11 编译全部 10 个后端 jar
 - **build-frontend**：Node 20 + pnpm 10 构建 Vue 前端（用 pnpm-lock.yaml，不用 npm ci）
 - **package-release**：组装部署包（10 jar + html + deploy 脚本 + Nacos 配置 + docs/scripts）
@@ -12,16 +12,20 @@
 
 ## 需要配置的 GitHub Secrets
 
+> 2026-11-28 更正：Secret 名以 `.github/workflows/build.yml` 的 `deploy-production` job 为准，
+> 统一为 `PRODUCTION_*`（旧文档的 `SERVER_*` 是错的，按旧名配了不会生效）。
+> 登录方式：workflow 用 `root@$HOST` + SSH 私钥，不是密码、不是 ubuntu 用户。
+
 在 GitHub 仓库 `Settings → Secrets and variables → Actions → New repository secret` 添加：
 
 | Secret 名 | 值 | 说明 |
 |---|---|---|
-| `SERVER_HOST` | `43.143.28.153` | 部署服务器公网 IP |
-| `SERVER_USER` | `ubuntu` | SSH 用户名 |
-| `SERVER_PASSWORD` | `<服务器登录密码>` | SSH 密码 |
-| `SERVER_PORT` | `22` | SSH 端口（可选，默认 22） |
+| `PRODUCTION_SERVER_HOST` | `43.143.28.153` | 部署服务器公网 IP |
+| `PRODUCTION_SSH_PRIVATE_KEY` | `<root 用户的 SSH 私钥>` | workflow 用 `root@$HOST` 登录（OpenSSH 私钥全文） |
+| `PRODUCTION_SERVER_DIR` | `/opt/wimoor` | 部署根目录；留空则 workflow 默认 `/opt/wimoor` |
 
-> 安全提示：也可改用 SSH 私钥（在 Actions 里用 `appleboy/scp-action` 的 `key` 参数替换 `password`），更安全。当前按你提供的密码方式配置。
+> 私钥需是服务器上允许 root 登录的那一对；把公钥追加到 root 的 `~/.ssh/authorized_keys`。
+> 本机 fine-grained token 无 `Administration:write`，无法用 API 写 Secrets，须网页手动配置。
 
 ## 部署前置条件（服务器，已就绪）
 
@@ -44,8 +48,7 @@ node scripts/page-acceptance.mjs --json outputs/page-acceptance-latest.json
 ## 分支策略
 
 - 主线：`main`（上一轮确立的交付分支）
-- 推 `main` 即触发 CI 自动部署到 43.143.28.153
-- 当前工作分支 `java-only` 也会触发部署（按需保留）
+- 推 `main` 触发 CI 构建；部署需在 Actions 手动 `workflow_dispatch` 勾选 `deploy_production=true` 后执行
 
 ## 本次 CI 验证状态（2026-11-26）
 
@@ -67,14 +70,12 @@ node scripts/page-acceptance.mjs --json outputs/page-acceptance-latest.json
 
    | Name | Secret 值 |
    |---|---|
-   | `SERVER_HOST` | `43.143.28.153` |
-   | `SERVER_USER` | `ubuntu` |
-   | `SERVER_PASSWORD` | 服务器 SSH 登录密码 |
-   | `SERVER_PORT` | `22` |
+   | `PRODUCTION_SERVER_HOST` | `43.143.28.153` |
+   | `PRODUCTION_SSH_PRIVATE_KEY` | root 用户的 OpenSSH 私钥全文 |
+   | `PRODUCTION_SERVER_DIR` | `/opt/wimoor` |
 
-3. 配好后，打开 `https://github.com/75865162-eng/TT/actions/runs/45801030309`，
-   点右上角 `Re-run all jobs`（或只 Re-run 失败的 deploy job），即可完成自动部署。
-4. 部署完成后验证：登录接口 200、逐页 126/126。
+3. 配好后，用 `workflow_dispatch` 勾选 `deploy_production=true` 触发（push main 只构建不部署）。
+4. 部署完成后验证：登录接口 200、`version.json` 为新版本、删除店铺功能可用。
 
 > 说明：当前提供的 fine-grained token 只有 Contents:write 权限，无法用 API 写 Secrets（403）。
 > 如需全自动配置 Secrets，可提供带 `Administration:write` 权限的 token；否则按上面网页步骤 1 分钟即可配好。
