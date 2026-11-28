@@ -39,6 +39,8 @@ CREATE TABLE IF NOT EXISTS `t_product_in_opt` (
   `lowestprice` decimal(20,6) DEFAULT NULL,
   `estimated_referral_fee_per_unit` decimal(20,6) DEFAULT NULL COMMENT '预估FBA费用',
   `estimated_fee_total` decimal(20,6) DEFAULT NULL COMMENT '预估FBA费用 total',
+  `referral_fee` decimal(20,6) DEFAULT NULL COMMENT '佣金',
+  `fba_fees` decimal(20,6) DEFAULT NULL COMMENT 'FBA预估费用',
   PRIMARY KEY (`pid`),
   KEY `idx_msku_disable_status` (`msku`,`disable`,`status`),
   KEY `msku` (`msku`),

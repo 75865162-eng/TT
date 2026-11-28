@@ -12145,6 +12145,8 @@ CREATE TABLE IF NOT EXISTS `t_product_in_opt` (
   `lowestprice` decimal(20,6) DEFAULT NULL,
   `estimated_referral_fee_per_unit` decimal(20,6) DEFAULT NULL COMMENT '预估FBA费用',
   `estimated_fee_total` decimal(20,6) DEFAULT NULL COMMENT '预估FBA费用 total',
+  `referral_fee` decimal(20,6) DEFAULT NULL COMMENT '佣金',
+  `fba_fees` decimal(20,6) DEFAULT NULL COMMENT 'FBA预估费用',
   PRIMARY KEY (`pid`),
   KEY `idx_msku_disable_status` (`msku`,`disable`,`status`),
   KEY `msku` (`msku`),
@@ -12773,7 +12775,7 @@ CREATE TABLE IF NOT EXISTS `t_product_price` (
   `fulfillmentChannel` char(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL,
   `itemCondition` char(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL,
   `itemSubCondition` char(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL,
-  `SellerId` char(15) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL,
+  `SellerId` char(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL,
   `SellerSKU` char(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL,
   PRIMARY KEY (`id`),
   KEY `Index 2` (`SellerId`,`MarketplaceId`,`SellerSKU`,`ptype`)
