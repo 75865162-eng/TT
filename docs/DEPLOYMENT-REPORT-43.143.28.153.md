@@ -763,3 +763,29 @@ admin-boot 重新编译 BUILD SUCCESS（含全部 4 处修复），单独替换 
 - 坑1：`html.old`（root 属主历史残留）导致 `mv` swap 失败；且 docker nginx 是 bind-mount 到旧目录 inode，mv 替换目录后容器内文件丢失，`/version.json` 500、rewrite 循环。修复：sudo 删除残留 old 目录 + 完成 swap 后**重启 nginx 容器**重新挂载当前 html 目录（`docker restart wm-p0-nginx`），version.json 恢复 200。
 - 坑2：`t_amazon_auth` 存在脏数据（sellerid=`none` 的沙箱残留 + 占位记录，同 groupid+region=NA 两条），`selectByGroupAndRegion`(selectOne) 抛 `multiple records`。修复：`saveGroupCredentials` 改用 `baseMapper.selectList` + 过滤 sellerid 为 none/空 + 取第一条，兼容脏数据且不误写垃圾记录。
 - 最终验收：jar md5 `76c928df`；前端 version `1795803661111`；`saveGroupCredentials` 用真实 groupid+空凭证返回"请至少填写一项要更新的凭证"（证明定位与容错生效）；服务 active、Nacos 注册、version.json/index.html HTTP 200。
+
+---
+
+### 删除店铺级联停用授权 + CI 前端构建修复（2026-11-28 22:52-23:25）
+
+**问题**：moocy 店铺删除时提示"该店铺下存在授权无法删除"。根因是上次改动（A+C 方案）只在本地，未 commit/push，服务器仍跑旧代码。
+
+**代码改动**（commit `8f55871e`）：
+- `AmazonGroupController.delAmazonGroupByIdAction` 移除"存在授权无法删除"拦截；删除店铺时把该店铺下未禁用授权一并置 `disable=true`（含 `AUTO_`/`none` 占位记录），历史数据保留可恢复。
+- 前端确认弹窗改为"删除店铺「X」后，该店铺下的授权将一并停用，历史数据保留且可恢复"。
+- 更新店铺管理帮助文档 4.1 节。
+- 验证：amazon-boot 编译 BUILD SUCCESS、前端 pnpm 构建成功、新文案进 `storeAuth-DtLB8YEB.js`、`git diff --check` 干净。
+
+**CI 修复**（commit `34741880`）：
+- 根因：`build-frontend` job 用 `npm ci` + `package-lock.json`，但项目实际是 pnpm + `pnpm-lock.yaml`（lockfileVersion 9）。setup-node 缓存路径解析失败 → "Some specified paths were not resolved" → 连续多次 push 的前端 job 都失败。
+- 修复：`pnpm/action-setup@v4` 锁 pnpm 10 + `cache: pnpm` + `pnpm-lock.yaml` + `pnpm install --frozen-lockfile && pnpm run build`。
+- 验证：push run `46158164632` 的后端/前端/打包 job 全部 `success`（CI 构建链已修复）。
+
+**部署仍待办（阻塞点）**：
+- `workflow_dispatch` run `46159022989`（deploy_production=true）确认：构建三 job 全 success，唯独 deploy job 失败在"检查部署凭证"——`缺少 Secret: PRODUCTION_SERVER_HOST`。
+- 当前 Actions Secrets 为空，且本机 token 无权写 Secrets（`Resource not accessible by personal access token`）。
+- **需用户在 GitHub 网页手动配置**（仓库 Settings → Secrets and variables → Actions → New repository secret）：
+  - `PRODUCTION_SERVER_HOST` = `43.143.28.153`
+  - `PRODUCTION_SSH_PRIVATE_KEY` = 服务器 SSH 私钥（对应 workflow 里 `root@$HOST` 登录，注意是 root 用户）
+  - 可选 `PRODUCTION_SERVER_DIR`（默认 `/opt/wimoor`，需与服务器实际部署目录一致）
+- 配好后重新 `workflow_dispatch` 勾选 deploy_production 即可完成部署；部署后 moocy 店铺才能删除。
