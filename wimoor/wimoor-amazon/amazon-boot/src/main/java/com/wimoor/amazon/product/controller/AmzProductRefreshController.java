@@ -6,6 +6,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
+import java.util.Map;
 
 import com.wimoor.amazon.product.service.*;
 import com.wimoor.amazon.product.pojo.entity.AmzProductRefreshType;
@@ -151,6 +152,16 @@ public class AmzProductRefreshController {
         return Result.success(item);
     }  
     
+    @ApiOperation(value = "批量补全商品名称(name为空且有asin的商品)")
+    @GetMapping("/refreshNamesBatch")
+    public Result<?> refreshNamesBatchAction(String authid, String marketplaceid, Integer limit) {
+    	log.info("refreshNamesBatchAction-----authid={}, marketplaceid={}, limit={}", authid, marketplaceid, limit);
+    	AmazonAuthority auth = amazonAuthorityService.getById(authid);
+    	Map<String, Object> stat = iProductCatalogItemService.fillMissingNames(auth,
+    			marketplaceid, limit == null ? 50 : limit);
+        return Result.success(stat);
+    }
+
     @ApiOperation(value = "刷新产品关系")
     @PostMapping("/searchCatalogProducts")
     public Result<?> searchCatalogProductsAction(@RequestBody ProductCatalogItemsDTO dto) {

@@ -1,6 +1,7 @@
 package com.wimoor.amazon.product.service.impl;
 
 import cn.hutool.core.util.StrUtil;
+import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.amazon.spapi.SellingPartnerAPIAA.LWAException;
 import com.amazon.spapi.api.CatalogApi;
 import com.amazon.spapi.client.ApiException;
@@ -251,9 +252,11 @@ public class ProductCatalogItemServiceImpl implements IProductCatalogItemService
        } else {
     	   log.warn("handlerResult: pid仍为null，无法更新refresh_time, authId={}, sku={}", auth.getId(), skuRefresh.getSku());
        }
+       // 修复：relationships 为空的独立商品占多数，若在此 return 会跳过下方 summaries 段的 name/brand/image 补全。
+       // 改为用空集合继续走后续处理，确保 name 能正常回填。
        if(relist==null) {
-    	   log.info("handlerResult: relist为null，跳过后续处理, authId={}, sku={}", auth.getId(), skuRefresh.getSku());
-    	   return;
+    	   log.info("handlerResult: relist为null，跳过关系处理但继续补name/brand/image, authId={}, sku={}", auth.getId(), skuRefresh.getSku());
+    	   relist = new ItemRelationships();
        }
        for(ItemRelationshipsByMarketplace relations:relist) {
     	  String marketplaceid= relations.getMarketplaceId();
@@ -600,11 +603,77 @@ public class ProductCatalogItemServiceImpl implements IProductCatalogItemService
 		  	    			result.add(res2);
 	    				 }
  				}
- 			}catch(Exception e) {
- 				e.printStackTrace();
- 			}
+			}catch(Exception e) {
+				e.printStackTrace();
+			}
  	 
- 	    } 
+	    } 
 		return result;
+	}
+
+	/**
+	 * 批量补全商品名称。扫描指定授权/站点下 name 为空且有 asin 的商品，
+	 * 逐个同步调用 Catalog(getCatalogItem, summaries) 取 itemName 回填。
+	 * 单条容错，条间限速，避免打爆 API 限流；不触发图片下载以加快补全。
+	 */
+	@Override
+	public Map<String, Object> fillMissingNames(AmazonAuthority auth, String marketplaceid, int limit) {
+		Map<String, Object> stat = new HashMap<String, Object>();
+		int scanned = 0, filled = 0, skipped = 0, failed = 0;
+		if (auth == null) {
+			stat.put("error", "authority not found");
+			stat.put("scanned", 0);
+			return stat;
+		}
+		if (limit <= 0) { limit = 50; }
+		if (limit > 200) { limit = 200; }
+		LambdaQueryWrapper<ProductInfo> q = new LambdaQueryWrapper<ProductInfo>();
+		q.eq(ProductInfo::getAmazonAuthId, new BigInteger(auth.getId()))
+		 .eq(ProductInfo::getMarketplaceid, marketplaceid)
+		 .isNull(ProductInfo::getName)
+		 .isNotNull(ProductInfo::getAsin)
+		 .ne(ProductInfo::getAsin, "")
+		 .eq(ProductInfo::getInvalid, false)
+		 .last("LIMIT " + limit);
+		List<ProductInfo> list = iProductInfoService.list(q);
+		scanned = list == null ? 0 : list.size();
+		List<String> includedData = new ArrayList<String>();
+		includedData.add("summaries");
+		for (ProductInfo info : list) {
+			try {
+				Item item = captureCatalogProduct(auth, info.getAsin(), Arrays.asList(marketplaceid), includedData);
+				String itemName = null;
+				if (item != null && item.getSummaries() != null) {
+					for (ItemSummaryByMarketplace s : item.getSummaries()) {
+						if (StrUtil.isNotBlank(s.getItemName())) {
+							itemName = s.getItemName();
+							break;
+						}
+					}
+				}
+				if (StrUtil.isBlank(itemName)) {
+					skipped++;
+					log.warn("fillMissingNames: 未取到name, sku={}, asin={}", info.getSku(), info.getAsin());
+					continue;
+				}
+				ProductInfo upd = new ProductInfo();
+				upd.setId(info.getId());
+				upd.setName(itemName);
+				iProductInfoService.updateById(upd);
+				filled++;
+				log.info("fillMissingNames: 补全name, sku={}, asin={}, name={}", info.getSku(), info.getAsin(), itemName);
+			} catch (Exception e) {
+				failed++;
+				log.warn("fillMissingNames: 单条失败, sku={}, asin={}, err={}", info.getSku(), info.getAsin(), e.getMessage());
+			}
+			// Catalog API 限流约 2/s，每条间隔 600ms 留安全余量
+			try { Thread.sleep(600); } catch (InterruptedException ie) { Thread.currentThread().interrupt(); break; }
+		}
+		stat.put("scanned", scanned);
+		stat.put("filled", filled);
+		stat.put("skipped", skipped);
+		stat.put("failed", failed);
+		log.info("fillMissingNames 完成: scanned={}, filled={}, skipped={}, failed={}", scanned, filled, skipped, failed);
+		return stat;
 	}
 }
