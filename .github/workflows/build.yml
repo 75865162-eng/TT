@@ -111,24 +111,31 @@ jobs:
           retention-days: 14
 
   build-frontend:
-    name: 构建 Vue 前端 dist (Node 20)
+    name: 构建 Vue 前端 dist (Node 20 + pnpm)
     runs-on: ubuntu-latest
     steps:
       - name: 检出代码
         uses: actions/checkout@v4
 
+      # 项目实际使用 pnpm + pnpm-lock.yaml（lockfileVersion 9），无 package-lock.json。
+      # 旧配置用 npm ci + package-lock.json，setup-node 缓存路径解析失败导致该 job 一直失败。
+      - name: 安装 pnpm 10
+        uses: pnpm/action-setup@v4
+        with:
+          version: 10
+
       - name: 安装 Node.js 20
         uses: actions/setup-node@v4
         with:
           node-version: '20'
-          cache: npm
-          cache-dependency-path: wimoor/wimoor-ui/package-lock.json
+          cache: pnpm
+          cache-dependency-path: wimoor/wimoor-ui/pnpm-lock.yaml
 
       - name: 安装依赖并构建
         working-directory: wimoor/wimoor-ui
         run: |
-          npm ci --legacy-peer-deps
-          npm run build
+          pnpm install --frozen-lockfile
+          pnpm run build
 
       - name: 打包 dist
         run: |
