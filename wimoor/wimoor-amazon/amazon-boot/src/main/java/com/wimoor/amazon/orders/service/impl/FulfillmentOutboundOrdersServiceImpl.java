@@ -212,6 +212,12 @@ public class FulfillmentOutboundOrdersServiceImpl extends ServiceImpl<Fulfillmen
     @Override
     public void runApi(AmazonAuthority amazonAuthority) {
         FulfillmentOutboundOrder order=this.baseMapper.getOrders(amazonAuthority.getId());
+        if (order == null) {
+            // 本地无履约订单记录：先用 listAllFulfillmentOrders 拉取列表入库，
+            // 供后续 runApi 逐条刷新详情；避免 order 为 null 时 NPE 被 executTask 吞掉导致空跑。
+            getFulfillmentOrders(amazonAuthority.getId());
+            return;
+        }
         getFulfillmentOrder(amazonAuthority,order.getSellerFulfillmentOrderId());
     }
 }
